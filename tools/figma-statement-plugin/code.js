@@ -3,7 +3,7 @@
  *
  * 값은 Figma(포트폴리오_MCP 1:24 · 2056 기준)에서 조절된 것을 웹(home.blade.php)과 함께 맞춘 것이다.
  *   배경 #504fed · 왼쪽 선언 46.08px / 행간 108% / 자간 -2.5% (1·2줄 Bold, 3줄 첫 '/' 만 Bold) · 넉 줄
- *   오른쪽 소개 — 인사 32 · 요지 24 · 소제목 24 · 본문 20 (행간·자간 % 는 404 스케일 비율 그대로)
+ *   오른쪽 소개 — 인사 32 Bold · 요지 24 SemiBold(흰색 100%) · 소제목 24 · 본문 20(85%) · 맺음 흐림 없음
  *   좌우 여백 96, 두 단은 반반(2056 에서 932 | 932), 세로 가운데 정렬. 영문 라벨 없음.
  *
  * ⚠️ Figma MCP 서버는 읽기만 되고 쓰기 도구가 없어서 플러그인으로 넣는다.
@@ -32,7 +32,7 @@ const STATEMENT = [
 ];
 
 const ASIDE = {
-    greet: '안녕하세요.\n서비스기획자 신중수 입니다.',   // Figma 에서 두 줄로 나눴다
+    greet: '안녕하세요. 서비스기획자 신중수 입니다.',
     thesis: '저의 가장 큰 무기이자 차별점은 서로 다른 두 영역에서의 깊은 통찰을 결합했다는 점입니다.',
     pillars: [   // 영문 라벨은 Figma 에서 뺐다
         ['구조와 논리의 깊이',
@@ -54,6 +54,7 @@ const SCREENS = [
 let FAMILY = 'Pretendard';
 let REGULAR = 'Regular';
 let BOLD = 'Bold';
+let SEMIBOLD = 'SemiBold';   // 요지용. 없으면 Bold 로 대신한다
 
 async function pickFonts() {
     const fonts = await figma.listAvailableFontsAsync();
@@ -67,11 +68,12 @@ async function pickFonts() {
         if (!styles) return null;
         const reg = ['Regular', 'Normal', 'Book'].find((s) => styles.has(s));
         const bold = ['Bold', 'SemiBold', 'Semi Bold', 'ExtraBold', 'Medium'].find((s) => styles.has(s));
-        return reg && bold ? { reg, bold } : null;
+        const semi = ['SemiBold', 'Semi Bold', 'Medium'].find((s) => styles.has(s)) || bold;
+        return reg && bold ? { reg, bold, semi } : null;
     };
     for (const fam of ['Pretendard', 'Pretendard Variable', 'Pretendard JP', 'Inter']) {
         const got = pick(fam);
-        if (got) { FAMILY = fam; REGULAR = got.reg; BOLD = got.bold; return; }
+        if (got) { FAMILY = fam; REGULAR = got.reg; BOLD = got.bold; SEMIBOLD = got.semi; return; }
     }
     throw new Error('쓸 수 있는 글꼴을 못 찾았다 (Pretendard 도 Inter 도 없음)');
 }
@@ -117,7 +119,7 @@ function buildAside(width) {
 
     const head = column('인사', 12, width); head.layoutAlign = 'STRETCH';
     head.appendChild(Object.assign(text(ASIDE.greet, BOLD, T.greet, { stretch: true }), { name: '인사' }));
-    head.appendChild(Object.assign(text(ASIDE.thesis, REGULAR, T.thesis, { opacity: 0.85, stretch: true }), { name: '요지' }));
+    head.appendChild(Object.assign(text(ASIDE.thesis, SEMIBOLD, T.thesis, { stretch: true }), { name: '요지' }));   // Figma: SemiBold · 흰색 100%
     col.appendChild(head);
 
     for (const [title, body] of ASIDE.pillars) {
@@ -128,10 +130,7 @@ function buildAside(width) {
     }
 
     const closing = text(ASIDE.closing + ASIDE.closingMuted, REGULAR, T.body, { opacity: 0.85, stretch: true });
-    closing.name = '맺음';
-    // 마지막 두 문장만 더 흐리게 — 웹의 text-white/60
-    const from = closing.characters.indexOf('멋진 관계를');   // 문자열 길이로 세면 공백 정규화에 어긋난다 — 위치를 찾아 쓴다
-    if (from > 0) closing.setRangeFills(from, closing.characters.length, [{ type: 'SOLID', color: WHITE, opacity: 0.6 }]);
+    closing.name = '맺음';   // Figma: 흐린 구간 없이 전부 85%
     col.appendChild(closing);
     return col;
 }
@@ -164,6 +163,7 @@ function buildScreen(screen, x) {
         await pickFonts();
         await figma.loadFontAsync({ family: FAMILY, style: REGULAR });
         await figma.loadFontAsync({ family: FAMILY, style: BOLD });
+        await figma.loadFontAsync({ family: FAMILY, style: SEMIBOLD });
 
         const made = [];
         let x = 0;

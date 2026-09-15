@@ -136,12 +136,13 @@
                          ⚠️ 원문 오탈자 `브래느` → `브랜드` 로 고쳐 옮겼다. --}}
                     {{-- 오른쪽 소개 — 선언 줄이 다 밝아진 뒤 떠오른다(app.js 가 --intro-alpha 를 넣는다).
                          글자 크기는 Figma(2056 기준) 값이 2056 에서 그대로 나오고 1440 에서는 한 단 아래로 흐른다:
-                           인사 32←22 · 요지 24←16 · 소제목 24←20 · 본문 20←16. 행간·자간(%)은 Figma 그대로.
+                           인사 32←22(Bold, 한 줄) · 요지 24←16(SemiBold, 흰색 100%) · 소제목 24←20 · 본문 20←16(85%).
+                         행간·자간(%)은 Figma 그대로. 맺음은 흐린 구간 없이 전부 85% — Figma 대로.
                          2056 값을 1440 에 그대로 쓰면 단이 뷰포트를 넘친다(실측 ~880px). 영문 라벨은 Figma 에서 뺐다.
                          ⚠️ 원문 오탈자 `브래느` → `브랜드` 로 고쳐 옮겼다. --}}
                     <aside data-statement-aside class="statement-aside w-full min-w-0 text-white">
-                        <p class="text-[clamp(22px,1.556vw,32px)] leading-[1.318] font-bold tracking-[-0.0455em] break-keep">안녕하세요.<br>서비스기획자 신중수 입니다.</p>
-                        <p class="mt-3 text-[clamp(16px,1.167vw,24px)] leading-[1.625] tracking-[-0.0375em] break-keep text-white/85">
+                        <p class="text-[clamp(22px,1.556vw,32px)] leading-[1.318] font-bold tracking-[-0.0455em] break-keep">안녕하세요. 서비스기획자 신중수 입니다.</p>
+                        <p class="mt-3 text-[clamp(16px,1.167vw,24px)] leading-[1.625] font-semibold tracking-[-0.0375em] break-keep">
                             저의 가장 큰 무기이자 차별점은 서로 다른 두 영역에서의 깊은 통찰을 결합했다는 점입니다.
                         </p>
 
@@ -166,7 +167,7 @@
                             제품의 가치를 확장시키는 사람으로 성장하게 하는 원동력입니다.
                             저는 주어진 일의 가치를 넘어서는 새로운 가치를 만들어내는 엑스트라 마일을 실현하며,
                             함께 일하며 더 높은 곳을 바라보는 좋은 동료, 신뢰받는 협업자가 되고 싶습니다.
-                            <span class="text-white/60">멋진 관계를 기대합니다. 감사합니다.</span>
+                            멋진 관계를 기대합니다. 감사합니다.
                         </p>
                     </aside>
                 </div>
