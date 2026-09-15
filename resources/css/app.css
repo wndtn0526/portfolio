@@ -18,6 +18,31 @@
     }
 }
 
+@layer components {
+    /*
+     * 메뉴 오버레이 — 레퍼런스(montone.studio) 실측 그대로.
+     *   닫힘 clip-path: inset(0 0 100% 100%)  (좌상단으로 접힌 상태)
+     *   열림 clip-path: inset(0)
+     *   전환 clip-path .6s cubic-bezier(.76, 0, .24, 1)
+     * ⚠️ display 나 opacity 로 숨기지 않는다. clip-path 로만 여닫아야 이 전환이 나온다.
+     *    대신 닫혀 있을 때 클릭을 먹지 않도록 pointer-events 를 끄고 안쪽을 focus 에서 뺀다.
+     */
+    .menu-overlay {
+        clip-path: inset(0 0 100% 100%);
+        pointer-events: none;
+        transition: clip-path 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    .menu-overlay.is-open {
+        clip-path: inset(0);
+        pointer-events: auto;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .menu-overlay { transition-duration: 0.01ms; }
+    }
+}
+
 @layer utilities {
     /* 선언 섹션의 줄 — 색의 알파를 JS 가 --line-alpha 로 넣는다.
        ⚠️ JS 가 안 돌아도 읽히도록 기본값을 1 로 둔다(0.18 로 두면 스크립트가 죽었을 때 글이 안 보인다). */

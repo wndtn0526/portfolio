@@ -11,20 +11,52 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 
-    <link rel="preload" as="style" href="./build/assets/app-8fSQDCkT.css" /><link rel="modulepreload" as="script" href="./build/assets/app-CpsN4BqT.js" /><link rel="stylesheet" href="./build/assets/app-8fSQDCkT.css" data-navigate-track="reload" /><script type="module" src="./build/assets/app-CpsN4BqT.js" data-navigate-track="reload"></script>    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js"></script>
+    <link rel="preload" as="style" href="./build/assets/app-C3FPNW0a.css" /><link rel="modulepreload" as="script" href="./build/assets/app-CB39GEnM.js" /><link rel="stylesheet" href="./build/assets/app-C3FPNW0a.css" data-navigate-track="reload" /><script type="module" src="./build/assets/app-CB39GEnM.js" data-navigate-track="reload"></script>    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js"></script>
 </head>
 <body class="min-h-dvh bg-canvas font-sans text-body antialiased">
     <header data-nav
             class="fixed inset-x-0 top-0 z-50 h-[65px] bg-canvas/60 backdrop-blur-[20px] transition-transform duration-300 ease-out motion-reduce:transition-none lg:h-[73px]">
         <div class="flex h-full items-center justify-between px-6 lg:px-12">
-            <a href="#top" class="text-sm font-bold tracking-[-0.02em] text-ink">신중수</a>
-            <a href="mailto:wndtn0526@gmail.com"
-               class="group inline-flex items-center gap-2 text-sm text-body transition-colors hover:text-ink">
-                연락하기
-                <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
+            
+            <a href="#top" class="block text-[13px] leading-[13px] tracking-[-0.02em]">
+                <span class="block font-bold text-ink">신중수</span>
+                <span class="block text-muted">Product Designer</span>
             </a>
+
+            
+            <button type="button" data-menu-open aria-expanded="false" aria-controls="site-menu"
+                    class="relative h-6 w-8 cursor-pointer" aria-label="메뉴 열기">
+                <span aria-hidden="true" class="absolute left-1 top-1 h-0.5 w-6 bg-ink"></span>
+                <span aria-hidden="true" class="absolute left-1 top-[11px] h-0.5 w-6 bg-ink"></span>
+                <span aria-hidden="true" class="absolute left-1 top-[18px] h-0.5 w-6 bg-ink"></span>
+            </button>
         </div>
     </header>
+
+    
+    <div data-menu id="site-menu" class="menu-overlay fixed inset-0 z-[1100] bg-statement">
+        <button type="button" data-menu-close
+                class="absolute end-6 top-7 inline-flex cursor-pointer items-center gap-3 text-[13px] font-medium tracking-[0.1em] text-white uppercase lg:end-12">
+            <svg aria-hidden="true" viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6">
+                <path d="M4 4l12 12M16 4L4 16" stroke-linecap="round" />
+            </svg>
+            Close
+        </button>
+
+        <div class="flex h-full flex-col justify-center gap-24 px-6 lg:px-12">
+            <ul class="text-[clamp(3rem,6.67vw,96px)] leading-[1.13] font-light tracking-[-0.03em] text-white">
+                <li><a href="#top" class="inline-block transition-opacity hover:opacity-70">/소개</a></li>
+                <li><a href="#top" class="inline-block transition-opacity hover:opacity-70">/작업</a></li>
+                <li><a href="#top" class="inline-block transition-opacity hover:opacity-70">/이력</a></li>
+            </ul>
+
+            <a href="mailto:wndtn0526@gmail.com"
+               class="group inline-flex w-fit items-center gap-3 text-base font-bold text-white">
+                <span class="border-b border-white/70 pb-0.5">연락하기</span>
+                <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">→</span>
+            </a>
+        </div>
+    </div>
 
     <main id="top">
 

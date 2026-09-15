@@ -14,19 +14,54 @@
 --}}
 <x-layouts.app title="신중수 · Product Manager / Product Designer">
 
-    {{-- 내비 — 레퍼런스 실측: fixed · 높이 73 · 흰색 60% + blur(20px) · 내려가면 숨는다.
+    {{-- 내비 — 레퍼런스 실측: fixed · 높이 65/73 · 흰색 60% + blur(20px) · 내려가면 숨는다.
+         좌측은 2줄 로고타입(레퍼런스의 `montone/ studio` 자리), 우측은 더보기 버튼이다.
          숨기는 동작은 resources/js/app.js 에 있다(개발·정적 양쪽에서 같이 돌게 하려고 Alpine 을 안 썼다). --}}
     <header data-nav
             class="fixed inset-x-0 top-0 z-50 h-[65px] bg-canvas/60 backdrop-blur-[20px] transition-transform duration-300 ease-out motion-reduce:transition-none lg:h-[73px]">
         <div class="flex h-full items-center justify-between px-6 lg:px-12">
-            <a href="#top" class="text-sm font-bold tracking-[-0.02em] text-ink">신중수</a>
-            <a href="mailto:wndtn0526@gmail.com"
-               class="group inline-flex items-center gap-2 text-sm text-body transition-colors hover:text-ink">
-                연락하기
-                <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
+            {{-- 로고타입 — 레퍼런스 로고는 24px 높이의 2줄 SVG 마크다. 글자로 같은 덩어리를 만든다. --}}
+            <a href="#top" class="block text-[13px] leading-[13px] tracking-[-0.02em]">
+                <span class="block font-bold text-ink">신중수</span>
+                <span class="block text-muted">Product Designer</span>
             </a>
+
+            {{-- 더보기 — 레퍼런스 실측: 박스 32x24, 선 24x2 가 위에서 4·11·18 위치. --}}
+            <button type="button" data-menu-open aria-expanded="false" aria-controls="site-menu"
+                    class="relative h-6 w-8 cursor-pointer" aria-label="메뉴 열기">
+                <span aria-hidden="true" class="absolute left-1 top-1 h-0.5 w-6 bg-ink"></span>
+                <span aria-hidden="true" class="absolute left-1 top-[11px] h-0.5 w-6 bg-ink"></span>
+                <span aria-hidden="true" class="absolute left-1 top-[18px] h-0.5 w-6 bg-ink"></span>
+            </button>
         </div>
     </header>
+
+    {{-- 메뉴 오버레이 — 레퍼런스 실측: 배경 #504fed · z 1100 · 좌상단에서 clip-path 로 펼쳐진다.
+         항목 96px/300/자간 -0.03em · 행 간격 108 · 좌측 여백은 내비와 같은 24/48.
+         ⚠️ 항목의 목적지는 아직 정해지지 않았다. 기획을 다시 하는 중이라 자리만 잡아 둔 것이다. --}}
+    <div data-menu id="site-menu" class="menu-overlay fixed inset-0 z-[1100] bg-statement">
+        <button type="button" data-menu-close
+                class="absolute end-6 top-7 inline-flex cursor-pointer items-center gap-3 text-[13px] font-medium tracking-[0.1em] text-white uppercase lg:end-12">
+            <svg aria-hidden="true" viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6">
+                <path d="M4 4l12 12M16 4L4 16" stroke-linecap="round" />
+            </svg>
+            Close
+        </button>
+
+        <div class="flex h-full flex-col justify-center gap-24 px-6 lg:px-12">
+            <ul class="text-[clamp(3rem,6.67vw,96px)] leading-[1.13] font-light tracking-[-0.03em] text-white">
+                <li><a href="#top" class="inline-block transition-opacity hover:opacity-70">/소개</a></li>
+                <li><a href="#top" class="inline-block transition-opacity hover:opacity-70">/작업</a></li>
+                <li><a href="#top" class="inline-block transition-opacity hover:opacity-70">/이력</a></li>
+            </ul>
+
+            <a href="mailto:wndtn0526@gmail.com"
+               class="group inline-flex w-fit items-center gap-3 text-base font-bold text-white">
+                <span class="border-b border-white/70 pb-0.5">연락하기</span>
+                <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">→</span>
+            </a>
+        </div>
+    </div>
 
     <main id="top">
 

@@ -69,3 +69,32 @@ if (statement) {
     addEventListener('resize', onScroll, { passive: true });
     paint();
 }
+
+/*
+ * 메뉴 오버레이 — 더보기 버튼으로 열고 CLOSE·Esc 로 닫는다.
+ * 레퍼런스(montone.studio)와 같은 동작: 열리면 본문 스크롤을 잠그고, 닫는 버튼은 오버레이 안에 있다.
+ *
+ * ⚠️ 오버레이는 clip-path 로만 여닫으므로 닫혀 있어도 DOM 에 그대로 있다.
+ *    그래서 inert 로 포커스·클릭에서 빼 준다 — 안 하면 Tab 으로 안 보이는 링크에 들어간다.
+ */
+const menu = document.querySelector('[data-menu]');
+const menuOpen = document.querySelector('[data-menu-open]');
+const menuClose = document.querySelector('[data-menu-close]');
+
+if (menu && menuOpen && menuClose) {
+    const setOpen = (open) => {
+        menu.classList.toggle('is-open', open);
+        menu.inert = !open;
+        menuOpen.setAttribute('aria-expanded', String(open));
+        document.body.style.overflow = open ? 'hidden' : '';
+        (open ? menuClose : menuOpen).focus();
+    };
+
+    menuOpen.addEventListener('click', () => setOpen(true));
+    menuClose.addEventListener('click', () => setOpen(false));
+    addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && menu.classList.contains('is-open')) setOpen(false);
+    });
+
+    menu.inert = true;   // 첫 상태
+}
