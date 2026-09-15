@@ -85,11 +85,14 @@
                  class="pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover object-top">
 
             <div class="px-6 lg:px-12">
-                <h1 class="font-bold tracking-[-0.02em] text-ink text-[clamp(2.5rem,7.6vw,98px)] leading-[1.04]">
+                {{-- Figma 슬라이드 02 실측: Pretendard Black(900) · 98px · 행간 98(=1.0) · 자간 없음.
+                     한때 레퍼런스(montone h1 700)에 맞춰 700/−0.02em 으로 뒀는데, 볼드감은 Figma 대로 가기로 했다. --}}
+                <h1 class="font-black tracking-normal text-ink text-[clamp(2.5rem,7.6vw,98px)] leading-none">
                     Beauty is in the<br>eye of the beholder.
                 </h1>
 
-                <p class="mt-[clamp(1.5rem,3vw,2.75rem)] text-ink text-[clamp(1.125rem,2.6vw,48px)] leading-[1.32]">
+                {{-- 48px · 행간 62(=1.292) · 1줄 Regular, 2줄 Bold --}}
+                <p class="mt-[clamp(1.5rem,3vw,2.75rem)] text-ink text-[clamp(1.125rem,2.6vw,48px)] leading-[1.292]">
                     사랑하는 사람은 뭐든지 다 예뻐보인다는 말인데,<br>
                     <strong class="font-bold">저는 이 말이 좋습니다.</strong>
                 </p>
