@@ -32,6 +32,9 @@
     --color-muted: #868e96;         /* [파생] ink/body 사이 — 캡션·부가 정보 */
     --color-line: #e3e5e8;          /* [파생] canvas 위 실선 */
 
+    /* 선언 섹션 — montone.studio 실측 rgb(80,79,237). 그라디언트 첫 스톱과 같은 색이다. */
+    --color-statement: #504fed;
+
     /* 피처 번호용 그라디언트 — montone.studio 실측(120deg 8스톱) */
     --gradient-numeral: linear-gradient(
         120deg,
@@ -42,4 +45,5 @@
     /* ── 치수 ── */
     --container-readable: 940px;    /* 본문 블록 폭 (실측) */
     --container-feature: 733px;     /* 피처 섹션 본문 폭 — montone.studio 실측 */
+    --container-statement: 806px;   /* 선언 섹션 글 폭 — montone.studio 실측 */
 }

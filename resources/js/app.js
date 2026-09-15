@@ -27,3 +27,45 @@ if (nav) {
         requestAnimationFrame(update);
     }, { passive: true });
 }
+
+/*
+ * 선언 섹션 — 스크롤에 따라 줄이 하나씩 밝아진다.
+ *
+ * 레퍼런스(montone.studio) 실측: 섹션 높이 3600 = 뷰포트(900) 4배, 안쪽은 sticky.
+ * 핀 구간(3600-900=2700)을 진행도 0~1 로 보고, 각 줄의 **글자색 알파**가 0.18 → 1 로 찬다.
+ * 실측 곡선: 줄마다 0.1375 씩 밀려 순차로 차고, 0.6875 에서 전부 완료된다(뒤 0.31 은 유지 구간).
+ *
+ * ⚠️ 투명도(opacity)가 아니라 color 의 알파다. opacity 를 쓰면 줄 전체가 흐려져 결이 다르다.
+ */
+const statement = document.querySelector('[data-statement]');
+
+if (statement) {
+    const lines = [...statement.querySelectorAll('[data-statement-line]')];
+    const DIM = 0.18;          // 아직 안 드러난 줄
+    const STEP = 0.1375;       // 줄 사이 간격 = 각 줄이 차는 데 걸리는 진행도
+    let ticking = false;
+
+    const paint = () => {
+        const rect = statement.getBoundingClientRect();
+        const pinned = statement.offsetHeight - innerHeight;
+        // 섹션이 화면 위로 올라간 만큼이 진행도
+        const p = pinned > 0 ? Math.min(1, Math.max(0, -rect.top / pinned)) : 1;
+
+        lines.forEach((line, i) => {
+            const t = Math.min(1, Math.max(0, (p - i * STEP) / STEP));
+            const eased = 1 - (1 - t) * (1 - t);           // ease-out
+            line.style.setProperty('--line-alpha', (DIM + (1 - DIM) * eased).toFixed(3));
+        });
+        ticking = false;
+    };
+
+    const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(paint);
+    };
+
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll, { passive: true });
+    paint();
+}

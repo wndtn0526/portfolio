@@ -1,1 +1,0 @@
-var e=document.querySelector(`[data-nav]`);if(e){let t=window.scrollY,n=!1,r=()=>{let r=window.scrollY,i=r>t&&r>80;e.classList.toggle(`-translate-y-full`,i),t=r,n=!1};addEventListener(`scroll`,()=>{n||(n=!0,requestAnimationFrame(r))},{passive:!0})}
