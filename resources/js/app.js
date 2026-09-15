@@ -1,4 +1,23 @@
 /*
+ * 스무스 스크롤 — 레퍼런스(montone.studio)가 쓰는 Lenis 를 그대로 쓴다.
+ * 실측(휠 100 한 번): 160px 이동 · 남은 거리가 매 프레임 일정 비율로 줄어드는 lerp 방식 ·
+ * 90% 도달 481ms · 99% 도달 911ms → 60fps 기준 lerp ≈ 0.08. 값은 아래에서 맞춘다.
+ * ⚠️ html 의 scroll-smooth 는 뺐다 — 둘이 겹치면 두 번 감속한다.
+ * ⚠️ 움직임 줄이기(prefers-reduced-motion)면 켜지 않는다. 그때는 브라우저 기본 스크롤.
+ */
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
+
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+// 대조 결과: 이 페이지에서 휠 100 은 배율 1 일 때 200px 이라 0.8 이 레퍼런스의 160px 이 된다. lerp 0.085 가 90%/99% 도달 시간을 맞춘다.
+const lenis = reducedMotion ? null : new Lenis({ lerp: 0.085, wheelMultiplier: 0.8, smoothWheel: true });
+if (lenis) {
+    const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
+    requestAnimationFrame(raf);
+}
+window.__lenis = lenis;   // 진단용
+
+/*
  * 상단 내비 — 아래로 스크롤하면 숨고, 위로 올리면 다시 나온다.
  * 레퍼런스(montone.studio)가 그렇게 동작한다: fixed · 높이 73 · 흰색 60% + blur(20px) ·
  * 내려갈 때 translateY(-80px).
@@ -181,6 +200,7 @@ if (menu && menuBg && menuInner && menuOpen && menuClose) {
             nav?.classList.remove('-translate-y-full');
             setOrigin();
             document.body.style.overflow = 'hidden';   // scrollbar-gutter:stable 이라 본문이 밀리지 않는다
+            lenis?.stop();                              // 휠이 뒤 페이지를 움직이지 않게
             menu.inert = false;
             menu.classList.add('is-open');
             animateTo(1);
@@ -193,6 +213,7 @@ if (menu && menuBg && menuInner && menuOpen && menuClose) {
                 // 무거운 일(스크롤 복구·inert)은 다 접힌 뒤에 한다 — 움직이는 동안 리레이아웃을 일으키지 않는다
                 if (menu.classList.contains('is-open')) return;   // 그 사이 다시 열렸으면 두지 않는다
                 document.body.style.overflow = '';
+                lenis?.start();
                 menu.inert = true;
                 goPending();                                        // 메뉴에서 고른 곳으로
             });
@@ -213,9 +234,11 @@ if (menu && menuBg && menuInner && menuOpen && menuClose) {
     });
     const goPending = () => {
         if (!pendingTarget) return;
-        const target = pendingTarget === '#top' ? document.body : document.querySelector(pendingTarget);
+        const target = pendingTarget === '#top' ? 0 : document.querySelector(pendingTarget);
         pendingTarget = null;
-        target?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+        if (target === null) return;
+        if (lenis) lenis.scrollTo(target, { offset: 0 });
+        else (target === 0 ? window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' }) : target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' }));
     };
     addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && menu.classList.contains('is-open')) setOpen(false);

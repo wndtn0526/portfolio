@@ -76,7 +76,8 @@
 
         {{-- ── 히어로 ── 배경 메시는 시안의 freeform 2(1083:280398) 를 color-burn 50% 로 미리 구워 넣은 것이다(처음엔 25% 였다).
              구울 때 배경 #f9f9f9 를 깔았으므로 canvas 위에서만 이음매가 안 보인다. --}}
-        <section class="relative flex min-h-dvh flex-col justify-center overflow-hidden">
+        {{-- 글은 레퍼런스처럼 아래쪽에 — 실측: 글 바닥이 뷰포트 바닥에서 81px, SCROLL 은 글 아래 20px(바닥에서 48px). --}}
+        <section class="relative flex min-h-dvh flex-col justify-end overflow-hidden pb-12">
             <img src="{{ asset('images/intro-mesh.webp') }}"
                  srcset="{{ asset('images/intro-mesh-1280.webp') }} 1280w, {{ asset('images/intro-mesh.webp') }} 1920w"
                  sizes="100vw" alt="" aria-hidden="true" fetchpriority="high" width="1920" height="1084"
@@ -96,9 +97,11 @@
                 </p>
             </div>
 
-            {{-- 스크롤 안내 — 레퍼런스의 'Scroll' 자리 --}}
-            <div class="absolute inset-x-0 bottom-10 px-6 lg:px-12">
-                <span class="inline-flex items-center gap-3 text-xs tracking-[0.18em] text-muted uppercase">
+            {{-- 스크롤 안내 — 레퍼런스의 'Scroll' 자리. 글 아래 20px. --}}
+            {{-- 감싸는 div 를 flex 로 — 블록이면 인라인 span 아래에 줄 상자 여백이 5px 생겨 바닥 48 이 53 이 된다. --}}
+            <div class="mt-5 flex px-6 lg:px-12">
+                {{-- 레퍼런스 실측: 11px · 자간 1.54px(0.14em) · 높이 13 --}}
+                <span class="inline-flex h-[13px] items-center gap-3 text-[11px] leading-none tracking-[0.14em] text-muted uppercase">
                     Scroll
                     <span aria-hidden="true" class="h-px w-10 origin-left animate-scroll-cue bg-muted"></span>
                 </span>
