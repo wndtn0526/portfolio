@@ -43,7 +43,7 @@ if (statement) {
     const lines = [...statement.querySelectorAll('[data-statement-line]')];
     const aside = statement.querySelector('[data-statement-aside]');
     const DIM = 0.18;          // 아직 안 드러난 줄
-    const STEP = 0.1375;       // 줄 사이 간격 = 각 줄이 차는 데 걸리는 진행도
+    const STEP = 0.6875 / lines.length;   // 레퍼런스: 다섯 줄이 0.6875 에 다 찬다. 줄 수가 바뀌어도 같은 시간에 끝나게 나눈다
     const ASIDE_FROM = 0.60;   // 오른쪽 소개가 떠오르기 시작하는 진행도(마지막 줄이 차오르는 중)
     const ASIDE_TO = 0.80;     // 다 떠오르는 진행도 — 나머지는 유지 구간
     const pinnedLayout = matchMedia('(min-width: 80rem) and (min-height: 52rem)');   // app.css 의 pin: 과 같은 조건

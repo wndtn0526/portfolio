@@ -116,46 +116,52 @@
             {{-- pin:(폭 1280·높이 832 이상) — 뷰포트 4배 높이에 안쪽을 sticky 로 붙여 스크롤로 줄이 차오르고
                  오른쪽 소개가 뒤이어 떠오른다. 그 아래 폭·높이 — 고정을 풀고 선언 아래에 소개가 이어진다
                  (app.js 도 같은 조건에서 전부 밝힌다). 조건은 app.css 의 @custom-variant pin 참고. --}}
-            <div class="px-6 py-[clamp(3rem,6vh,120px)] ps-[calc(1.5rem+3rem)] lg:px-12 lg:ps-24 pin:sticky pin:top-0 pin:flex pin:h-dvh pin:items-center">
-                <div class="flex flex-col gap-14 pin:w-full pin:flex-row pin:items-start pin:justify-between pin:gap-12">
-                    {{-- ⚠️ 한 span 이 한 줄이어야 알파가 줄 단위로 찬다. 806px 안에서 안 접히게 짧게 끊었다.
-                         46px 기준 한 줄에 한글 17자쯤 들어간다. 문구를 고칠 때 길이를 확인할 것. --}}
+            <div class="px-6 py-[clamp(3rem,6vh,120px)] ps-[calc(1.5rem+3rem)] lg:px-12 lg:ps-24 pin:sticky pin:top-0 pin:flex pin:h-dvh pin:items-center pin:pe-24">
+                {{-- Figma(포트폴리오_MCP · 1:24, 2056 기준) 실측: 좌우 여백 96, 두 단이 정확히 반반(932 | 932),
+                     오른쪽 단은 화면 정중앙에서 시작한다. 세로는 둘 다 가운데.
+                     왼쪽 칸은 minmax(max-content, 1fr) — 화면이 좁아 반이 선언의 가장 긴 줄보다 작아지면
+                     그 줄 폭만큼은 지킨다(한 줄이 두 줄로 접히면 줄 단위 밝아짐이 깨진다). 나머지가 오른쪽 단. --}}
+                <div class="flex flex-col gap-14 pin:grid pin:w-full pin:grid-cols-[minmax(max-content,1fr)_minmax(0,1fr)] pin:items-center pin:gap-0">
+                    {{-- ⚠️ 한 span 이 한 줄이어야 알파가 줄 단위로 찬다. 줄 나눔은 Figma(1:24)대로 넉 줄.
+                         가장 긴 줄(넷째, 46px 에서 662px)이 접히지 않게 왼쪽 칸이 max-content 를 보장한다. --}}
                     <p class="max-w-statement shrink-0 text-[clamp(1.75rem,3.2vw,46.08px)] leading-[1.08] tracking-[-0.025em]">
                         <span data-statement-line class="statement-line block font-bold">맡은 일의 본질적인 가치를</span>
                         <span data-statement-line class="statement-line block font-bold">발견하는 일을 합니다.</span>
-                        <span data-statement-line class="statement-line block"><span class="font-bold">/</span>그 가치가 사용자에게</span>
-                        <span data-statement-line class="statement-line block">가장 매력적으로 닿도록</span>
-                        <span data-statement-line class="statement-line block">경험을 설계합니다.</span>
+                        <span data-statement-line class="statement-line block"><span class="font-bold">/</span>그 가치가 사용자에게 가장</span>
+                        <span data-statement-line class="statement-line block">매력적으로 닿도록 경험을 설계합니다.</span>
                     </p>
 
                     {{-- 오른쪽 소개 — 선언 다섯 줄이 다 밝아진 뒤 떠오른다(app.js 가 --intro-alpha 를 넣는다).
                          글은 Figma 슬라이드 02 의 자기소개. 타이포는 404 스케일(자간 포함).
                          ⚠️ 원문 오탈자 `브래느` → `브랜드` 로 고쳐 옮겼다. --}}
-                    <aside data-statement-aside class="statement-aside w-full text-white pin:w-[clamp(384px,30vw,440px)] pin:shrink-0">
-                        <p class="text-headline-1 font-bold break-keep">안녕하세요. 서비스기획자 신중수 입니다.</p>
-                        <p class="mt-3 text-body-2-reading break-keep text-white/85">
+                    {{-- 오른쪽 소개 — 선언 줄이 다 밝아진 뒤 떠오른다(app.js 가 --intro-alpha 를 넣는다).
+                         글자 크기는 Figma(2056 기준) 값이 2056 에서 그대로 나오고 1440 에서는 한 단 아래로 흐른다:
+                           인사 32←22 · 요지 24←16 · 소제목 24←20 · 본문 20←16. 행간·자간(%)은 Figma 그대로.
+                         2056 값을 1440 에 그대로 쓰면 단이 뷰포트를 넘친다(실측 ~880px). 영문 라벨은 Figma 에서 뺐다.
+                         ⚠️ 원문 오탈자 `브래느` → `브랜드` 로 고쳐 옮겼다. --}}
+                    <aside data-statement-aside class="statement-aside w-full min-w-0 text-white">
+                        <p class="text-[clamp(22px,1.556vw,32px)] leading-[1.318] font-bold tracking-[-0.0455em] break-keep">안녕하세요.<br>서비스기획자 신중수 입니다.</p>
+                        <p class="mt-3 text-[clamp(16px,1.167vw,24px)] leading-[1.625] tracking-[-0.0375em] break-keep text-white/85">
                             저의 가장 큰 무기이자 차별점은 서로 다른 두 영역에서의 깊은 통찰을 결합했다는 점입니다.
                         </p>
 
-                        <h3 class="mt-8 text-headline-2 font-bold break-keep">구조와 논리의 깊이</h3>
-                        <p class="text-label-2 text-white/60">B2B Domain Logic</p>
-                        <p class="mt-2 text-body-2-reading text-white/85">
+                        <h3 class="mt-8 text-[clamp(20px,1.167vw,24px)] leading-[1.5] font-bold tracking-[-0.05em] break-keep">구조와 논리의 깊이</h3>
+                        <p class="mt-2 text-[clamp(16px,0.973vw,20px)] leading-[1.625] tracking-[-0.0375em] text-white/85">
                             그룹웨어 시장에서의 깊은 도메인 경험을 통해 어떤 기술도 도메인보다 앞설 수 없다는 신념을 가지고,
                             실제 현업의 복잡한 업무 흐름 (HR/재무) 을 깊이 이해하고 구조화할 수 있게 성장했습니다.
                             명확한 목표와 올바른 방향 설정이 정답에 가까운 결과를 만든다는 믿음으로,
                             엔터프라이즈의 비효율을 해소하는 논리적인 UX 설계에 집중합니다.
                         </p>
 
-                        <h3 class="mt-8 text-headline-2 font-bold break-keep">브랜드와 소통의 폭</h3>
-                        <p class="text-label-2 text-white/60">B2C Visual Communication</p>
-                        <p class="mt-2 text-body-2-reading text-white/85">
+                        <h3 class="mt-8 text-[clamp(20px,1.167vw,24px)] leading-[1.5] font-bold tracking-[-0.05em] break-keep">브랜드와 소통의 폭</h3>
+                        <p class="mt-2 text-[clamp(16px,0.973vw,20px)] leading-[1.625] tracking-[-0.0375em] text-white/85">
                             이전 광고대행사 경험에서 얻은 브랜드 스토리텔링 및 비주얼 커뮤니케이션 능력은
                             제품의 매력도를 극대화하는 중요한 도구입니다. 딱딱하게 느껴지기 쉬운 B2B 솔루션에
                             사용자에게 공감을 주는 UX Writing 과 일관된 브랜드 경험을 입혀,
                             사용자가 사랑하고 습관적으로 이용하는 제품으로 전환시킵니다.
                         </p>
 
-                        <p class="mt-8 text-body-2-reading text-white/85">
+                        <p class="mt-8 text-[clamp(16px,0.973vw,20px)] leading-[1.625] tracking-[-0.0375em] text-white/85">
                             이러한 사고와 통찰은 단순히 일을 하는 사람이 아니라, 사용자 효율성과 브랜드 매력을 동시에 높여
                             제품의 가치를 확장시키는 사람으로 성장하게 하는 원동력입니다.
                             저는 주어진 일의 가치를 넘어서는 새로운 가치를 만들어내는 엑스트라 마일을 실현하며,

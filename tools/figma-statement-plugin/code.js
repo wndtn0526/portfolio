@@ -1,10 +1,10 @@
 /*
  * 웹의 두 번째 섹션(선언 + 오른쪽 소개)을 Figma 캔버스에 실제 레이어로 그린다.
  *
- * 값은 resources/views/home.blade.php 와 resources/css/tokens.css 를 그대로 옮긴 것이다.
- *   배경 #504fed · 왼쪽 선언 46.08px / 행간 108% / 자간 -2.5% (1·2줄 Bold, 3줄 첫 '/' 만 Bold)
- *   오른쪽 소개 404 스케일 — heading-1 22 · heading-2 20 · body-1-reading 16/162.5% · label-1 14
- *   두 단은 가로 오토레이아웃, 간격 128, 세로 가운데 정렬. 왼쪽 여백 96, 오른쪽 48.
+ * 값은 Figma(포트폴리오_MCP 1:24 · 2056 기준)에서 조절된 것을 웹(home.blade.php)과 함께 맞춘 것이다.
+ *   배경 #504fed · 왼쪽 선언 46.08px / 행간 108% / 자간 -2.5% (1·2줄 Bold, 3줄 첫 '/' 만 Bold) · 넉 줄
+ *   오른쪽 소개 — 인사 32 · 요지 24 · 소제목 24 · 본문 20 (행간·자간 % 는 404 스케일 비율 그대로)
+ *   좌우 여백 96, 두 단은 반반(2056 에서 932 | 932), 세로 가운데 정렬. 영문 라벨 없음.
  *
  * ⚠️ Figma MCP 서버는 읽기만 되고 쓰기 도구가 없어서 플러그인으로 넣는다.
  *    실행: Figma → 메뉴 Plugins → Development → Import plugin from manifest… → 이 폴더의 manifest.json
@@ -15,41 +15,41 @@
 const BLUE = { r: 0x50 / 255, g: 0x4f / 255, b: 0xed / 255 };
 const WHITE = { r: 1, g: 1, b: 1 };
 
-// 404 타이포 스케일 (크기 · 행간% · 자간%)
+// 크기 · 행간% · 자간% — Figma(포트폴리오_MCP 1:24, 2056 기준)에서 조절된 값. 웹은 폭 따라 흐르고 2056 에서 이 값이 된다.
 const T = {
     statement: { size: 46.08, lh: 108, ls: -2.5 },
-    heading1:  { size: 22, lh: 131.8, ls: -4.55 },
-    heading2:  { size: 20, lh: 150, ls: -5 },
-    body1r:    { size: 16, lh: 162.5, ls: -3.75 },
-    label1:    { size: 14, lh: 142.9, ls: -1.43 },
+    greet:     { size: 32, lh: 131.8, ls: -4.55 },
+    thesis:    { size: 24, lh: 162.5, ls: -3.75 },
+    title:     { size: 24, lh: 150, ls: -5 },
+    body:      { size: 20, lh: 162.5, ls: -3.75 },
 };
 
 const STATEMENT = [
     ['맡은 일의 본질적인 가치를', 'bold'],
     ['발견하는 일을 합니다.', 'bold'],
-    ['/그 가치가 사용자에게', 'slash'],   // 첫 글자 '/' 만 Bold
-    ['가장 매력적으로 닿도록', 'regular'],
-    ['경험을 설계합니다.', 'regular'],
+    ['/그 가치가 사용자에게 가장', 'slash'],   // 첫 글자 '/' 만 Bold
+    ['매력적으로 닿도록 경험을 설계합니다.', 'regular'],
 ];
 
 const ASIDE = {
-    greet: '안녕하세요. 서비스기획자 신중수 입니다.',
+    greet: '안녕하세요.\n서비스기획자 신중수 입니다.',   // Figma 에서 두 줄로 나눴다
     thesis: '저의 가장 큰 무기이자 차별점은 서로 다른 두 영역에서의 깊은 통찰을 결합했다는 점입니다.',
-    pillars: [
-        ['구조와 논리의 깊이', 'B2B Domain Logic',
+    pillars: [   // 영문 라벨은 Figma 에서 뺐다
+        ['구조와 논리의 깊이',
          '그룹웨어 시장에서의 깊은 도메인 경험을 통해 어떤 기술도 도메인보다 앞설 수 없다는 신념을 가지고, 실제 현업의 복잡한 업무 흐름 (HR/재무) 을 깊이 이해하고 구조화할 수 있게 성장했습니다. 명확한 목표와 올바른 방향 설정이 정답에 가까운 결과를 만든다는 믿음으로, 엔터프라이즈의 비효율을 해소하는 논리적인 UX 설계에 집중합니다.'],
-        ['브랜드와 소통의 폭', 'B2C Visual Communication',
+        ['브랜드와 소통의 폭',
          '이전 광고대행사 경험에서 얻은 브랜드 스토리텔링 및 비주얼 커뮤니케이션 능력은 제품의 매력도를 극대화하는 중요한 도구입니다. 딱딱하게 느껴지기 쉬운 B2B 솔루션에 사용자에게 공감을 주는 UX Writing 과 일관된 브랜드 경험을 입혀, 사용자가 사랑하고 습관적으로 이용하는 제품으로 전환시킵니다.'],
     ],
     closing: '이러한 사고와 통찰은 단순히 일을 하는 사람이 아니라, 사용자 효율성과 브랜드 매력을 동시에 높여 제품의 가치를 확장시키는 사람으로 성장하게 하는 원동력입니다. 저는 주어진 일의 가치를 넘어서는 새로운 가치를 만들어내는 엑스트라 마일을 실현하며, 함께 일하며 더 높은 곳을 바라보는 좋은 동료, 신뢰받는 협업자가 되고 싶습니다.',
     closingMuted: ' 멋진 관계를 기대합니다. 감사합니다.',
 };
 
-// 화면 크기별 실측: 오른쪽 단 폭 = clamp(440px, 34vw, 560px)
+// 두 단은 반반(좌우 여백 96 씩). 반이 선언의 가장 긴 줄(662)보다 좁아지면 그 줄 폭은 지키고 나머지가 오른쪽.
+const STATEMENT_MAX_W = 662;
 const SCREENS = [
-    { name: '02 선언 — 1440×900',  w: 1440, h: 900,  aside: 489 },
-    { name: '02 선언 — 2056×1100 (풀 화면)', w: 2056, h: 1100, aside: 560 },
-];
+    { name: '02 선언 — 1440×900',  w: 1440, h: 900 },
+    { name: '02 선언 — 2056×1100 (풀 화면)', w: 2056, h: 1100 },
+].map((s) => { const half = (s.w - 192) / 2; const left = Math.max(half, STATEMENT_MAX_W); return { ...s, left, aside: s.w - 192 - left }; });
 
 let FAMILY = 'Pretendard';
 let REGULAR = 'Regular';
@@ -116,25 +116,22 @@ function buildAside(width) {
     const col = column('소개 (오른쪽)', 32, width);
 
     const head = column('인사', 12, width); head.layoutAlign = 'STRETCH';
-    head.appendChild(Object.assign(text(ASIDE.greet, BOLD, T.heading1, { stretch: true }), { name: '인사' }));
-    head.appendChild(Object.assign(text(ASIDE.thesis, REGULAR, T.body1r, { opacity: 0.85, stretch: true }), { name: '요지' }));
+    head.appendChild(Object.assign(text(ASIDE.greet, BOLD, T.greet, { stretch: true }), { name: '인사' }));
+    head.appendChild(Object.assign(text(ASIDE.thesis, REGULAR, T.thesis, { opacity: 0.85, stretch: true }), { name: '요지' }));
     col.appendChild(head);
 
-    for (const [title, label, body] of ASIDE.pillars) {
+    for (const [title, body] of ASIDE.pillars) {
         const p = column(title, 8, width); p.layoutAlign = 'STRETCH';
-        const h = column('제목', 0, width); h.layoutAlign = 'STRETCH';
-        h.appendChild(Object.assign(text(title, BOLD, T.heading2, { stretch: true }), { name: '소제목' }));
-        h.appendChild(Object.assign(text(label, REGULAR, T.label1, { opacity: 0.6, stretch: true }), { name: '영문 라벨' }));
-        p.appendChild(h);
-        p.appendChild(Object.assign(text(body, REGULAR, T.body1r, { opacity: 0.85, stretch: true }), { name: '본문' }));
+        p.appendChild(Object.assign(text(title, BOLD, T.title, { stretch: true }), { name: '소제목' }));
+        p.appendChild(Object.assign(text(body, REGULAR, T.body, { opacity: 0.85, stretch: true }), { name: '본문' }));
         col.appendChild(p);
     }
 
-    const closing = text(ASIDE.closing + ASIDE.closingMuted, REGULAR, T.body1r, { opacity: 0.85, stretch: true });
+    const closing = text(ASIDE.closing + ASIDE.closingMuted, REGULAR, T.body, { opacity: 0.85, stretch: true });
     closing.name = '맺음';
     // 마지막 두 문장만 더 흐리게 — 웹의 text-white/60
-    const from = ASIDE.closing.length;
-    closing.setRangeFills(from, closing.characters.length, [{ type: 'SOLID', color: WHITE, opacity: 0.6 / 0.85 }]);
+    const from = closing.characters.indexOf('멋진 관계를');   // 문자열 길이로 세면 공백 정규화에 어긋난다 — 위치를 찾아 쓴다
+    if (from > 0) closing.setRangeFills(from, closing.characters.length, [{ type: 'SOLID', color: WHITE, opacity: 0.6 }]);
     col.appendChild(closing);
     return col;
 }
@@ -148,14 +145,16 @@ function buildScreen(screen, x) {
     frame.layoutMode = 'HORIZONTAL';
     frame.primaryAxisSizingMode = 'FIXED';
     frame.counterAxisSizingMode = 'FIXED';
-    frame.paddingLeft = 96;   // 여백 48 + 글 들여쓰기 48 (레퍼런스 실측)
-    frame.paddingRight = 48;
+    frame.paddingLeft = 96;   // Figma 실측 — 좌우 96
+    frame.paddingRight = 96;
     frame.paddingTop = 0; frame.paddingBottom = 0;
-    frame.itemSpacing = 128;  // 왼쪽 글 끝 → 오른쪽 단
+    frame.itemSpacing = 0;    // 두 칸이 맞닿는다 — 오른쪽 단은 왼쪽 칸(반) 끝에서 시작
     frame.primaryAxisAlignItems = 'MIN';
-    frame.counterAxisAlignItems = 'CENTER';   // 세로 가운데 — 선언이 뷰포트 중심에 선다
+    frame.counterAxisAlignItems = 'CENTER';   // 세로 가운데 — 두 단 모두 뷰포트 중심에 선다
     frame.clipsContent = true;
-    frame.appendChild(buildStatement());
+    const left = buildStatement();            // 왼쪽 칸: 반(또는 가장 긴 줄) 폭으로 고정
+    left.counterAxisSizingMode = 'FIXED'; left.resize(screen.left, left.height);
+    frame.appendChild(left);
     frame.appendChild(buildAside(screen.aside));
     return frame;
 }
