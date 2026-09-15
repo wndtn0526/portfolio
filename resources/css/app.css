@@ -21,14 +21,18 @@
 @layer components {
     /*
      * 메뉴 오버레이 — 레퍼런스(montone.studio) 실측 그대로.
-     *   닫힘 clip-path: inset(0 0 100% 100%)  (좌상단으로 접힌 상태)
-     *   열림 clip-path: inset(0)
-     *   전환 clip-path .6s cubic-bezier(.76, 0, .24, 1)
+     *
+     * ⚠️ 핵심: 좌상단이 아니라 **더보기 버튼이 있는 자리에서** 자라난다.
+     *    버튼의 화면 좌표를 JS 가 --menu-* 로 넣어 주고, 열리면 inset(0) 으로 퍼진다.
+     *    전환은 clip-path .6s cubic-bezier(.76, 0, .24, 1).
      * ⚠️ display 나 opacity 로 숨기지 않는다. clip-path 로만 여닫아야 이 전환이 나온다.
-     *    대신 닫혀 있을 때 클릭을 먹지 않도록 pointer-events 를 끄고 안쪽을 focus 에서 뺀다.
+     *    닫혀 있을 때는 pointer-events 를 끄고, JS 가 inert 로 포커스에서도 뺀다.
      */
     .menu-overlay {
-        clip-path: inset(0 0 100% 100%);
+        clip-path: inset(
+            var(--menu-top, 0px) var(--menu-right, 0px)
+            var(--menu-bottom, 100%) var(--menu-left, 100%)
+        );
         pointer-events: none;
         transition: clip-path 0.6s cubic-bezier(0.76, 0, 0.24, 1);
     }
@@ -38,8 +42,47 @@
         pointer-events: auto;
     }
 
+    /* 안쪽 요소들 — 닫힘이 기본이고, 열릴 때 아래에서 떠오른다.
+       실측: 항목 24px / 하단 링크 16px, 둘 다 0.4s ease. */
+    .menu-overlay [data-menu-item],
+    .menu-overlay [data-menu-tail],
+    .menu-overlay [data-menu-close] {
+        opacity: 0;
+        transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .menu-overlay [data-menu-item] { transform: translateY(24px); }
+    .menu-overlay [data-menu-tail] { transform: translateY(16px); }
+
+    .menu-overlay.is-open [data-menu-item],
+    .menu-overlay.is-open [data-menu-tail],
+    .menu-overlay.is-open [data-menu-close] {
+        opacity: 1;
+        transform: none;
+    }
+
+    /* 열릴 때만 스태거를 준다. 닫을 때는 지연 없이 함께 사라져야 답답하지 않다. */
+    .menu-overlay.is-open [data-menu-item]:nth-child(1) { transition-delay: 100ms; }
+    .menu-overlay.is-open [data-menu-item]:nth-child(2) { transition-delay: 170ms; }
+    .menu-overlay.is-open [data-menu-item]:nth-child(3) { transition-delay: 240ms; }
+    .menu-overlay.is-open [data-menu-close] { transition-delay: 300ms; }
+    .menu-overlay.is-open [data-menu-tail]  { transition-delay: 320ms; }
+
+    .menu-overlay:not(.is-open) [data-menu-item],
+    .menu-overlay:not(.is-open) [data-menu-tail],
+    .menu-overlay:not(.is-open) [data-menu-close] {
+        transition-duration: 0.25s;
+        transition-delay: 0s;
+    }
+
     @media (prefers-reduced-motion: reduce) {
-        .menu-overlay { transition-duration: 0.01ms; }
+        .menu-overlay,
+        .menu-overlay [data-menu-item],
+        .menu-overlay [data-menu-tail],
+        .menu-overlay [data-menu-close] {
+            transition-duration: 0.01ms;
+            transition-delay: 0s;
+        }
     }
 }
 

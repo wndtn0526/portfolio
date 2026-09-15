@@ -72,8 +72,14 @@ if (statement) {
 
 /*
  * 메뉴 오버레이 — 더보기 버튼으로 열고 CLOSE·Esc 로 닫는다.
- * 레퍼런스(montone.studio)와 같은 동작: 열리면 본문 스크롤을 잠그고, 닫는 버튼은 오버레이 안에 있다.
  *
+ * 레퍼런스(montone.studio)와 같은 동작:
+ *  · 오버레이가 **더보기 버튼 자리에서** 자라나 화면을 채우고, 닫을 때 그 자리로 되돌아간다.
+ *    버튼의 화면 좌표를 --menu-* 로 넣어 주면 CSS 의 clip-path 가 거기서 출발한다.
+ *  · 열리면 본문 스크롤을 잠근다.
+ *
+ * ⚠️ 스크롤을 잠글 때 스크롤바가 사라지면서 본문이 그 폭만큼 옆으로 밀린다(= 딱 끊기는 느낌).
+ *    사라지는 스크롤바 폭만큼 padding-right 로 메워 밀림을 없앤다.
  * ⚠️ 오버레이는 clip-path 로만 여닫으므로 닫혀 있어도 DOM 에 그대로 있다.
  *    그래서 inert 로 포커스·클릭에서 빼 준다 — 안 하면 Tab 으로 안 보이는 링크에 들어간다.
  */
@@ -82,12 +88,35 @@ const menuOpen = document.querySelector('[data-menu-open]');
 const menuClose = document.querySelector('[data-menu-close]');
 
 if (menu && menuOpen && menuClose) {
+    /* 더보기 버튼의 자리를 오버레이의 출발점으로 넘긴다. */
+    const setOrigin = () => {
+        const r = menuOpen.getBoundingClientRect();
+        menu.style.setProperty('--menu-top', `${r.top}px`);
+        menu.style.setProperty('--menu-right', `${innerWidth - r.right}px`);
+        menu.style.setProperty('--menu-bottom', `${innerHeight - r.bottom}px`);
+        menu.style.setProperty('--menu-left', `${r.left}px`);
+    };
+
     const setOpen = (open) => {
-        menu.classList.toggle('is-open', open);
+        if (open) {
+            // 잠그기 전에 스크롤바 폭을 재서 메운다 — 안 하면 본문이 옆으로 튄다.
+            const gap = innerWidth - document.documentElement.clientWidth;
+            document.body.style.paddingRight = gap > 0 ? `${gap}px` : '';
+            document.body.style.overflow = 'hidden';
+            setOrigin();
+            // 출발 좌표가 반영된 뒤에 펼쳐야 한다. 같은 프레임에 바꾸면 전환이 생략된다.
+            requestAnimationFrame(() => menu.classList.add('is-open'));
+        } else {
+            setOrigin();                       // 그 사이 창 크기가 바뀌었을 수 있다
+            menu.classList.remove('is-open');
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
+        }
+
         menu.inert = !open;
         menuOpen.setAttribute('aria-expanded', String(open));
-        document.body.style.overflow = open ? 'hidden' : '';
-        (open ? menuClose : menuOpen).focus();
+        // preventScroll — 포커스를 옮기다 화면이 튀는 것을 막는다
+        (open ? menuClose : menuOpen).focus({ preventScroll: true });
     };
 
     menuOpen.addEventListener('click', () => setOpen(true));
@@ -95,6 +124,8 @@ if (menu && menuOpen && menuClose) {
     addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && menu.classList.contains('is-open')) setOpen(false);
     });
+    addEventListener('resize', () => { if (!menu.classList.contains('is-open')) setOrigin(); }, { passive: true });
 
     menu.inert = true;   // 첫 상태
+    setOrigin();
 }
