@@ -1,0 +1,9 @@
+{
+  "name": "포트폴리오 · 선언 섹션 넣기",
+  "id": "portfolio-statement-section",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": { "allowedDomains": ["none"] }
+}
