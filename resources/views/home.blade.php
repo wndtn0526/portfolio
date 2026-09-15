@@ -65,7 +65,7 @@
                     <ul class="text-[clamp(3rem,6.67vw,96px)] leading-[1.13] font-light tracking-[-0.03em] text-white">
                         <li data-menu-item><a href="#intro" class="inline-block transition-opacity hover:opacity-70">/소개</a></li>
                         <li data-menu-item><a href="#top" class="inline-block transition-opacity hover:opacity-70">/프로젝트</a></li>
-                        <li data-menu-item><a href="#top" class="inline-block transition-opacity hover:opacity-70">/이력</a></li>
+                        <li data-menu-item><a href="#career" class="inline-block transition-opacity hover:opacity-70">/이력</a></li>
                     </ul>
                 </div>
             </div>
@@ -177,5 +177,140 @@
             </div>
         </section>
 
+
+        {{-- ── 이력 ── Figma 슬라이드 01 (1083:280403). 상단 띠(사진·이름·직함) 아래 3열:
+             프로필·학력·기술 | 경력(워크앤조이) | 이전 경력, 그 밑에 핵심역량.
+             실측: 제목 24 SemiBold #212529 · 항목 12(1920 기준 → 웹은 label-1 14) · 사진 180 · 막대 280×12 트랙 #dee2e6.
+             기술 막대 채움 폭: 피그마 280 · SQL 229 · 지라 249 · 나머지 280 → 100 / 82 / 89 / 100 / 100 / 100 %.
+             글자는 404 스케일(자간 포함). 개인정보는 시안 그대로 싣기로 한 결정(notes/content-plan.md)을 따른다. --}}
+        <section id="career" class="px-6 py-[clamp(4rem,10vh,120px)] lg:px-12">
+            {{-- 상단 띠 --}}
+            <header class="flex flex-col gap-6 border-b border-rule pb-[clamp(2rem,4vw,3rem)] sm:flex-row sm:items-center sm:gap-10">
+                <img src="{{ asset('images/profile.webp') }}" alt="신중수 프로필 사진" width="360" height="360"
+                     class="size-[120px] shrink-0 rounded-[16px] object-cover lg:size-[140px] lg:rounded-[20px]">
+                <div>
+                    <h2 class="text-display-1 font-bold text-ink">신중수</h2>
+                    <p class="mt-1 text-title-3 text-muted">Product Manager · Product Designer</p>
+                </div>
+            </header>
+
+            <div class="grid gap-x-16 gap-y-[clamp(3rem,6vw,4.5rem)] pt-[clamp(2.5rem,5vw,4rem)] lg:grid-cols-[3fr_7fr]">
+                {{-- 왼쪽: 프로필 · 학력 · 기술 --}}
+                <div class="flex flex-col gap-[clamp(2.5rem,5vw,4rem)]">
+                    <div>
+                        <h3 class="text-title-3 font-semibold text-ink">프로필</h3>
+                        <dl class="mt-5 grid grid-cols-[6.5rem_1fr] gap-y-3 text-label-1 text-body">
+                            <dt class="font-semibold">생년월일</dt><dd>1993-05-26</dd>
+                            <dt class="font-semibold">전화번호</dt><dd>+82 010-2262-5913</dd>
+                            <dt class="font-semibold">이메일</dt><dd><a href="mailto:wndtn0526@gmail.com" class="hover:text-ink">wndtn0526@gmail.com</a></dd>
+                            <dt class="font-semibold">주소</dt><dd>경기도 수원시 장안구 화산로 263 신일APT 106-302</dd>
+                        </dl>
+                    </div>
+
+                    <div>
+                        <h3 class="text-title-3 font-semibold text-ink">학력</h3>
+                        <dl class="mt-5 grid grid-cols-[6.5rem_1fr] gap-y-1 text-label-1 text-body">
+                            <dt class="font-semibold">백석예술대학교</dt><dd>시각디자인과 졸업</dd>
+                            <dt></dt><dd>(2012년 02월 ~ 2016년 3월)</dd>
+                        </dl>
+                    </div>
+
+                    <div>
+                        <h3 class="text-title-3 font-semibold text-ink">기술</h3>
+                        <ul class="mt-5 grid grid-cols-[6.5rem_1fr] items-center gap-y-4 text-label-1 font-semibold text-body">
+                            @foreach ([['피그마','w-full'],['SQL','w-[82%]'],['지라','w-[89%]'],['컨플루언스','w-full'],['어도비 포토샵','w-full'],['어도비 일러스트','w-full']] as [$skill, $w])
+                                <li class="contents">
+                                    <span>{{ $skill }}</span>
+                                    <span class="block h-3 max-w-[280px] rounded-full bg-rule" role="img" aria-label="{{ $skill }} 숙련도">
+                                        <span class="skill-fill block h-full rounded-full {{ $w }}"></span>
+                                    </span>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+
+                {{-- 오른쪽: 경력 · 핵심역량 --}}
+                <div class="flex flex-col gap-[clamp(2.5rem,5vw,4rem)]">
+                    <div>
+                        <h3 class="text-title-3 font-semibold text-ink">경력</h3>
+                        <div class="mt-5 grid gap-x-12 gap-y-10 text-label-1 text-body md:grid-cols-2">
+                            {{-- 워크앤조이 --}}
+                            <article>
+                                <p class="flex flex-wrap gap-x-4 gap-y-1"><span class="font-semibold text-ink">워크앤조이</span><span>2021년 10월 ~ 2025년 8월</span></p>
+                                <div class="mt-4 flex flex-col gap-4 text-label-1-reading">
+                                    <div>
+                                        <p class="font-semibold text-ink">서비스 기획 및 UX Design</p>
+                                        <ul class="mt-1 list-disc ps-4">
+                                            <li>사용자 패턴 분석, 도메인 지식 바탕으로 UX Writing 전략 수립 및 적용</li>
+                                            <li>VOC 데이터 및 유저 패턴 기반 경험 중심의 화면 설계 및 UX 개선 기획</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-ink">Visual Design</p>
+                                        <ul class="mt-1 list-disc ps-4">
+                                            <li>온 오프라인 홍보물, 캠페인 콘텐츠 등 Visual Design 제작</li>
+                                            <li>사내 서식류 (서비스 소개서, 회사 소개서, 명함 등 각종 서식류) 디자인 관리</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-ink">IR &amp; 영업 기획 (Groupware pro)</p>
+                                        <ul class="mt-1 list-disc ps-4">
+                                            <li>고객사 대상 데모 시연 및 기능 컨설팅 진행</li>
+                                            <li>인사 재무 담당자 대상 기능 교육 운영</li>
+                                            <li>IR 자료 제작 핵심 기획자로 참여, 서비스 포지셔닝 및 투자 제안서 구성</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </article>
+
+                            {{-- 이전 경력 --}}
+                            <div class="flex flex-col gap-8">
+                                <article>
+                                    <p class="flex flex-wrap gap-x-4 gap-y-1"><span class="font-semibold text-ink">풀다랩</span><span>2021년 04월 ~ 2021년 09월</span></p>
+                                    <div class="mt-3 text-label-1-reading">
+                                        <p class="font-semibold text-ink">아트팀</p>
+                                        <ul class="mt-1 list-disc ps-4"><li>브랜드 비딩 기획 및 디자인 업무</li></ul>
+                                    </div>
+                                </article>
+                                <article>
+                                    <p class="flex flex-wrap gap-x-4 gap-y-1"><span class="font-semibold text-ink">미디어로그</span><span>2019년 12월 ~ 2020년 10월</span></p>
+                                    <div class="mt-3 text-label-1-reading">
+                                        <p class="font-semibold text-ink">LG U+ IP TV 사업본부</p>
+                                        <ul class="mt-1 list-disc ps-4"><li>IP TV 플랫폼 포스터 디자인</li></ul>
+                                    </div>
+                                </article>
+                                <article>
+                                    <p class="flex flex-wrap gap-x-4 gap-y-1"><span class="font-semibold text-ink">이디엠에듀케이션</span><span>2017년 10월 ~ 2019년 04월</span></p>
+                                    <div class="mt-3 flex flex-col gap-3 text-label-1-reading">
+                                        <p class="font-semibold text-ink">IELTS 인강 신사업부 서비스기획팀</p>
+                                        <div>
+                                            <p class="font-semibold text-ink">시스템 기획 및 사업 기획</p>
+                                            <ul class="mt-1 list-disc ps-4">
+                                                <li>edm IELTS 인강 플랫폼 기획</li>
+                                                <li>IELTS 토스 및 한국어 인강 론칭</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-ink">서비스 운영</p>
+                                            <ul class="mt-1 list-disc ps-4"><li>연 매출 3억 규모 인강 사이트 운영 담당</li></ul>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-title-3 font-semibold text-ink">핵심역량</h3>
+                        <p class="mt-5 max-w-readable text-body-1-reading text-body">
+                            B2B SaaS 그룹웨어 시장에 대한 깊이 있는 도메인 지식 (HR/재무/그룹웨어)을 보유하고 있습니다.
+                            사용자 중심의 데이터 분석 및 시스템 아키텍처 기획을 기반으로 복잡한 엔터프라이즈 프로세스를
+                            사용자 친화적 UX로 혁신하는 데 특화되어 있습니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 </x-layouts.app>

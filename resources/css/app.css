@@ -111,6 +111,9 @@
 }
 
 @layer utilities {
+    /* 기술 막대 채움 — 그라디언트는 토큰(--gradient-skill). 폭은 마크업의 w-[N%] 이 정한다. */
+    .skill-fill { background-image: var(--gradient-skill); }
+
     /* 선언 섹션의 줄 — 색의 알파를 JS 가 --line-alpha 로 넣는다.
        ⚠️ JS 가 안 돌아도 읽히도록 기본값을 1 로 둔다(0.18 로 두면 스크립트가 죽었을 때 글이 안 보인다). */
     .statement-line {

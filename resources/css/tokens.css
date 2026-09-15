@@ -35,6 +35,10 @@
     /* 선언 섹션 — montone.studio 실측 rgb(80,79,237). 그라디언트 첫 스톱과 같은 색이다. */
     --color-statement: #504fed;
 
+    /* 이력 섹션 — Figma 슬라이드 01(1083:280403) 실측 */
+    --color-rule: #dee2e6;          /* 상단 띠 구분선(Line 3) · 기술 막대 트랙 */
+    --gradient-skill: linear-gradient(90deg, #34c75d 0%, #25c7a6 100%);   /* 기술 막대 채움 — 렌더 픽셀에서 양끝 샘플 */
+
     /* 피처 번호용 그라디언트 — montone.studio 실측(120deg 8스톱) */
     --gradient-numeral: linear-gradient(
         120deg,
