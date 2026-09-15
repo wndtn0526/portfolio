@@ -131,18 +131,18 @@
              제목은 레퍼런스의 섹션 제목 문법(큰 글자 · 웨이트 400 · 슬래시만 700)을 따른다.
              ⚠️ 원문 오탈자 `브래느` → `브랜드` 로 고쳐 옮겼다. --}}
         <section id="intro" class="scroll-mt-[73px] px-6 py-[clamp(5rem,12vw,10rem)] lg:px-12">
-            <h2 class="text-display-1 text-ink">
+            <h2 class="text-display-1 break-keep text-ink">
                 <span class="font-bold">/</span>안녕하세요. 서비스기획자 신중수 입니다.
             </h2>
 
-            <p class="mt-[clamp(2rem,4vw,3.5rem)] max-w-readable text-title-3 text-ink">
+            <p class="mt-[clamp(2rem,4vw,3.5rem)] max-w-readable text-title-3 break-keep text-ink">
                 저의 가장 큰 무기이자 차별점은 서로 다른 두 영역에서의 깊은 통찰을 결합했다는 점입니다.
             </p>
 
             <dl class="mt-[clamp(3rem,6vw,5rem)] grid max-w-readable gap-[clamp(2.5rem,5vw,4rem)] border-t border-line pt-[clamp(2.5rem,5vw,4rem)] md:grid-cols-2">
                 <div>
                     <dt>
-                        <span class="block text-heading-1 font-bold text-ink">구조와 논리의 깊이</span>
+                        <span class="block text-heading-1 font-bold break-keep text-ink">구조와 논리의 깊이</span>
                         <span class="mt-1 block text-label-1 text-muted">B2B Domain Logic</span>
                     </dt>
                     <dd class="mt-4 text-body-1-reading text-body">
@@ -155,7 +155,7 @@
 
                 <div>
                     <dt>
-                        <span class="block text-heading-1 font-bold text-ink">브랜드와 소통의 폭</span>
+                        <span class="block text-heading-1 font-bold break-keep text-ink">브랜드와 소통의 폭</span>
                         <span class="mt-1 block text-label-1 text-muted">B2C Visual Communication</span>
                     </dt>
                     <dd class="mt-4 text-body-1-reading text-body">
