@@ -185,12 +185,29 @@ if (menu && menuBg && menuInner && menuOpen && menuClose) {
                 if (menu.classList.contains('is-open')) return;   // 그 사이 다시 열렸으면 두지 않는다
                 document.body.style.overflow = '';
                 menu.inert = true;
+                goPending();                                        // 메뉴에서 고른 곳으로
             });
         }
     };
 
     menuOpen.addEventListener('click', () => setOpen(true));
     menuClose.addEventListener('click', () => setOpen(false));
+
+    /* 메뉴 안의 앵커 — 열린 채로 뒤에서 스크롤되면 오버레이만 보인다. 먼저 닫고, 다 닫힌 뒤에 내려간다. */
+    let pendingTarget = null;
+    menu.querySelectorAll('a[href^="#"]').forEach((a) => {
+        a.addEventListener('click', (e) => {
+            e.preventDefault();
+            pendingTarget = a.getAttribute('href');
+            setOpen(false);
+        });
+    });
+    const goPending = () => {
+        if (!pendingTarget) return;
+        const target = pendingTarget === '#top' ? document.body : document.querySelector(pendingTarget);
+        pendingTarget = null;
+        target?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+    };
     addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && menu.classList.contains('is-open')) setOpen(false);
     });

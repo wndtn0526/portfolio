@@ -8,9 +8,9 @@
  *    그쪽 프라이머리는 Black #111111 · Warm gray 계열이고, 이 덱은 #212529 · #495057 을 쓴다.
  *    같은 Figma 파일이지만 페이지가 다르다 — 섞지 않는다.
  *
- * ⚠️ 타이포는 토큰으로 두지 않는다. `--text-body` 를 만들면 `--color-body` 와
- *    같은 `text-body` 유틸리티 이름을 다투기 때문이다(글자 크기 vs 글자 색).
- *    슬라이드 실측값은 아래 주석으로 남기고, 화면에서는 clamp 로 흐르게 쓴다.
+ * ⚠️ 히어로·선언 섹션의 타이포는 토큰으로 두지 않는다(슬라이드·레퍼런스 실측값을 clamp 로 흐르게 쓴다).
+ *    본문 성격의 섹션(소개 등)은 아래 404 타이포 스케일을 쓴다.
+ *    `--text-body` 같은 이름은 만들지 않는다 — `--color-body` 와 `text-body` 유틸리티를 다툰다.
  *
  *      제목  98px / 행간 98 / Pretendard Black
  *      리드  48px / 행간 62 / Regular + Bold 두 줄
@@ -41,6 +41,69 @@
         #504fed 0%, #6e5cf5 15%, #843dff 30%, #a87aff 45%,
         #c4a8ff 55%, #843dff 70%, #6e5cf5 85%, #504fed 100%
     );
+
+    /* ── 타이포 스케일 ── 404 저장소(resources/css/tokens.css)의 값을 그대로 가져왔다.
+       그쪽 출처: Figma 디자인 가이드의 Pretendard 18단을 16단 이름에 배정한 것.
+       크기마다 행간·자간이 짝지어 있어 text-{이름} 하나로 셋이 같이 걸린다.
+       ⚠️ `--text-body` 처럼 색 토큰(--color-body)과 같은 이름은 만들지 않는다 — text-body 유틸리티가 겹친다.
+          여기 이름은 전부 -1/-2 접미가 붙어 겹치지 않는다. */
+    --text-display-1: 48px;
+    --text-display-1--line-height: 1.292;
+    --text-display-1--letter-spacing: -0.0208em;
+    --text-display-2: 40px;
+    --text-display-2--line-height: 1.3;
+    --text-display-2--letter-spacing: -0.025em;
+    --text-display-3: 36px;
+    --text-display-3--line-height: 1.5;
+    --text-display-3--letter-spacing: -0.0278em;
+    --text-title-1: 32px;
+    --text-title-1--line-height: 1.5;
+    --text-title-1--letter-spacing: -0.0313em;
+    --text-title-2: 30px;
+    --text-title-2--line-height: 1.3;
+    --text-title-2--letter-spacing: -0.0333em;
+    --text-title-3: 24px;
+    --text-title-3--line-height: 1.292;
+    --text-title-3--letter-spacing: -0.0417em;
+    --text-heading-1: 22px;
+    --text-heading-1--line-height: 1.318;
+    --text-heading-1--letter-spacing: -0.0455em;
+    --text-heading-2: 20px;
+    --text-heading-2--line-height: 1.5;
+    --text-heading-2--letter-spacing: -0.05em;
+    --text-headline-1: 19px;
+    --text-headline-1--line-height: 1.526;
+    --text-headline-1--letter-spacing: -0.0316em;
+    --text-headline-2: 18px;
+    --text-headline-2--line-height: 1.5;
+    --text-headline-2--letter-spacing: -0.0333em;
+    --text-body-1: 16px;
+    --text-body-1--line-height: 1.5;
+    --text-body-1--letter-spacing: -0.0375em;
+    --text-body-1-reading: 16px;
+    --text-body-1-reading--line-height: 1.625;   /* [파생] 장문용 — 404 에서도 파생 */
+    --text-body-1-reading--letter-spacing: -0.0375em;
+    --text-body-2: 15px;
+    --text-body-2--line-height: 1.533;
+    --text-body-2--letter-spacing: -0.04em;
+    --text-body-2-reading: 15px;
+    --text-body-2-reading--line-height: 1.667;   /* [파생] */
+    --text-body-2-reading--letter-spacing: -0.04em;
+    --text-label-1: 14px;
+    --text-label-1--line-height: 1.429;
+    --text-label-1--letter-spacing: -0.0143em;
+    --text-label-1-reading: 14px;
+    --text-label-1-reading--line-height: 1.571;  /* [파생] */
+    --text-label-1-reading--letter-spacing: -0.0143em;
+    --text-label-2: 13px;
+    --text-label-2--line-height: 1.538;
+    --text-label-2--letter-spacing: -0.0154em;
+    --text-caption-1: 12px;
+    --text-caption-1--line-height: 1.5;
+    --text-caption-1--letter-spacing: -0.0167em;
+    --text-caption-2: 11px;
+    --text-caption-2--line-height: 1.545;
+    --text-caption-2--letter-spacing: 0em;
 
     /* ── 치수 ── */
     --container-readable: 940px;    /* 본문 블록 폭 (실측) */
