@@ -28,7 +28,7 @@
 
             {{-- 더보기 — 레퍼런스 실측: 박스 32x24, 선 24x2 가 위에서 4·11·18 위치. --}}
             <button type="button" data-menu-open aria-expanded="false" aria-controls="site-menu"
-                    class="relative h-6 w-8 cursor-pointer" aria-label="메뉴 열기">
+                    class="relative h-6 w-8 cursor-pointer outline-offset-4 focus-visible:outline-2 focus-visible:outline-ink" aria-label="메뉴 열기">
                 <span aria-hidden="true" class="absolute left-1 top-1 h-0.5 w-6 bg-ink"></span>
                 <span aria-hidden="true" class="absolute left-1 top-[11px] h-0.5 w-6 bg-ink"></span>
                 <span aria-hidden="true" class="absolute left-1 top-[18px] h-0.5 w-6 bg-ink"></span>

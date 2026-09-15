@@ -88,17 +88,18 @@ const menuOpen = document.querySelector('[data-menu-open]');
 const menuClose = document.querySelector('[data-menu-close]');
 
 if (menu && menuOpen && menuClose) {
-    /* 더보기 버튼의 자리를 오버레이의 출발점으로 넘긴다. */
+    /* 더보기 버튼의 한가운데를 오버레이가 자라나는 출발점으로 넘긴다. */
     const setOrigin = () => {
         const r = menuOpen.getBoundingClientRect();
-        menu.style.setProperty('--menu-top', `${r.top}px`);
-        menu.style.setProperty('--menu-right', `${innerWidth - r.right}px`);
-        menu.style.setProperty('--menu-bottom', `${innerHeight - r.bottom}px`);
-        menu.style.setProperty('--menu-left', `${r.left}px`);
+        menu.style.setProperty('--menu-cx', `${r.left + r.width / 2}px`);
+        menu.style.setProperty('--menu-cy', `${r.top + r.height / 2}px`);
     };
 
     const setOpen = (open) => {
         if (open) {
+            // ⚠️ 내비가 스크롤로 숨어 있으면 버튼이 화면 밖이라 엉뚱한 자리에서 자라난다.
+            //    먼저 내비를 되돌려 놓고 좌표를 잰다.
+            nav?.classList.remove('-translate-y-full');
             // 잠그기 전에 스크롤바 폭을 재서 메운다 — 안 하면 본문이 옆으로 튄다.
             const gap = innerWidth - document.documentElement.clientWidth;
             document.body.style.paddingRight = gap > 0 ? `${gap}px` : '';
