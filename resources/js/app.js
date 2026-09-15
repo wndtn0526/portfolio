@@ -41,14 +41,18 @@ const statement = document.querySelector('[data-statement]');
 
 if (statement) {
     const lines = [...statement.querySelectorAll('[data-statement-line]')];
+    const aside = statement.querySelector('[data-statement-aside]');
     const DIM = 0.18;          // 아직 안 드러난 줄
     const STEP = 0.1375;       // 줄 사이 간격 = 각 줄이 차는 데 걸리는 진행도
+    const ASIDE_FROM = 0.60;   // 오른쪽 소개가 떠오르기 시작하는 진행도(마지막 줄이 차오르는 중)
+    const ASIDE_TO = 0.80;     // 다 떠오르는 진행도 — 나머지는 유지 구간
+    const pinnedLayout = matchMedia('(min-width: 64rem)');   // Tailwind lg — 이 아래는 고정 스크롤을 풀었다
     let ticking = false;
 
     const paint = () => {
         const rect = statement.getBoundingClientRect();
-        const pinned = statement.offsetHeight - innerHeight;
-        // 섹션이 화면 위로 올라간 만큼이 진행도
+        const pinned = pinnedLayout.matches ? statement.offsetHeight - innerHeight : 0;
+        // 섹션이 화면 위로 올라간 만큼이 진행도. 고정을 푼 폭에서는 전부 밝힌다.
         const p = pinned > 0 ? Math.min(1, Math.max(0, -rect.top / pinned)) : 1;
 
         lines.forEach((line, i) => {
@@ -56,6 +60,10 @@ if (statement) {
             const eased = 1 - (1 - t) * (1 - t);           // ease-out
             line.style.setProperty('--line-alpha', (DIM + (1 - DIM) * eased).toFixed(3));
         });
+        if (aside) {
+            const t = Math.min(1, Math.max(0, (p - ASIDE_FROM) / (ASIDE_TO - ASIDE_FROM)));
+            aside.style.setProperty('--intro-alpha', (t * (2 - t)).toFixed(3));   // ease-out
+        }
         ticking = false;
     };
 
@@ -67,6 +75,7 @@ if (statement) {
 
     addEventListener('scroll', onScroll, { passive: true });
     addEventListener('resize', onScroll, { passive: true });
+    pinnedLayout.addEventListener('change', onScroll);
     paint();
 }
 

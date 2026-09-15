@@ -112,68 +112,59 @@
 
              ⚠️ 문구는 레퍼런스 원문이 아니라 Figma 슬라이드 02 의 우리 글을 다섯 줄로 나눈 것이다.
                 레퍼런스 카피를 그대로 쓰면 남의 브랜드 문장을 베끼는 것이 된다. --}}
-        <section data-statement class="relative h-[400vh] bg-statement">
-            <div class="sticky top-0 flex h-dvh items-center px-6 py-[clamp(3rem,8vw,120px)] ps-[calc(1.5rem+3rem)] lg:px-12 lg:ps-24">
-                {{-- ⚠️ 한 span 이 한 줄이어야 알파가 줄 단위로 찬다. 806px 안에서 안 접히게 짧게 끊었다.
-                     46px 기준 한 줄에 한글 17자쯤 들어간다. 문구를 고칠 때 길이를 확인할 것. --}}
-                <p class="max-w-statement text-[clamp(1.75rem,3.2vw,46.08px)] leading-[1.08] tracking-[-0.025em]">
-                    <span data-statement-line class="statement-line block font-bold">맡은 일의 본질적인 가치를</span>
-                    <span data-statement-line class="statement-line block font-bold">발견하는 일을 합니다.</span>
-                    <span data-statement-line class="statement-line block"><span class="font-bold">/</span>그 가치가 사용자에게</span>
-                    <span data-statement-line class="statement-line block">가장 매력적으로 닿도록</span>
-                    <span data-statement-line class="statement-line block">경험을 설계합니다.</span>
-                </p>
+        <section data-statement id="intro" class="relative bg-statement lg:h-[400vh]">
+            {{-- 1024 미만: 고정 스크롤을 풀고 선언 아래에 소개가 이어진다(app.js 도 이 폭에서는 전부 밝힌다).
+                 1024 이상: 뷰포트 4배 높이에 안쪽을 sticky 로 붙여 스크롤로 줄이 차오른다. --}}
+            <div class="px-6 py-[clamp(3rem,8vw,120px)] ps-[calc(1.5rem+3rem)] lg:sticky lg:top-0 lg:flex lg:h-dvh lg:items-center lg:px-12 lg:ps-24">
+                <div class="flex flex-col gap-14 lg:w-full lg:flex-row lg:items-start lg:justify-between lg:gap-12">
+                    {{-- ⚠️ 한 span 이 한 줄이어야 알파가 줄 단위로 찬다. 806px 안에서 안 접히게 짧게 끊었다.
+                         46px 기준 한 줄에 한글 17자쯤 들어간다. 문구를 고칠 때 길이를 확인할 것. --}}
+                    <p class="max-w-statement shrink-0 text-[clamp(1.75rem,3.2vw,46.08px)] leading-[1.08] tracking-[-0.025em]">
+                        <span data-statement-line class="statement-line block font-bold">맡은 일의 본질적인 가치를</span>
+                        <span data-statement-line class="statement-line block font-bold">발견하는 일을 합니다.</span>
+                        <span data-statement-line class="statement-line block"><span class="font-bold">/</span>그 가치가 사용자에게</span>
+                        <span data-statement-line class="statement-line block">가장 매력적으로 닿도록</span>
+                        <span data-statement-line class="statement-line block">경험을 설계합니다.</span>
+                    </p>
+
+                    {{-- 오른쪽 소개 — 선언 다섯 줄이 다 밝아진 뒤 떠오른다(app.js 가 --intro-alpha 를 넣는다).
+                         글은 Figma 슬라이드 02 의 자기소개. 타이포는 404 스케일(자간 포함).
+                         ⚠️ 원문 오탈자 `브래느` → `브랜드` 로 고쳐 옮겼다. --}}
+                    <aside data-statement-aside class="statement-aside w-full text-white lg:w-[clamp(320px,30vw,440px)] lg:shrink-0">
+                        <p class="text-headline-1 font-bold break-keep">안녕하세요. 서비스기획자 신중수 입니다.</p>
+                        <p class="mt-3 text-body-2-reading break-keep text-white/85">
+                            저의 가장 큰 무기이자 차별점은 서로 다른 두 영역에서의 깊은 통찰을 결합했다는 점입니다.
+                        </p>
+
+                        <h3 class="mt-8 text-headline-2 font-bold break-keep">구조와 논리의 깊이</h3>
+                        <p class="text-label-2 text-white/60">B2B Domain Logic</p>
+                        <p class="mt-2 text-body-2-reading text-white/85">
+                            그룹웨어 시장에서의 깊은 도메인 경험을 통해 어떤 기술도 도메인보다 앞설 수 없다는 신념을 가지고,
+                            실제 현업의 복잡한 업무 흐름 (HR/재무) 을 깊이 이해하고 구조화할 수 있게 성장했습니다.
+                            명확한 목표와 올바른 방향 설정이 정답에 가까운 결과를 만든다는 믿음으로,
+                            엔터프라이즈의 비효율을 해소하는 논리적인 UX 설계에 집중합니다.
+                        </p>
+
+                        <h3 class="mt-8 text-headline-2 font-bold break-keep">브랜드와 소통의 폭</h3>
+                        <p class="text-label-2 text-white/60">B2C Visual Communication</p>
+                        <p class="mt-2 text-body-2-reading text-white/85">
+                            이전 광고대행사 경험에서 얻은 브랜드 스토리텔링 및 비주얼 커뮤니케이션 능력은
+                            제품의 매력도를 극대화하는 중요한 도구입니다. 딱딱하게 느껴지기 쉬운 B2B 솔루션에
+                            사용자에게 공감을 주는 UX Writing 과 일관된 브랜드 경험을 입혀,
+                            사용자가 사랑하고 습관적으로 이용하는 제품으로 전환시킵니다.
+                        </p>
+
+                        <p class="mt-8 text-body-2-reading text-white/85">
+                            이러한 사고와 통찰은 단순히 일을 하는 사람이 아니라, 사용자 효율성과 브랜드 매력을 동시에 높여
+                            제품의 가치를 확장시키는 사람으로 성장하게 하는 원동력입니다.
+                            저는 주어진 일의 가치를 넘어서는 새로운 가치를 만들어내는 엑스트라 마일을 실현하며,
+                            함께 일하며 더 높은 곳을 바라보는 좋은 동료, 신뢰받는 협업자가 되고 싶습니다.
+                            <span class="text-white/60">멋진 관계를 기대합니다. 감사합니다.</span>
+                        </p>
+                    </aside>
+                </div>
             </div>
         </section>
 
-        {{-- ── 소개 ── 선언(요지) 다음에 오는 풀이. 글은 Figma 슬라이드 02 의 자기소개를 네 덩어리로 세운 것이다.
-             타이포는 404 디자인 시스템 스케일(tokens.css)을 쓴다 — 크기마다 자간이 짝지어 있다.
-             제목은 레퍼런스의 섹션 제목 문법(큰 글자 · 웨이트 400 · 슬래시만 700)을 따른다.
-             ⚠️ 원문 오탈자 `브래느` → `브랜드` 로 고쳐 옮겼다. --}}
-        <section id="intro" class="scroll-mt-[73px] px-6 py-[clamp(5rem,12vw,10rem)] lg:px-12">
-            <h2 class="text-display-1 break-keep text-ink">
-                <span class="font-bold">/</span>안녕하세요. 서비스기획자 신중수 입니다.
-            </h2>
-
-            <p class="mt-[clamp(2rem,4vw,3.5rem)] max-w-readable text-title-3 break-keep text-ink">
-                저의 가장 큰 무기이자 차별점은 서로 다른 두 영역에서의 깊은 통찰을 결합했다는 점입니다.
-            </p>
-
-            <dl class="mt-[clamp(3rem,6vw,5rem)] grid max-w-readable gap-[clamp(2.5rem,5vw,4rem)] border-t border-line pt-[clamp(2.5rem,5vw,4rem)] md:grid-cols-2">
-                <div>
-                    <dt>
-                        <span class="block text-heading-1 font-bold break-keep text-ink">구조와 논리의 깊이</span>
-                        <span class="mt-1 block text-label-1 text-muted">B2B Domain Logic</span>
-                    </dt>
-                    <dd class="mt-4 text-body-1-reading text-body">
-                        그룹웨어 시장에서의 깊은 도메인 경험을 통해 어떤 기술도 도메인보다 앞설 수 없다는 신념을 가지고,
-                        실제 현업의 복잡한 업무 흐름 (HR/재무) 을 깊이 이해하고 구조화할 수 있게 성장했습니다.
-                        명확한 목표와 올바른 방향 설정이 정답에 가까운 결과를 만든다는 믿음으로,
-                        엔터프라이즈의 비효율을 해소하는 논리적인 UX 설계에 집중합니다.
-                    </dd>
-                </div>
-
-                <div>
-                    <dt>
-                        <span class="block text-heading-1 font-bold break-keep text-ink">브랜드와 소통의 폭</span>
-                        <span class="mt-1 block text-label-1 text-muted">B2C Visual Communication</span>
-                    </dt>
-                    <dd class="mt-4 text-body-1-reading text-body">
-                        이전 광고대행사 경험에서 얻은 브랜드 스토리텔링 및 비주얼 커뮤니케이션 능력은
-                        제품의 매력도를 극대화하는 중요한 도구입니다. 딱딱하게 느껴지기 쉬운 B2B 솔루션에
-                        사용자에게 공감을 주는 UX Writing 과 일관된 브랜드 경험을 입혀,
-                        사용자가 사랑하고 습관적으로 이용하는 제품으로 전환시킵니다.
-                    </dd>
-                </div>
-            </dl>
-
-            <p class="mt-[clamp(3rem,6vw,5rem)] max-w-readable border-t border-line pt-[clamp(2.5rem,5vw,4rem)] text-headline-2 text-ink">
-                이러한 사고와 통찰은 단순히 일을 하는 사람이 아니라, 사용자 효율성과 브랜드 매력을 동시에 높여
-                제품의 가치를 확장시키는 사람으로 성장하게 하는 원동력입니다.
-                저는 주어진 일의 가치를 넘어서는 새로운 가치를 만들어내는 엑스트라 마일을 실현하며,
-                함께 일하며 더 높은 곳을 바라보는 좋은 동료, 신뢰받는 협업자가 되고 싶습니다.
-                <span class="text-muted">멋진 관계를 기대합니다. 감사합니다.</span>
-            </p>
-        </section>
     </main>
 </x-layouts.app>
