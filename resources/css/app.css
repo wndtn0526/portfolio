@@ -62,20 +62,16 @@
         transform: scale(0);
     }
 
-    /* 안쪽 요소들 — 닫힘이 기본이고, 열릴 때 아래에서 떠오른다.
-       실측: 항목 24px / 하단 링크 16px, 둘 다 0.4s ease. */
+    /* 안쪽 요소들 — 닫힘이 기본이고, 열릴 때 아래에서 떠오른다. 실측: 항목 24px, 0.4s ease. */
     .menu-overlay [data-menu-item],
-    .menu-overlay [data-menu-tail],
     .menu-overlay [data-menu-close] {
         opacity: 0;
         transition: opacity 0.4s ease, transform 0.4s ease;
     }
 
     .menu-overlay [data-menu-item] { transform: translateY(24px); }
-    .menu-overlay [data-menu-tail] { transform: translateY(16px); }
 
     .menu-overlay.is-open [data-menu-item],
-    .menu-overlay.is-open [data-menu-tail],
     .menu-overlay.is-open [data-menu-close] {
         opacity: 1;
         transform: none;
@@ -86,10 +82,8 @@
     .menu-overlay.is-open [data-menu-item]:nth-child(2) { transition-delay: 170ms; }
     .menu-overlay.is-open [data-menu-item]:nth-child(3) { transition-delay: 240ms; }
     .menu-overlay.is-open [data-menu-close] { transition-delay: 300ms; }
-    .menu-overlay.is-open [data-menu-tail]  { transition-delay: 320ms; }
 
     .menu-overlay:not(.is-open) [data-menu-item],
-    .menu-overlay:not(.is-open) [data-menu-tail],
     .menu-overlay:not(.is-open) [data-menu-close] {
         transition-duration: 0.4s;
         transition-delay: 0s;
@@ -97,7 +91,6 @@
 
     @media (prefers-reduced-motion: reduce) {
         .menu-overlay [data-menu-item],
-        .menu-overlay [data-menu-tail],
         .menu-overlay [data-menu-close] {
             transition-duration: 0.01ms;
             transition-delay: 0s;

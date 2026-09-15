@@ -61,18 +61,14 @@
                     Close
                 </button>
 
-                <div class="flex h-full flex-col justify-center gap-24 px-6 lg:px-12">
+                {{-- 목록은 레퍼런스 실측 위치(뷰포트 위에서 24%, 900 기준 219px)에 고정한다.
+                     가운데 정렬로 두면 아래 요소가 빠지고 들어올 때마다 목록이 위아래로 흔들린다. --}}
+                <div class="h-full px-6 pt-[24vh] lg:px-12">
                     <ul class="text-[clamp(3rem,6.67vw,96px)] leading-[1.13] font-light tracking-[-0.03em] text-white">
                         <li data-menu-item><a href="#top" class="inline-block transition-opacity hover:opacity-70">/소개</a></li>
-                        <li data-menu-item><a href="#top" class="inline-block transition-opacity hover:opacity-70">/작업</a></li>
+                        <li data-menu-item><a href="#top" class="inline-block transition-opacity hover:opacity-70">/프로젝트</a></li>
                         <li data-menu-item><a href="#top" class="inline-block transition-opacity hover:opacity-70">/이력</a></li>
                     </ul>
-
-                    <a href="mailto:wndtn0526@gmail.com" data-menu-tail
-                       class="group inline-flex w-fit items-center gap-3 text-base font-bold text-white">
-                        <span class="border-b border-white/70 pb-0.5">연락하기</span>
-                        <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">→</span>
-                    </a>
                 </div>
             </div>
         </div>
