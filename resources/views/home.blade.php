@@ -112,11 +112,12 @@
 
              ⚠️ 문구는 레퍼런스 원문이 아니라 Figma 슬라이드 02 의 우리 글을 다섯 줄로 나눈 것이다.
                 레퍼런스 카피를 그대로 쓰면 남의 브랜드 문장을 베끼는 것이 된다. --}}
-        <section data-statement id="intro" class="relative bg-statement lg:h-[400vh]">
-            {{-- 1024 미만: 고정 스크롤을 풀고 선언 아래에 소개가 이어진다(app.js 도 이 폭에서는 전부 밝힌다).
-                 1024 이상: 뷰포트 4배 높이에 안쪽을 sticky 로 붙여 스크롤로 줄이 차오른다. --}}
-            <div class="px-6 py-[clamp(3rem,8vw,120px)] ps-[calc(1.5rem+3rem)] lg:sticky lg:top-0 lg:flex lg:h-dvh lg:items-center lg:px-12 lg:ps-24">
-                <div class="flex flex-col gap-14 lg:w-full lg:flex-row lg:items-start lg:justify-between lg:gap-12">
+        <section data-statement id="intro" class="relative bg-statement pin:h-[400vh]">
+            {{-- pin:(폭 1280·높이 832 이상) — 뷰포트 4배 높이에 안쪽을 sticky 로 붙여 스크롤로 줄이 차오르고
+                 오른쪽 소개가 뒤이어 떠오른다. 그 아래 폭·높이 — 고정을 풀고 선언 아래에 소개가 이어진다
+                 (app.js 도 같은 조건에서 전부 밝힌다). 조건은 app.css 의 @custom-variant pin 참고. --}}
+            <div class="px-6 py-[clamp(3rem,6vh,120px)] ps-[calc(1.5rem+3rem)] lg:px-12 lg:ps-24 pin:sticky pin:top-0 pin:flex pin:h-dvh pin:items-center">
+                <div class="flex flex-col gap-14 pin:w-full pin:flex-row pin:items-start pin:justify-between pin:gap-12">
                     {{-- ⚠️ 한 span 이 한 줄이어야 알파가 줄 단위로 찬다. 806px 안에서 안 접히게 짧게 끊었다.
                          46px 기준 한 줄에 한글 17자쯤 들어간다. 문구를 고칠 때 길이를 확인할 것. --}}
                     <p class="max-w-statement shrink-0 text-[clamp(1.75rem,3.2vw,46.08px)] leading-[1.08] tracking-[-0.025em]">
@@ -130,7 +131,7 @@
                     {{-- 오른쪽 소개 — 선언 다섯 줄이 다 밝아진 뒤 떠오른다(app.js 가 --intro-alpha 를 넣는다).
                          글은 Figma 슬라이드 02 의 자기소개. 타이포는 404 스케일(자간 포함).
                          ⚠️ 원문 오탈자 `브래느` → `브랜드` 로 고쳐 옮겼다. --}}
-                    <aside data-statement-aside class="statement-aside w-full text-white lg:w-[clamp(320px,30vw,440px)] lg:shrink-0">
+                    <aside data-statement-aside class="statement-aside w-full text-white pin:w-[clamp(384px,30vw,440px)] pin:shrink-0">
                         <p class="text-headline-1 font-bold break-keep">안녕하세요. 서비스기획자 신중수 입니다.</p>
                         <p class="mt-3 text-body-2-reading break-keep text-white/85">
                             저의 가장 큰 무기이자 차별점은 서로 다른 두 영역에서의 깊은 통찰을 결합했다는 점입니다.

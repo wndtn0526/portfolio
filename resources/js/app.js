@@ -46,7 +46,7 @@ if (statement) {
     const STEP = 0.1375;       // 줄 사이 간격 = 각 줄이 차는 데 걸리는 진행도
     const ASIDE_FROM = 0.60;   // 오른쪽 소개가 떠오르기 시작하는 진행도(마지막 줄이 차오르는 중)
     const ASIDE_TO = 0.80;     // 다 떠오르는 진행도 — 나머지는 유지 구간
-    const pinnedLayout = matchMedia('(min-width: 64rem)');   // Tailwind lg — 이 아래는 고정 스크롤을 풀었다
+    const pinnedLayout = matchMedia('(min-width: 80rem) and (min-height: 52rem)');   // app.css 의 pin: 과 같은 조건
     let ticking = false;
 
     const paint = () => {

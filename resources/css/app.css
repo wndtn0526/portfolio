@@ -4,6 +4,18 @@
 /* 디자인 토큰 — 색·타이포의 단일 소스. 출처는 tokens.css 머리에 적혀 있다. */
 @import './tokens.css';
 
+/*
+ * pin: — 선언 섹션의 고정 스크롤(sticky)을 거는 조건.
+ * 폭만 보면 안 된다. 1024x768(아이패드 가로)·1366x768 노트북은 lg 이지만 오른쪽 소개 단이
+ * 뷰포트 높이를 넘겨 위아래가 잘린다(실측: 1024x768 에서 -2~770px). 폭 1280·높이 832 이상에서만 건다.
+ * 그 아래는 폰과 같은 방식으로 선언 아래에 소개가 이어지고, 줄은 처음부터 다 밝다(app.js 같은 조건).
+ */
+@custom-variant pin {
+    @media (min-width: 80rem) and (min-height: 52rem) {
+        @slot;
+    }
+}
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
