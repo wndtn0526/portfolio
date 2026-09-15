@@ -114,15 +114,14 @@
                 레퍼런스 카피를 그대로 쓰면 남의 브랜드 문장을 베끼는 것이 된다. --}}
         <section data-statement class="relative h-[400vh] bg-statement">
             <div class="sticky top-0 flex h-dvh items-center px-6 py-[clamp(3rem,8vw,120px)] ps-[calc(1.5rem+3rem)] lg:px-12 lg:ps-24">
-                {{-- 한 span 이 한 줄이어야 알파가 줄 단위로 찬다. 줄 나눔은 그대로 두고 폭 제한을 풀었다 —
-                     레퍼런스의 806px 은 그쪽 문장이 짧아서 나온 값이고, 이 문장들은 그 안에서 두 줄로 접힌다.
-                     지금은 좌우 여백(96/48)까지 쓴다. 1440 에서 한 줄에 드는지 여부는 아래 실측 참고. --}}
-                <p class="text-[clamp(1.75rem,3.2vw,46.08px)] leading-[1.08] tracking-[-0.025em]">
+                {{-- ⚠️ 한 span 이 한 줄이어야 알파가 줄 단위로 찬다. 806px 안에서 안 접히게 짧게 끊었다.
+                     46px 기준 한 줄에 한글 17자쯤 들어간다. 문구를 고칠 때 길이를 확인할 것. --}}
+                <p class="max-w-statement text-[clamp(1.75rem,3.2vw,46.08px)] leading-[1.08] tracking-[-0.025em]">
                     <span data-statement-line class="statement-line block font-bold">맡은 일의 본질적인 가치를</span>
                     <span data-statement-line class="statement-line block font-bold">발견하는 일을 합니다.</span>
-                    <span data-statement-line class="statement-line block"><span class="font-bold">/</span>그 가치가 사용자에게 가장 매력적으로 닿도록 경험을 설계합니다.</span>
-                    <span data-statement-line class="statement-line block">이는 기능적 완벽함을 넘어, 사용자의 마음을 사로잡는</span>
-                    <span data-statement-line class="statement-line block">브랜드 경험 (Brand Experience) 의 영역이기도 합니다.</span>
+                    <span data-statement-line class="statement-line block"><span class="font-bold">/</span>그 가치가 사용자에게</span>
+                    <span data-statement-line class="statement-line block">가장 매력적으로 닿도록</span>
+                    <span data-statement-line class="statement-line block">경험을 설계합니다.</span>
                 </p>
             </div>
         </section>
