@@ -19,6 +19,22 @@
 }
 
 @layer utilities {
+    /* 피처 번호 — 글자를 그라디언트로 칠한다.
+       ⚠️ 색이 배경에서 오므로 글자색은 투명이다. 폴백이 없으면 지원 안 되는 곳에서 글자가 사라진다.
+          @supports 로 막아 두었다 — 못 칠하면 그냥 ink 색 글자로 보인다. */
+    .numeral-gradient {
+        color: var(--color-ink);
+    }
+
+    @supports (background-clip: text) or (-webkit-background-clip: text) {
+        .numeral-gradient {
+            background-image: var(--gradient-numeral);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+    }
+
     /* 스크롤 안내 — 짧은 선이 오른쪽으로 늘었다 줄어든다 (레퍼런스의 Scroll 자리) */
     .animate-scroll-cue {
         animation: scroll-cue 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;

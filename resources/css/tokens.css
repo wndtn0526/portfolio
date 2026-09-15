@@ -18,6 +18,10 @@
  *      좌여백 80px · 본문폭 940px (1920 기준)
  *
  * `[파생]` 은 시안에 대응 값이 없어 계산해 채운 것이다. Figma 에서 온 값이 아니다.
+ *
+ * ⚠️ 번호 그라디언트(`--gradient-numeral`)는 **레퍼런스 사이트(montone.studio)에서 그대로 가져온 값**이다.
+ *    Figma 포트폴리오 시안에는 이 보라 계열이 없다. 시안 쪽은 파스텔 메시(노랑·보라·하늘)라
+ *    결이 다르다 — 디자인을 확정할 때 이 색을 유지할지 시안 팔레트로 바꿀지 정해야 한다.
  */
 
 @theme {
@@ -28,6 +32,14 @@
     --color-muted: #868e96;         /* [파생] ink/body 사이 — 캡션·부가 정보 */
     --color-line: #e3e5e8;          /* [파생] canvas 위 실선 */
 
+    /* 피처 번호용 그라디언트 — montone.studio 실측(120deg 8스톱) */
+    --gradient-numeral: linear-gradient(
+        120deg,
+        #504fed 0%, #6e5cf5 15%, #843dff 30%, #a87aff 45%,
+        #c4a8ff 55%, #843dff 70%, #6e5cf5 85%, #504fed 100%
+    );
+
     /* ── 치수 ── */
     --container-readable: 940px;    /* 본문 블록 폭 (실측) */
+    --container-feature: 733px;     /* 피처 섹션 본문 폭 — montone.studio 실측 */
 }
