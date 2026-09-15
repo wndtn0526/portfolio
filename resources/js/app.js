@@ -32,11 +32,21 @@ if (nav) {
     let last = window.scrollY;
     let ticking = false;
 
+    const MIN_DELTA = 2;     // 이보다 작은 움직임은 방향으로 치지 않는다
     const update = () => {
         const y = window.scrollY;
-        const down = y > last && y > HIDE_AFTER;
-        nav.classList.toggle('-translate-y-full', down);
-        last = y;
+        const delta = y - last;
+        /*
+         * ⚠️ 움직임이 거의 없으면 상태를 그대로 둔다.
+         *    Lenis 가 목표에 다가가며 멈출 때 정수 scrollY 가 한 프레임 같았다가 1px 움직이는데,
+         *    «내려갔나» 만 보고 매 프레임 토글하면 그 순간 내비가 한 번 보였다 사라진다.
+         *    내려가는 중에만 숨기고 올라오는 중에만 보이며, 멈춤은 무시한다.
+         */
+        if (Math.abs(delta) >= MIN_DELTA) {
+            if (delta > 0 && y > HIDE_AFTER) nav.classList.add('-translate-y-full');
+            else if (delta < 0) nav.classList.remove('-translate-y-full');
+            last = y;
+        }
         ticking = false;
     };
 
