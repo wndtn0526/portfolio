@@ -69,4 +69,7 @@ Atlassian MCP 로 읽는다. ⚠️ 검색 결과가 커서 토큰 한도를 넘
   레이아웃도 컴포넌트다 — `components/layouts/app.blade.php` → `<x-layouts.app>`.
 - 새 화면을 만들면 `scripts/export-static.sh` 의 `PAGES` 배열에도 넣는다.
   안 넣으면 Pages 에 올라가지 않는다.
+- ⚠️ **`docs/` 는 export 스크립트가 만든 것만 들어가는 곳이다.** 손으로 쓴 문서는 `notes/` 에 둔다.
+  전에 `docs/` 에 정리 문서를 뒀다가 스크립트의 `rm -rf` 에 통째로 날아갔다.
+  지금은 스크립트가 모르는 파일을 보면 지우지 않고 멈추지만, 애초에 넣지 않는 게 맞다.
 - 커밋 전 `vendor/bin/pint` 로 포맷을 맞춘다.

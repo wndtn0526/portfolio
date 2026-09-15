@@ -36,9 +36,12 @@ php artisan serve    # http://localhost:8000
 화면을 정적 HTML 로 뽑아 `docs/` 에 넣는다. GitHub Pages 소스를 `main` 브랜치 `/docs`
 로 설정하면 서빙된다. 새 화면을 추가하면 스크립트 안 `PAGES` 배열에도 넣어야 한다.
 
+⚠️ **`docs/` 는 생성물 전용이다.** 손으로 쓴 문서는 `notes/` 에 둔다 — 스크립트가
+`docs/` 를 비우고 다시 만들기 때문이다(모르는 파일이 있으면 멈추도록 막아 뒀다).
+
 ## 아직 안 된 것
 
 - **디자인 토큰이 없다.** Figma 포트폴리오 디자인을 읽어 오면 `resources/css/tokens.css`
   를 만들어 `app.css` 에서 `@import` 한다 (404 저장소와 같은 2계층 구조).
 - 첫 화면(`resources/views/home.blade.php`)은 빌드 확인용 껍데기다. 통째로 갈아엎는다.
-- 담을 내용(케이스 스터디)은 아직 정리 중이다.
+- 담을 내용(케이스 스터디)은 `notes/content-plan.md` 에 정리해 뒀다. 사이트 형태는 미정.

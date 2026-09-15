@@ -16,6 +16,7 @@ SRC="http://127.0.0.1:${PORT}"
 
 # 뽑을 페이지 — "라우트:출력파일". 출력은 docs/ 바로 아래 평평하게 둔다.
 # 하위 디렉터리로 내리면 ./build/ 상대경로가 깨진다.
+# 여기 적은 출력파일 이름은 아래 «지워도 되는 것» 목록에도 자동으로 들어간다.
 PAGES=(
     ":index.html"
 )
@@ -48,7 +49,27 @@ if ! curl -sf -o /dev/null "${SRC}/"; then
     exit 1
 fi
 
-rm -rf "$OUT"
+# ⚠️ docs/ 는 **이 스크립트가 만든 것만** 들어가는 곳이다. 손으로 쓴 문서는 notes/ 에 둔다.
+#    전에 여기서 `rm -rf "$OUT"` 을 하는 바람에 docs/ 에 뒀던 정리 문서가 통째로 날아갔다
+#    (스테이징돼 있어서 dangling blob 으로 겨우 건졌다). 그래서 지금은 만든 것만 지우고,
+#    모르는 파일이 있으면 지우지 않고 멈춘다.
+GENERATED=(".nojekyll" "build" "images")
+for page in "${PAGES[@]}"; do GENERATED+=("${page##*:}"); done
+
+if [ -d "$OUT" ]; then
+    while IFS= read -r entry; do
+        [ -z "$entry" ] && continue
+        known=0
+        for g in "${GENERATED[@]}"; do [ "$entry" = "$g" ] && known=1 && break; done
+        if [ "$known" -eq 0 ]; then
+            echo "✗ docs/${entry} 는 이 스크립트가 만든 것이 아니다 — 지우지 않고 멈춘다." >&2
+            echo "  손으로 쓴 문서라면 notes/ 로 옮기고 다시 실행할 것." >&2
+            exit 1
+        fi
+    done < <(ls -A "$OUT")
+
+    for g in "${GENERATED[@]}"; do rm -rf "${OUT:?}/${g}"; done
+fi
 mkdir -p "$OUT"
 
 echo "▸ 에셋 복사"
