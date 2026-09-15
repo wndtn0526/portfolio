@@ -95,23 +95,39 @@ if (menu && menuOpen && menuClose) {
         menu.style.setProperty('--menu-cy', `${r.top + r.height / 2}px`);
     };
 
+    let unlockTimer = null;
+
     const setOpen = (open) => {
         if (open) {
+            clearTimeout(unlockTimer);
             // ⚠️ 내비가 스크롤로 숨어 있으면 버튼이 화면 밖이라 엉뚱한 자리에서 자라난다.
             //    먼저 내비를 되돌려 놓고 좌표를 잰다.
             nav?.classList.remove('-translate-y-full');
-            // 잠그기 전에 스크롤바 폭을 재서 메운다 — 안 하면 본문이 옆으로 튄다.
-            const gap = innerWidth - document.documentElement.clientWidth;
-            document.body.style.paddingRight = gap > 0 ? `${gap}px` : '';
-            document.body.style.overflow = 'hidden';
             setOrigin();
+            document.body.style.overflow = 'hidden';
             // 출발 좌표가 반영된 뒤에 펼쳐야 한다. 같은 프레임에 바꾸면 전환이 생략된다.
             requestAnimationFrame(() => menu.classList.add('is-open'));
         } else {
             setOrigin();                       // 그 사이 창 크기가 바뀌었을 수 있다
             menu.classList.remove('is-open');
-            document.body.style.overflow = '';
-            document.body.style.paddingRight = '';
+            /*
+             * ⚠️ 스크롤 해제를 전환이 끝난 뒤로 미룬다.
+             *    overflow 를 되돌리면 400vh 문서가 다시 스크롤 가능해지며 문서 전체가 다시 배치된다.
+             *    그걸 전환이 «시작되는» 순간에 하면 메인 스레드가 막혀 접히다 말고 멈춘다
+             *    (4K 화면 녹화에서 300ms 정지가 찍혔다). 다 접힌 뒤에 풀면 보이지 않는다.
+             */
+            clearTimeout(unlockTimer);
+            const unlock = () => {
+                if (menu.classList.contains('is-open')) return;   // 그 사이 다시 열렸으면 두지 않는다
+                document.body.style.overflow = '';
+            };
+            menu.addEventListener('transitionend', function once(e) {
+                if (e.target !== menu || e.propertyName !== 'clip-path') return;
+                menu.removeEventListener('transitionend', once);
+                clearTimeout(unlockTimer);
+                unlock();
+            });
+            unlockTimer = setTimeout(unlock, 1000);   // transitionend 가 안 오는 경우 대비
         }
 
         menu.inert = !open;

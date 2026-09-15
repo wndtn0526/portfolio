@@ -18,6 +18,16 @@
     }
 }
 
+@layer base {
+    /*
+     * 스크롤바 자리를 늘 비워 둔다.
+     * ⚠️ 메뉴를 열 때 overflow:hidden 을 걸면 스크롤바가 사라지며 본문이 그 폭만큼 밀린다.
+     *    전에는 padding-right 로 메웠는데, 그러면 여닫을 때마다 body 스타일을 건드려
+     *    문서 전체 리레이아웃이 생긴다. 자리를 처음부터 비워 두면 그럴 일이 없다.
+     */
+    html { scrollbar-gutter: stable; }
+}
+
 @layer components {
     /*
      * 메뉴 오버레이 — 레퍼런스(montone.studio) 실측 그대로.
