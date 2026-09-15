@@ -76,7 +76,7 @@
 
     <main id="top">
 
-        {{-- ── 히어로 ── 배경 메시는 시안의 freeform 2 를 color-burn 25% 로 미리 구워 넣은 것이다.
+        {{-- ── 히어로 ── 배경 메시는 시안의 freeform 2(1083:280398) 를 color-burn 50% 로 미리 구워 넣은 것이다(처음엔 25% 였다).
              구울 때 배경 #f9f9f9 를 깔았으므로 canvas 위에서만 이음매가 안 보인다. --}}
         <section class="relative flex min-h-dvh flex-col justify-center overflow-hidden">
             <img src="{{ asset('images/intro-mesh.webp') }}"
