@@ -42,30 +42,39 @@
         </div>
     </header>
 
-    {{-- 메뉴 오버레이 — 레퍼런스 실측: 배경 #504fed · z 1100 · 좌상단에서 clip-path 로 펼쳐진다.
+    {{-- 메뉴 오버레이 — 레퍼런스 실측: 배경 #504fed · z 1100 · 더보기 버튼 자리에서 펼쳐진다.
          항목 96px/300/자간 -0.03em · 행 간격 108 · 좌측 여백은 내비와 같은 24/48.
+         ⚠️ 레퍼런스는 clip-path 로 여닫지만 우리는 transform(scale) 로 한다. 4K 화면에서 clip-path 는
+            매 프레임 메인 스레드가 전체를 다시 칠해야 해서 접히다 말고 300ms 씩 멈췄다(화면 녹화로 확인).
+            scale 은 합성 스레드에서만 돌아 멈추지 않고, 원점을 버튼에 두면 나오는 사각형은 수학적으로 같다.
          ⚠️ 항목의 목적지는 아직 정해지지 않았다. 기획을 다시 하는 중이라 자리만 잡아 둔 것이다. --}}
-    <div data-menu id="site-menu" class="menu-overlay fixed inset-0 z-[1100] bg-statement">
-        <button type="button" data-menu-close
-                class="absolute end-6 top-7 inline-flex cursor-pointer items-center gap-3 text-[13px] font-medium tracking-[0.1em] text-white uppercase lg:end-12">
-            <svg aria-hidden="true" viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6">
-                <path d="M4 4l12 12M16 4L4 16" stroke-linecap="round" />
-            </svg>
-            Close
-        </button>
+    <div data-menu id="site-menu" class="menu-overlay fixed inset-0 z-[1100]">
+        {{-- 파란 면. 더보기 버튼을 원점으로 scale(0)→scale(1). transform 이라 합성 스레드에서만 돈다. --}}
+        <div data-menu-bg class="menu-bg absolute inset-0 overflow-hidden bg-statement">
+            {{-- 내용. 부모의 scale 을 1/s 로 되감아 원래 크기로 보이게 한다. 부모의 overflow:hidden 이 잘라 준다. --}}
+            <div data-menu-inner class="menu-inner absolute inset-0">
+                <button type="button" data-menu-close
+                        class="absolute end-6 top-7 inline-flex cursor-pointer items-center gap-3 text-[13px] font-medium tracking-[0.1em] text-white uppercase lg:end-12">
+                    <svg aria-hidden="true" viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <path d="M4 4l12 12M16 4L4 16" stroke-linecap="round" />
+                    </svg>
+                    Close
+                </button>
 
-        <div class="flex h-full flex-col justify-center gap-24 px-6 lg:px-12">
-            <ul class="text-[clamp(3rem,6.67vw,96px)] leading-[1.13] font-light tracking-[-0.03em] text-white">
-                <li data-menu-item><a href="#top" class="inline-block transition-opacity hover:opacity-70">/소개</a></li>
-                <li data-menu-item><a href="#top" class="inline-block transition-opacity hover:opacity-70">/작업</a></li>
-                <li data-menu-item><a href="#top" class="inline-block transition-opacity hover:opacity-70">/이력</a></li>
-            </ul>
+                <div class="flex h-full flex-col justify-center gap-24 px-6 lg:px-12">
+                    <ul class="text-[clamp(3rem,6.67vw,96px)] leading-[1.13] font-light tracking-[-0.03em] text-white">
+                        <li data-menu-item><a href="#top" class="inline-block transition-opacity hover:opacity-70">/소개</a></li>
+                        <li data-menu-item><a href="#top" class="inline-block transition-opacity hover:opacity-70">/작업</a></li>
+                        <li data-menu-item><a href="#top" class="inline-block transition-opacity hover:opacity-70">/이력</a></li>
+                    </ul>
 
-            <a href="mailto:wndtn0526@gmail.com" data-menu-tail
-               class="group inline-flex w-fit items-center gap-3 text-base font-bold text-white">
-                <span class="border-b border-white/70 pb-0.5">연락하기</span>
-                <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">→</span>
-            </a>
+                    <a href="mailto:wndtn0526@gmail.com" data-menu-tail
+                       class="group inline-flex w-fit items-center gap-3 text-base font-bold text-white">
+                        <span class="border-b border-white/70 pb-0.5">연락하기</span>
+                        <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">→</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -74,18 +83,10 @@
         {{-- ── 히어로 ── 배경 메시는 시안의 freeform 2 를 color-burn 25% 로 미리 구워 넣은 것이다.
              구울 때 배경 #f9f9f9 를 깔았으므로 canvas 위에서만 이음매가 안 보인다. --}}
         <section class="relative flex min-h-dvh flex-col justify-center overflow-hidden">
-            {{-- ⚠️ 진단용 분기. 메뉴를 접을 때 300ms 멈추는 원인이 이 메시 이미지의 재래스터화인지
-                 가리려고 /mesh-off 판을 따로 뽑는다. 원인이 확정되면 한쪽을 지운다. --}}
-            @if ($mesh ?? true)
-                <img src="{{ asset('images/intro-mesh.webp') }}"
-                     srcset="{{ asset('images/intro-mesh-1280.webp') }} 1280w, {{ asset('images/intro-mesh.webp') }} 1920w"
-                     sizes="100vw" alt="" aria-hidden="true" fetchpriority="high" width="1920" height="1084"
-                     class="pointer-events-none absolute inset-0 -z-10 h-full w-full [transform:translateZ(0)] object-cover object-top">
-            @else
-                {{-- 같은 결의 파스텔 메시를 CSS 그라디언트로. 래스터화가 훨씬 싸다. --}}
-                <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-canvas
-                            [background-image:radial-gradient(60%_50%_at_28%_8%,#fbf7c8_0%,transparent_60%),radial-gradient(45%_40%_at_55%_2%,#cdc4f5_0%,transparent_65%),radial-gradient(60%_55%_at_78%_10%,#c8ebf5_0%,transparent_65%)]"></div>
-            @endif
+            <img src="{{ asset('images/intro-mesh.webp') }}"
+                 srcset="{{ asset('images/intro-mesh-1280.webp') }} 1280w, {{ asset('images/intro-mesh.webp') }} 1920w"
+                 sizes="100vw" alt="" aria-hidden="true" fetchpriority="high" width="1920" height="1084"
+                 class="pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover object-top">
 
             <div class="px-6 lg:px-12">
                 <h1 class="font-bold tracking-[-0.02em] text-ink text-[clamp(2.5rem,7.6vw,98px)] leading-[1.04]">

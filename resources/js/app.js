@@ -73,67 +73,120 @@ if (statement) {
 /*
  * 메뉴 오버레이 — 더보기 버튼으로 열고 CLOSE·Esc 로 닫는다.
  *
- * 레퍼런스(montone.studio)와 같은 동작:
- *  · 오버레이가 **더보기 버튼 자리에서** 자라나 화면을 채우고, 닫을 때 그 자리로 되돌아간다.
- *    버튼의 화면 좌표를 --menu-* 로 넣어 주면 CSS 의 clip-path 가 거기서 출발한다.
- *  · 열리면 본문 스크롤을 잠근다.
+ * 레퍼런스(montone.studio)와 같은 동작: 오버레이가 **더보기 버튼 자리에서** 자라나 화면을 채우고,
+ * 닫을 때 그 자리로 되돌아간다. 열리면 본문 스크롤을 잠근다.
  *
- * ⚠️ 스크롤을 잠글 때 스크롤바가 사라지면서 본문이 그 폭만큼 옆으로 밀린다(= 딱 끊기는 느낌).
- *    사라지는 스크롤바 폭만큼 padding-right 로 메워 밀림을 없앤다.
- * ⚠️ 오버레이는 clip-path 로만 여닫으므로 닫혀 있어도 DOM 에 그대로 있다.
- *    그래서 inert 로 포커스·클릭에서 빼 준다 — 안 하면 Tab 으로 안 보이는 링크에 들어간다.
+ * ⚠️ 여닫는 움직임은 CSS transition 이 아니라 Web Animations 로 돌린다.
+ *    파란 면(.menu-bg)은 scale(s), 안의 내용(.menu-inner)은 scale(1/s) 로 되감아야 하는데
+ *    1/s 는 CSS 전환으로 표현할 수 없다. 그래서 같은 이징을 40칸으로 미리 계산해 두 요소에
+ *    키프레임으로 넣는다. 둘 다 transform 이라 합성 스레드에서만 돈다.
+ *    (전에 clip-path 로 했더니 4K 화면에서 접히다 말고 300ms 씩 멈췄다 — app.css 참고)
+ * ⚠️ 오버레이는 닫혀 있어도 DOM 에 그대로 있다. inert 로 포커스·클릭에서 빼 준다.
  */
 const menu = document.querySelector('[data-menu]');
+const menuBg = document.querySelector('[data-menu-bg]');
+const menuInner = document.querySelector('[data-menu-inner]');
 const menuOpen = document.querySelector('[data-menu-open]');
 const menuClose = document.querySelector('[data-menu-close]');
 
-if (menu && menuOpen && menuClose) {
-    /* 더보기 버튼의 한가운데를 오버레이가 자라나는 출발점으로 넘긴다. */
+if (menu && menuBg && menuInner && menuOpen && menuClose) {
+    const OPEN_MS = 634;    // 레퍼런스 실측(3회 평균)
+    const CLOSE_MS = 806;
+    const MIN_INNER = 0.1;  // s 가 이보다 작을 땐 되감기를 멈춘다 — 그 구간은 어차피 잘려서 안 보인다
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /*
+     * 이징. 열기는 레퍼런스가 선언한 cubic-bezier(0.76, 0, 0.24, 1) 그대로다.
+     * 닫기는 p1x 만 0.86 으로 올렸다 — 순수 베지어로 닫으면 중간(400ms)에 26% 만 남아 뚝 줄어드는 느낌인데,
+     * 레퍼런스가 실제로 그려 내는 닫힘은 그 지점에 62% 가 남고(두 단계로 이어지는 구현 특성),
+     * 전에 clip-path 로 만들어 «속도 괜찮다» 확인받은 판도 42% 였다. 0.86 이 그 42% 를 다시 만든다.
+     */
+    const bezier = (x, p1x = 0.76) => {
+        const cx = 3 * p1x, bx = 3 * (0.24 - p1x) - cx, ax = 1 - cx - bx;
+        const cy = 3 * 0, by = 3 * (1 - 0) - cy, ay = 1 - cy - by;
+        let t = x;
+        for (let i = 0; i < 8; i++) {                       // 뉴턴법으로 x(t)=x 인 t 를 찾는다
+            const xt = ((ax * t + bx) * t + cx) * t - x;
+            const dx = (3 * ax * t + 2 * bx) * t + cx;
+            if (Math.abs(xt) < 1e-5 || dx === 0) break;
+            t -= xt / dx;
+        }
+        return ((ay * t + by) * t + cy) * t;
+    };
+
+    /* 지금 파란 면이 어느 크기인지 — 도중에 다시 눌러도 그 자리에서 이어 가려고 읽는다. */
+    const currentScale = () => {
+        const m = getComputedStyle(menuBg).transform;
+        const a = m.startsWith('matrix(') ? parseFloat(m.slice(7)) : (m === 'none' ? 1 : 0);
+        return Number.isFinite(a) ? a : 0;
+    };
+
+    let running = [];
+    const animateTo = (target, onDone) => {
+        running.forEach((a) => a.cancel());
+        const from = currentScale();
+        const dist = Math.abs(target - from);
+        if (dist < 0.001 || reduced) {
+            menuBg.style.transform = `scale(${target})`;
+            menuInner.style.transform = `scale(${1 / Math.max(target, MIN_INNER)})`;
+            onDone?.();
+            return;
+        }
+        const opening = target > from;
+        const duration = (opening ? OPEN_MS : CLOSE_MS) * dist;   // 도중에 이어 갈 땐 남은 거리만큼만
+        const p1x = opening ? 0.76 : 0.86;
+        const bg = [], inner = [];
+        for (let i = 0; i <= 40; i++) {
+            const t = i / 40;
+            const s = from + (target - from) * bezier(t, p1x);
+            bg.push({ transform: `scale(${Math.max(s, 0.001)})`, offset: t });
+            inner.push({ transform: `scale(${1 / Math.max(s, MIN_INNER)})`, offset: t });
+        }
+        const opts = { duration, easing: 'linear', fill: 'forwards' };
+        // 움직이는 동안만 레이어를 잡아 둔다 — 늘 잡아 두면 4K 에서 전체화면 레이어 둘이 메모리를 먹는다
+        menuBg.style.willChange = menuInner.style.willChange = 'transform';
+        running = [menuBg.animate(bg, opts), menuInner.animate(inner, opts)];
+        running[0].onfinish = () => {
+            // 끝난 값을 스타일에 박고 애니메이션은 지운다 — fill:forwards 를 쌓아 두지 않는다
+            menuBg.style.transform = `scale(${target})`;
+            menuInner.style.transform = `scale(${1 / Math.max(target, MIN_INNER)})`;
+            running.forEach((a) => a.cancel());
+            running = [];
+            menuBg.style.willChange = menuInner.style.willChange = '';
+            onDone?.();
+        };
+    };
+
+    /* 더보기 버튼의 한가운데를 오버레이가 자라나는 원점으로 넘긴다. */
     const setOrigin = () => {
         const r = menuOpen.getBoundingClientRect();
         menu.style.setProperty('--menu-cx', `${r.left + r.width / 2}px`);
         menu.style.setProperty('--menu-cy', `${r.top + r.height / 2}px`);
     };
 
-    let unlockTimer = null;
-
     const setOpen = (open) => {
+        menuOpen.setAttribute('aria-expanded', String(open));
+
         if (open) {
-            clearTimeout(unlockTimer);
             // ⚠️ 내비가 스크롤로 숨어 있으면 버튼이 화면 밖이라 엉뚱한 자리에서 자라난다.
-            //    먼저 내비를 되돌려 놓고 좌표를 잰다.
             nav?.classList.remove('-translate-y-full');
             setOrigin();
-            document.body.style.overflow = 'hidden';
-            // 출발 좌표가 반영된 뒤에 펼쳐야 한다. 같은 프레임에 바꾸면 전환이 생략된다.
-            requestAnimationFrame(() => menu.classList.add('is-open'));
+            document.body.style.overflow = 'hidden';   // scrollbar-gutter:stable 이라 본문이 밀리지 않는다
+            menu.inert = false;
+            menu.classList.add('is-open');
+            animateTo(1);
+            menuClose.focus({ preventScroll: true });
         } else {
-            setOrigin();                       // 그 사이 창 크기가 바뀌었을 수 있다
+            setOrigin();
             menu.classList.remove('is-open');
-            /*
-             * ⚠️ 스크롤 해제를 전환이 끝난 뒤로 미룬다.
-             *    overflow 를 되돌리면 400vh 문서가 다시 스크롤 가능해지며 문서 전체가 다시 배치된다.
-             *    그걸 전환이 «시작되는» 순간에 하면 메인 스레드가 막혀 접히다 말고 멈춘다
-             *    (4K 화면 녹화에서 300ms 정지가 찍혔다). 다 접힌 뒤에 풀면 보이지 않는다.
-             */
-            clearTimeout(unlockTimer);
-            const unlock = () => {
+            menuOpen.focus({ preventScroll: true });
+            animateTo(0, () => {
+                // 무거운 일(스크롤 복구·inert)은 다 접힌 뒤에 한다 — 움직이는 동안 리레이아웃을 일으키지 않는다
                 if (menu.classList.contains('is-open')) return;   // 그 사이 다시 열렸으면 두지 않는다
                 document.body.style.overflow = '';
-            };
-            menu.addEventListener('transitionend', function once(e) {
-                if (e.target !== menu || e.propertyName !== 'clip-path') return;
-                menu.removeEventListener('transitionend', once);
-                clearTimeout(unlockTimer);
-                unlock();
+                menu.inert = true;
             });
-            unlockTimer = setTimeout(unlock, 1000);   // transitionend 가 안 오는 경우 대비
         }
-
-        menu.inert = !open;
-        menuOpen.setAttribute('aria-expanded', String(open));
-        // preventScroll — 포커스를 옮기다 화면이 튀는 것을 막는다
-        (open ? menuClose : menuOpen).focus({ preventScroll: true });
     };
 
     menuOpen.addEventListener('click', () => setOpen(true));
@@ -145,4 +198,5 @@ if (menu && menuOpen && menuClose) {
 
     menu.inert = true;   // 첫 상태
     setOrigin();
+    menuInner.style.transform = `scale(${1 / MIN_INNER})`;
 }

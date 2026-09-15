@@ -30,41 +30,36 @@
 
 @layer components {
     /*
-     * 메뉴 오버레이 — 레퍼런스(montone.studio) 실측 그대로.
+     * 메뉴 오버레이.
      *
-     * ⚠️ 핵심: 좌상단이 아니라 **더보기 버튼이 있는 자리에서** 자라난다.
-     *    버튼의 화면 좌표를 JS 가 --menu-* 로 넣어 주고, 열리면 inset(0) 으로 퍼진다.
-     *    전환은 clip-path .6s cubic-bezier(.76, 0, .24, 1).
-     * ⚠️ display 나 opacity 로 숨기지 않는다. clip-path 로만 여닫아야 이 전환이 나온다.
-     *    닫혀 있을 때는 pointer-events 를 끄고, JS 가 inert 로 포커스에서도 뺀다.
+     * ⚠️ 레퍼런스(montone.studio)는 clip-path 로 여닫는다. 우리는 **transform(scale)** 로 한다.
+     *    clip-path 애니메이션은 크롬에서 GPU 합성이 안 돼 매 프레임 메인 스레드가 오버레이 전체를 다시
+     *    칠한다. 4K 화면(4096x2648)에서는 그 비용 때문에 접히다 말고 300ms 씩 멈췄다(화면 녹화로 확인).
+     *    scale 은 합성 스레드에서만 돌아서 메인 스레드가 막혀도 멈추지 않는다.
+     *
+     * 기하는 같다: 원점을 더보기 버튼 가운데(--menu-cx, --menu-cy)에 두고 scale(s) 하면
+     * 왼쪽 가장자리 = cx(1-s), 폭 = W·s — clip-path inset 으로 그리던 사각형과 수식이 동일하다.
+     *
+     * 내용은 .menu-bg 안의 .menu-inner 에 두고 1/s 로 되감는다. 부모 .menu-bg 의 overflow:hidden 이
+     * 되감긴 내용을 잘라 주므로, 파란 면이 닿은 곳까지만 글자가 드러난다(= clip-path 와 같은 결).
+     * 두 transform 은 app.js 가 Web Animations 로 같은 시간축에서 함께 돌린다.
      */
     .menu-overlay {
-        /*
-         * 닫힘 = 더보기 버튼 한가운데의 **넓이 0인 점**.
-         * ⚠️ 버튼 「박스 크기」로 두면 접힌 뒤에도 그 크기의 파란 사각형이 화면에 남는다.
-         *    (레퍼런스의 inset(0 0 100% 100%) 도 좌표를 풀어 보면 넓이 0 인 점이다.)
-         *    inset(top right bottom left) 이므로 점 하나가 되려면 top+bottom = right+left = 100% 여야 한다.
-         */
-        clip-path: inset(
-            var(--menu-cy, 0px)
-            calc(100% - var(--menu-cx, 100%))
-            calc(100% - var(--menu-cy, 0px))
-            var(--menu-cx, 100%)
-        );
         pointer-events: none;
-        /*
-         * ⚠️ 여는 것과 닫는 것의 시간이 다르다.
-         *    CSS 전환은 «도착할 상태»의 duration 을 쓰므로, 여기 적은 0.85s 는 **닫을 때** 걸린다.
-         *    레퍼런스 실측(3회 평균): 열기 633ms · 접기 806ms. 접는 쪽이 눈에 띄게 길다.
-         *    둘을 같은 시간으로 두면 닫을 때만 뚝 끊기는 느낌이 난다.
-         */
-        transition: clip-path 0.8s cubic-bezier(0.76, 0, 0.24, 1);
     }
 
     .menu-overlay.is-open {
-        clip-path: inset(0);
         pointer-events: auto;
-        transition-duration: 0.63s;  /* 열 때 — 레퍼런스 실측 633ms */
+    }
+
+    .menu-bg,
+    .menu-inner {
+        transform-origin: var(--menu-cx, 100%) var(--menu-cy, 0px);
+        /* will-change 는 app.js 가 움직이는 동안만 건다 */
+    }
+
+    .menu-bg {
+        transform: scale(0);
     }
 
     /* 안쪽 요소들 — 닫힘이 기본이고, 열릴 때 아래에서 떠오른다.
@@ -101,7 +96,6 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-        .menu-overlay,
         .menu-overlay [data-menu-item],
         .menu-overlay [data-menu-tail],
         .menu-overlay [data-menu-close] {
