@@ -31,6 +31,26 @@
    `gguleHub` 는 조직이 아니라 개인 계정이다. 그러니 `git fetch` 로 최신화할 수 없고,
    위 로컬 클론이 가진 것이 전부다.
 
+⚠️ **청담원 기획 문서는 Confluence 에 있다.** 저장소만 보면 「구현만 한 프로젝트」로 잘못 읽는다.
+   실제로는 전략 판단 · IA · 기능정의 · DB 설계 · 도메인 매핑까지 본인이 했다.
+
+| | |
+| --- | --- |
+| 사이트 | `cheongdamwon-platform.atlassian.net` |
+| cloudId | `632b05fe-e945-49b2-b469-f1a3c63b341e` |
+| 스페이스 | 「청담원 프로젝트」 — key `MFS`, alias `CDW` (CQL 은 `space = CDW`) |
+| 본인 작성 문서 | 97개 (Confluence 계정명 **Jake** = wndtn0526@gmail.com) |
+
+Atlassian MCP 로 읽는다. ⚠️ 검색 결과가 커서 토큰 한도를 넘기니 `limit` 을 낮추거나
+저장된 결과 파일을 python 으로 파싱해 제목만 추린다.
+
+⚠️ **Figma 는 데스크톱 앱의 Dev Mode MCP 서버(`127.0.0.1:3845/mcp`)로 읽는다.**
+   그런데 그 서버는 `~/cheongdamwon-platform` 프로젝트에만 등록돼 있어서 이 저장소에서는
+   MCP 도구로 안 잡힌다. `~/.claude.json` 의 이 프로젝트 `mcpServers` 에
+   `{"figma-dev": {"type": "http", "url": "http://127.0.0.1:3845/mcp"}}` 를 넣고 세션을 다시 열면
+   정식으로 붙는다. 급하면 curl 로 JSON-RPC 를 직접 쳐도 된다(세션 헤더 `mcp-session-id` 필요).
+   포트폴리오 시안: 같은 파일의 `PORTFOLIO` 페이지 `1083:279330` · 17슬라이드 · 1920x1080.
+
 ## 규칙
 
 - **뷰에 raw hex 를 쓰지 않는다.** 디자인 토큰이 생기면 토큰 유틸리티로만 쓴다.

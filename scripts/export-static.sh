@@ -53,6 +53,9 @@ mkdir -p "$OUT"
 
 echo "▸ 에셋 복사"
 cp -R "$ROOT/public/build" "$OUT/build"
+# 뷰가 asset() 으로 부르는 정적 파일(이미지 등)도 함께 옮긴다.
+# 안 옮기면 Pages 에서 404 가 나는데 화면은 조용히 배경만 빠진 채 뜬다.
+[ -d "$ROOT/public/images" ] && cp -R "$ROOT/public/images" "$OUT/images"
 
 # 라우트 → 파일 매핑을 파이썬에 그대로 넘긴다(내부 링크 치환에 필요).
 MAPPING="$(printf '%s\n' "${PAGES[@]}")"
@@ -76,6 +79,7 @@ html = open(path, encoding='utf-8').read()
 
 # 에셋 절대 URL → 상대 경로 (Pages 는 /<repo>/ 하위에 서빙된다)
 html = html.replace(f'{src}/build/', './build/')
+html = html.replace(f'{src}/images/', './images/')
 
 # 페이지끼리의 내부 링크도 정적 파일명으로 바꾼다. 안 바꾸면 아래 검사에서 걸린다.
 # 긴 라우트부터 치환해야 접두어가 겹칠 때 짧은 쪽이 먼저 먹지 않는다.

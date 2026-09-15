@@ -1,11 +1,8 @@
 @import 'tailwindcss';
 
 
-/*
- * ⚠️ 디자인 토큰은 아직 없다. Figma 포트폴리오 디자인을 읽어 오면
- *    resources/css/tokens.css 를 만들어 여기서 @import 한다 (404 저장소와 같은 구조).
- *    그때까지 아래 --font-sans 말고는 @theme 에 아무것도 두지 않는다.
- */
+/* 디자인 토큰 — 색·타이포의 단일 소스. 출처는 tokens.css 머리에 적혀 있다. */
+@import './tokens.css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -19,4 +16,20 @@
     [x-cloak] {
         display: none !important;
     }
+}
+
+@layer utilities {
+    /* 스크롤 안내 — 짧은 선이 오른쪽으로 늘었다 줄어든다 (레퍼런스의 Scroll 자리) */
+    .animate-scroll-cue {
+        animation: scroll-cue 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+}
+
+@keyframes scroll-cue {
+    0%, 100% { transform: scaleX(0.35); opacity: 0.45; }
+    50%      { transform: scaleX(1);    opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animate-scroll-cue { animation: none; }
 }
