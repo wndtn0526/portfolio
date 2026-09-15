@@ -40,8 +40,7 @@ const ASIDE = {
         ['브랜드와 소통의 폭',
          '이전 광고대행사 경험에서 얻은 브랜드 스토리텔링 및 비주얼 커뮤니케이션 능력은 제품의 매력도를 극대화하는 중요한 도구입니다. 딱딱하게 느껴지기 쉬운 B2B 솔루션에 사용자에게 공감을 주는 UX Writing 과 일관된 브랜드 경험을 입혀, 사용자가 사랑하고 습관적으로 이용하는 제품으로 전환시킵니다.'],
     ],
-    closing: '이러한 사고와 통찰은 단순히 일을 하는 사람이 아니라, 사용자 효율성과 브랜드 매력을 동시에 높여 제품의 가치를 확장시키는 사람으로 성장하게 하는 원동력입니다. 저는 주어진 일의 가치를 넘어서는 새로운 가치를 만들어내는 엑스트라 마일을 실현하며, 함께 일하며 더 높은 곳을 바라보는 좋은 동료, 신뢰받는 협업자가 되고 싶습니다.',
-    closingMuted: ' 멋진 관계를 기대합니다. 감사합니다.',
+    closing: '이러한 사고와 통찰은 단순히 일을 하는 사람이 아니라, 사용자 효율성과 브랜드 매력을 동시에 높여 제품의 가치를 확장시키는 사람으로 성장하게 하는 원동력입니다. 저는 주어진 일의 가치를 넘어서는 새로운 가치를 만들어내는 엑스트라 마일을 실현하며, 함께 일하며 더 높은 곳을 바라보는 좋은 동료, 신뢰받는 협업자가 되고 싶습니다.',   // 마지막 인사말은 Figma 에서 뺐다
 };
 
 // 두 단은 반반(좌우 여백 96 씩). 반이 선언의 가장 긴 줄(662)보다 좁아지면 그 줄 폭은 지키고 나머지가 오른쪽.
@@ -129,7 +128,7 @@ function buildAside(width) {
         col.appendChild(p);
     }
 
-    const closing = text(ASIDE.closing + ASIDE.closingMuted, REGULAR, T.body, { opacity: 0.85, stretch: true });
+    const closing = text(ASIDE.closing, REGULAR, T.body, { opacity: 0.85, stretch: true });
     closing.name = '맺음';   // Figma: 흐린 구간 없이 전부 85%
     col.appendChild(closing);
     return col;
