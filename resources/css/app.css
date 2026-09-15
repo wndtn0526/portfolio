@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+
+
+/*
+ * ⚠️ 디자인 토큰은 아직 없다. Figma 포트폴리오 디자인을 읽어 오면
+ *    resources/css/tokens.css 를 만들어 여기서 @import 한다 (404 저장소와 같은 구조).
+ *    그때까지 아래 --font-sans 말고는 @theme 에 아무것도 두지 않는다.
+ */
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-sans: 'Pretendard Variable', Pretendard, ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+    /* Alpine x-cloak — 초기화 전 깜빡임을 막는다. */
+    [x-cloak] {
+        display: none !important;
+    }
+}
