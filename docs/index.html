@@ -11,7 +11,7 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 
-    <link rel="preload" as="style" href="./build/assets/app-Dz845l6U.css" /><link rel="modulepreload" as="script" href="./build/assets/app-CS0bX4Gs.js" /><link rel="stylesheet" href="./build/assets/app-Dz845l6U.css" data-navigate-track="reload" /><script type="module" src="./build/assets/app-CS0bX4Gs.js" data-navigate-track="reload"></script>    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js"></script>
+    <link rel="preload" as="style" href="./build/assets/app-Dock9x6Y.css" /><link rel="modulepreload" as="script" href="./build/assets/app-Bji_PJ_x.js" /><link rel="stylesheet" href="./build/assets/app-Dock9x6Y.css" data-navigate-track="reload" /><script type="module" src="./build/assets/app-Bji_PJ_x.js" data-navigate-track="reload"></script>    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js"></script>
 </head>
 <body class="min-h-dvh bg-canvas font-sans text-body antialiased">
     <header data-nav
@@ -34,27 +34,33 @@
     </header>
 
     
-    <div data-menu id="site-menu" class="menu-overlay fixed inset-0 z-[1100] bg-statement">
-        <button type="button" data-menu-close
-                class="absolute end-6 top-7 inline-flex cursor-pointer items-center gap-3 text-[13px] font-medium tracking-[0.1em] text-white uppercase lg:end-12">
-            <svg aria-hidden="true" viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6">
-                <path d="M4 4l12 12M16 4L4 16" stroke-linecap="round" />
-            </svg>
-            Close
-        </button>
+    <div data-menu id="site-menu" class="menu-overlay fixed inset-0 z-[1100]">
+        
+        <div data-menu-bg class="menu-bg absolute inset-0 overflow-hidden bg-statement">
+            
+            <div data-menu-inner class="menu-inner absolute inset-0">
+                <button type="button" data-menu-close
+                        class="absolute end-6 top-7 inline-flex cursor-pointer items-center gap-3 text-[13px] font-medium tracking-[0.1em] text-white uppercase lg:end-12">
+                    <svg aria-hidden="true" viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <path d="M4 4l12 12M16 4L4 16" stroke-linecap="round" />
+                    </svg>
+                    Close
+                </button>
 
-        <div class="flex h-full flex-col justify-center gap-24 px-6 lg:px-12">
-            <ul class="text-[clamp(3rem,6.67vw,96px)] leading-[1.13] font-light tracking-[-0.03em] text-white">
-                <li data-menu-item><a href="#top" class="inline-block transition-opacity hover:opacity-70">/소개</a></li>
-                <li data-menu-item><a href="#top" class="inline-block transition-opacity hover:opacity-70">/작업</a></li>
-                <li data-menu-item><a href="#top" class="inline-block transition-opacity hover:opacity-70">/이력</a></li>
-            </ul>
+                <div class="flex h-full flex-col justify-center gap-24 px-6 lg:px-12">
+                    <ul class="text-[clamp(3rem,6.67vw,96px)] leading-[1.13] font-light tracking-[-0.03em] text-white">
+                        <li data-menu-item><a href="#top" class="inline-block transition-opacity hover:opacity-70">/소개</a></li>
+                        <li data-menu-item><a href="#top" class="inline-block transition-opacity hover:opacity-70">/작업</a></li>
+                        <li data-menu-item><a href="#top" class="inline-block transition-opacity hover:opacity-70">/이력</a></li>
+                    </ul>
 
-            <a href="mailto:wndtn0526@gmail.com" data-menu-tail
-               class="group inline-flex w-fit items-center gap-3 text-base font-bold text-white">
-                <span class="border-b border-white/70 pb-0.5">연락하기</span>
-                <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">→</span>
-            </a>
+                    <a href="mailto:wndtn0526@gmail.com" data-menu-tail
+                       class="group inline-flex w-fit items-center gap-3 text-base font-bold text-white">
+                        <span class="border-b border-white/70 pb-0.5">연락하기</span>
+                        <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">→</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -62,12 +68,11 @@
 
         
         <section class="relative flex min-h-dvh flex-col justify-center overflow-hidden">
-            
-                            <img src="./images/intro-mesh.webp"
-                     srcset="./images/intro-mesh-1280.webp 1280w, ./images/intro-mesh.webp 1920w"
-                     sizes="100vw" alt="" aria-hidden="true" fetchpriority="high" width="1920" height="1084"
-                     class="pointer-events-none absolute inset-0 -z-10 h-full w-full [transform:translateZ(0)] object-cover object-top">
-            
+            <img src="./images/intro-mesh.webp"
+                 srcset="./images/intro-mesh-1280.webp 1280w, ./images/intro-mesh.webp 1920w"
+                 sizes="100vw" alt="" aria-hidden="true" fetchpriority="high" width="1920" height="1084"
+                 class="pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover object-top">
+
             <div class="px-6 lg:px-12">
                 <h1 class="font-bold tracking-[-0.02em] text-ink text-[clamp(2.5rem,7.6vw,98px)] leading-[1.04]">
                     Beauty is in the<br>eye of the beholder.
