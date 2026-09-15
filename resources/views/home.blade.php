@@ -26,9 +26,9 @@
     <header data-nav
             class="fixed inset-x-0 top-0 z-50 h-[65px] [transform:translateZ(0)] bg-canvas/60 backdrop-blur-[20px] transition-transform duration-300 ease-out motion-reduce:transition-none lg:h-[73px]">
         <div class="flex h-full items-center justify-between px-6 lg:px-12">
-            {{-- 로고타입 — 한 줄 「Portfolio」. 레퍼런스 로고 마크(24px 높이)와 같은 덩어리가 되도록
+            {{-- 로고타입 — 한 줄 대문자 「PORTFOLIO」. 레퍼런스 로고 마크(24px 높이)와 같은 덩어리가 되도록
                  404 스케일 title-3(24px) Bold 에 행간 1.0 — 블록 높이가 딱 24px. 두 줄이던 것을 한 줄로 줄이며 키웠다. --}}
-            <a href="#top" class="block text-title-3 font-bold leading-none text-ink">Portfolio</a>
+            <a href="#top" class="block text-title-3 font-bold leading-none text-ink">PORTFOLIO</a>
 
             {{-- 더보기 — 레퍼런스 실측: 박스 32x24, 선 24x2 가 위에서 4·11·18 위치. --}}
             <button type="button" data-menu-open aria-expanded="false" aria-controls="site-menu"
