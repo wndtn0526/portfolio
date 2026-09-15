@@ -74,10 +74,18 @@
         {{-- ── 히어로 ── 배경 메시는 시안의 freeform 2 를 color-burn 25% 로 미리 구워 넣은 것이다.
              구울 때 배경 #f9f9f9 를 깔았으므로 canvas 위에서만 이음매가 안 보인다. --}}
         <section class="relative flex min-h-dvh flex-col justify-center overflow-hidden">
-            <img src="{{ asset('images/intro-mesh.webp') }}"
-                 srcset="{{ asset('images/intro-mesh-1280.webp') }} 1280w, {{ asset('images/intro-mesh.webp') }} 1920w"
-                 sizes="100vw" alt="" aria-hidden="true" fetchpriority="high" width="1920" height="1084"
-                 class="pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover object-top">
+            {{-- ⚠️ 진단용 분기. 메뉴를 접을 때 300ms 멈추는 원인이 이 메시 이미지의 재래스터화인지
+                 가리려고 /mesh-off 판을 따로 뽑는다. 원인이 확정되면 한쪽을 지운다. --}}
+            @if ($mesh ?? true)
+                <img src="{{ asset('images/intro-mesh.webp') }}"
+                     srcset="{{ asset('images/intro-mesh-1280.webp') }} 1280w, {{ asset('images/intro-mesh.webp') }} 1920w"
+                     sizes="100vw" alt="" aria-hidden="true" fetchpriority="high" width="1920" height="1084"
+                     class="pointer-events-none absolute inset-0 -z-10 h-full w-full [transform:translateZ(0)] object-cover object-top">
+            @else
+                {{-- 같은 결의 파스텔 메시를 CSS 그라디언트로. 래스터화가 훨씬 싸다. --}}
+                <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-canvas
+                            [background-image:radial-gradient(60%_50%_at_28%_8%,#fbf7c8_0%,transparent_60%),radial-gradient(45%_40%_at_55%_2%,#cdc4f5_0%,transparent_65%),radial-gradient(60%_55%_at_78%_10%,#c8ebf5_0%,transparent_65%)]"></div>
+            @endif
 
             <div class="px-6 lg:px-12">
                 <h1 class="font-bold tracking-[-0.02em] text-ink text-[clamp(2.5rem,7.6vw,98px)] leading-[1.04]">

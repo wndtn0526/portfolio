@@ -19,6 +19,7 @@ SRC="http://127.0.0.1:${PORT}"
 # 여기 적은 출력파일 이름은 아래 «지워도 되는 것» 목록에도 자동으로 들어간다.
 PAGES=(
     ":index.html"
+    "mesh-off:mesh-off.html"
 )
 
 cd "$ROOT"
