@@ -330,7 +330,7 @@
         {{-- ── 프로젝트 ── 회사 탭(그룹웨어프로 · 이디엠에듀케이션 · 청담원) → 왼쪽 목록 → 오른쪽 아티클 (2026-09-16 사용자 지시).
              내용은 resources/data/projects.php(회사 > 프로젝트, 경력기술서 4단 구성). 전환은 app.js 의 data-company-* / data-project-* — Alpine 은 정적 export 에만 있어 여기서도 안 쓴다.
              전부 DOM 에 있고 hidden 만 토글하므로 JS 가 없어도 첫 회사의 첫 프로젝트는 읽힌다.
-             제목 줄의 '/' 는 섹션 것이고 회사 이름이 탭이다(활성 잉크 · 비활성 흐림). 슬래시가 활성 탭 앞으로 옮겨 다니면 줄이 흔들려서 고정했다.
+             제목 줄이 곧 회사 탭이다(활성 잉크 · 비활성 흐림). 다른 섹션의 '/' 글리프는 여기선 뺐다(2026-09-16 사용자 지시).
              목록 문법은 이력 섹션의 행(위 보더 1px 검정 8%, 라벨 | 제목). 폰(lg 미만)에서는 목록이 가로 스크롤 칩이 되고 아티클이 아래에 온다(.project-tab, app.css). --}}
         @php
             $companies = require resource_path('data/projects.php');
@@ -340,7 +340,6 @@
             <div class="border-b border-black/8 pb-8">
                 {{-- 회사 탭 = 제목 줄. 크기는 display-2(40) 를 폰에서 24 까지 줄인 것 — 세 이름이 두 줄 안에 들어오게. --}}
                 <h2 class="flex flex-wrap items-baseline text-[clamp(24px,2.8vw,40px)] leading-[1.3] tracking-[-0.025em] break-keep text-ink" role="tablist" aria-label="회사">
-                    <span class="font-bold" aria-hidden="true">/</span>
                     @foreach ($companies as $c)
                         <button type="button" role="tab" id="company-tab-{{ $c['slug'] }}" data-company-tab="{{ $c['slug'] }}"
                                 aria-controls="company-{{ $c['slug'] }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}"
