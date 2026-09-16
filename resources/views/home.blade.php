@@ -337,9 +337,8 @@
         @endphp
         <section id="work" class="px-6 py-[clamp(4rem,10vh,120px)] lg:px-12">
             <div class="border-b border-black/8 pb-8">
-                <p class="{{ $wlabel }}">경력기술 · 워크앤조이</p>
-                <h2 class="mt-3 text-display-2 break-keep text-ink"><span class="font-bold">/</span>그룹웨어프로 프로젝트</h2>
-                <p class="mt-3 text-[clamp(16px,0.973vw,20px)] leading-[1.533] tracking-[-0.04em] break-keep text-body">2021년 10월 ~ 2025년 8월 · 서비스 기획 · UX Design · Visual Design</p>
+                <h2 class="text-display-2 break-keep text-ink"><span class="font-bold">/</span>그룹웨어프로 프로젝트</h2>
+                <p class="mt-3 text-[clamp(16px,0.973vw,20px)] leading-[1.533] tracking-[-0.04em] break-keep text-body">2021년 10월 ~ 2025년 8월 · 서비스 기획</p>
             </div>
 
             <div class="mt-10 grid gap-y-8 lg:grid-cols-[3fr_7fr] lg:gap-x-16">
