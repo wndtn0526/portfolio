@@ -113,7 +113,13 @@ function frame(name, dir, { gap = 0, pad = [0, 0, 0, 0], width = null, stretch =
     f.primaryAxisSizingMode = 'AUTO';
     f.counterAxisSizingMode = 'AUTO';
     f.counterAxisAlignItems = align;
-    if (width) { if (dir === 'HORIZONTAL') f.primaryAxisSizingMode = 'FIXED'; else f.counterAxisSizingMode = 'FIXED'; f.resize(width, 10); }
+    if (width) {
+        // ⚠️ auto-layout 프레임에 resize() 를 부르면 두 축 sizing 이 모두 FIXED 로 바뀐다 — 그래서 목록 · 아티클이 높이 10 에 갇혀 있었다.
+        //    resize 뒤에 폭은 FIXED, 진행 방향은 AUTO(hug) 로 다시 정한다.
+        f.resize(width, 10);
+        if (dir === 'HORIZONTAL') { f.primaryAxisSizingMode = 'FIXED'; f.counterAxisSizingMode = 'AUTO'; }
+        else { f.counterAxisSizingMode = 'FIXED'; f.primaryAxisSizingMode = 'AUTO'; }
+    }
     if (stretch) { f.layoutAlign = 'STRETCH'; if (dir === 'HORIZONTAL') f.primaryAxisSizingMode = 'FIXED'; else f.counterAxisSizingMode = 'FIXED'; }
     return f;
 }
