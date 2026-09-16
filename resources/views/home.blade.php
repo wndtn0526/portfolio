@@ -178,23 +178,33 @@
         </section>
 
 
-        {{-- ── 이력 ── 내용은 Figma 슬라이드 01(1083:280403), 문법은 레퍼런스(montone.studio)의 소개 섹션 실측.
-             레퍼런스: 사진 260x325(모서리 0·그림자 — 우리는 파란 배경 증명사진이라 모서리 28 을 뒀다) | 제목 42/400 · 문단 15/1.5 회색 폭 560 · 밑줄 링크 20/600
-                      아래 행 목록 — 행 52(pad 14) · 위 보더 1px rgba(0,0,0,.08) · 라벨 10/600 대문자 회색 · 제목 19/500 at 140 · 우측 ↗
-             404 토큰: 제목 display-2(40) · 문단 body-2(15) · 링크 heading-2(20) · 행 제목 headline-1(19) medium · 라벨 caption-2(11).
-             ⚠️ 대문자 라벨의 자간(0.12em)은 DS 값(0)이 아니라 레퍼런스 값이다 — 소문자용 자간을 대문자 라벨에 그대로 쓰면 뭉친다.
+        {{-- ── 이력 ── Figma 포트폴리오_MCP 3:131 「03 이력 — 2056 (풀 화면)」 을 웹으로 옮긴 것(사용자가 2056 기준으로 조절).
+             Figma(2056) 값: 사진 260x325 모서리 28 그림자 · 제목 40('/' Bold) · 이름/직함 24 SemiBold+Regular · 소개 20/1.533 #495057
+                            섹션 라벨·행 라벨 24 SemiBold #868e96 -2% · 라벨 칸 240 · 행 제목 24 Medium · 부제 20 · 불릿 16 · 기간 20 #868e96
+                            행 py14 · 위 보더 1px 검정 8%(마지막 아래도) · 블록 간격 80/64/64 · 기술 막대는 Figma 에서 뺐다.
+             웹은 폭 따라 흐르고 2056 에서 그 값이 된다 — clamp(최소, vw, Figma 값). vw = 값/2056. 1440 에서는 대략 한 단계 작다.
+             ⚠️ 라벨 24 는 1440 에서 16.8 로 흐른다. 라벨 칸 240 도 같이 흘러(11.67vw) 1440 에서 168 이다.
              개인정보는 시안 그대로 싣기로 한 결정(notes/content-plan.md)을 따른다. --}}
+        @php
+            $label = 'text-[clamp(14px,1.167vw,24px)] leading-[1.545] font-semibold tracking-[-0.02em] text-muted';
+            $row = 'grid grid-cols-[clamp(92px,11.67vw,240px)_1fr] items-baseline gap-x-4 border-t border-black/8 py-3.5 md:grid-cols-[clamp(92px,11.67vw,240px)_1fr_auto]';
+            $title = 'text-[clamp(19px,1.167vw,24px)] leading-[1.526] font-medium tracking-[-0.0316em] break-keep text-ink';
+            $sub = 'mt-1 text-[clamp(15px,0.973vw,20px)] leading-[1.571] tracking-[-0.0143em] break-keep text-body';
+            $bullets = 'mt-1 space-y-1 ps-4 text-[clamp(14px,0.778vw,16px)] leading-[1.571] tracking-[-0.0143em] break-keep text-body';
+            $right = 'col-start-2 text-[clamp(14px,0.973vw,20px)] leading-[1.429] tracking-[-0.0143em] text-muted md:col-start-3 md:text-end';
+        @endphp
         <section id="career" class="px-6 py-[clamp(4rem,10vh,120px)] lg:px-12">
             {{-- 사진 + 소개 --}}
             <div class="grid gap-10 md:grid-cols-[260px_1fr] md:gap-14">
-                <img src="{{ asset('images/profile.webp') }}" alt="신중수 프로필 사진" width="360" height="360"
+                <img src="{{ asset('images/profile.webp') }}" alt="신중수 프로필 사진" width="720" height="720"
                      class="aspect-[260/325] w-[220px] rounded-[24px] object-cover shadow-[0_24px_60px_-20px_rgba(17,17,17,0.25)] md:w-[260px] md:rounded-[28px]">
                 <div class="md:pt-6">
                     <h2 class="text-display-2 break-keep text-ink"><span class="font-bold">/</span>이력</h2>
-                    <p class="mt-5 text-heading-2 font-semibold break-keep text-ink">신중수 <span class="font-normal text-muted">· Product Manager · Product Designer</span></p>
-                    <p class="mt-3 max-w-[560px] text-body-2 break-keep text-body">
-                        B2B SaaS 그룹웨어 시장에 대한 깊이 있는 도메인 지식 (HR/재무/그룹웨어)을 보유하고 있습니다.
-                        사용자 중심의 데이터 분석 및 시스템 아키텍처 기획을 기반으로 복잡한 엔터프라이즈 프로세스를
+                    <p class="mt-5 text-[clamp(20px,1.167vw,24px)] leading-[1.5] font-semibold tracking-[-0.05em] break-keep text-ink">신중수 <span class="font-normal">· 서비스 기획자</span></p>
+                    {{-- 줄바꿈은 Figma 대로. 좁은 폭에서는 br 을 죽이고 자연 줄바꿈. --}}
+                    <p class="mt-3 text-[clamp(16px,0.973vw,20px)] leading-[1.533] tracking-[-0.04em] break-keep text-body">
+                        B2B SaaS 그룹웨어 시장에 대한 깊이 있는 도메인 지식 (HR/재무/그룹웨어)을 보유하고 있습니다.<br class="hidden lg:inline">
+                        사용자 중심의 데이터 분석 및 시스템 아키텍처 기획을 기반으로 복잡한 엔터프라이즈 프로세스를<br class="hidden lg:inline">
                         사용자 친화적 UX로 혁신하는 데 특화되어 있습니다.
                     </p>
                     <a href="mailto:wndtn0526@gmail.com" class="group mt-6 inline-flex items-center gap-3 text-heading-2 font-semibold text-ink">
@@ -204,23 +214,28 @@
                 </div>
             </div>
 
-            {{-- 행 목록. 한 행 = [라벨 | 내용 | 오른쪽]. 라벨 칸 92px = 레퍼런스의 140-48. --}}
-            @php
-                $row = 'grid grid-cols-[92px_1fr] items-baseline gap-x-4 border-t border-black/8 py-3.5 md:grid-cols-[92px_1fr_auto]';
-                $label = 'text-caption-2 font-semibold tracking-[0.12em] text-muted uppercase';
-                $title = 'text-headline-1 font-medium break-keep text-ink';
-                $sub = 'mt-1 text-label-1-reading break-keep text-body';
-                $right = 'col-start-2 text-label-1 text-muted md:col-start-3 md:text-end';
-            @endphp
-
+            {{-- 경력. 행 = [라벨 | 내용 | 기간]. --}}
             <div class="mt-[clamp(3rem,6vw,5rem)]">
                 <p class="{{ $label }} mb-3">경력</p>
+                <div class="{{ $row }}">
+                    <span class="{{ $label }}">2026</span>
+                    <div>
+                        <p class="{{ $title }}">청담원 주식회사</p>
+                        <p class="{{ $sub }}">케어닷 신사업팀 / 서비스 기획</p>
+                        {{-- TODO(사용자): Figma 3:276 이 「TEXT」 자리표시자다. notes/content-plan.md 2장 축으로 한 줄 넣어 둠 — 확정 문구로 바꾼다. --}}
+                        <ul class="{{ $bullets }} list-disc">
+                            <li>재가 돌봄 플랫폼 — AI 파이프라인을 구성해 기획(IA·기능정의·DB 설계)부터 화면 구현까지</li>
+                        </ul>
+                    </div>
+                    <span class="{{ $right }}">2026년 5월 ~ 2026년 9월</span>
+                </div>
                 <div class="{{ $row }}">
                     <span class="{{ $label }}">2021 – 2025</span>
                     <div>
                         <p class="{{ $title }}">워크앤조이</p>
-                        <p class="{{ $sub }}">서비스 기획 및 UX Design · Visual Design · IR &amp; 영업 기획 (Groupware pro)</p>
-                        <ul class="mt-2 list-disc ps-4 text-label-1-reading text-body">
+                        <p class="{{ $sub }}">그룹웨어프로팀 / 서비스 기획</p>
+                        <ul class="{{ $bullets }} list-disc">
+                            <li>그룹웨어프로 인사･재무･결재 모듈 A-Z기획</li>
                             <li>사용자 패턴 분석, 도메인 지식 바탕으로 UX Writing 전략 수립 및 적용</li>
                             <li>VOC 데이터 및 유저 패턴 기반 경험 중심의 화면 설계 및 UX 개선 기획</li>
                             <li>온 오프라인 홍보물, 캠페인 콘텐츠 등 Visual Design 제작 · 사내 서식류 디자인 관리</li>
@@ -234,7 +249,7 @@
                     <span class="{{ $label }}">2021</span>
                     <div>
                         <p class="{{ $title }}">풀다랩</p>
-                        <p class="{{ $sub }}">아트팀 — 브랜드 비딩 기획 및 디자인 업무</p>
+                        <p class="{{ $sub }}">아트팀 / 브랜드 비딩 기획 및 디자인 업무</p>
                     </div>
                     <span class="{{ $right }}">2021년 04월 ~ 2021년 09월</span>
                 </div>
@@ -242,7 +257,7 @@
                     <span class="{{ $label }}">2019 – 2020</span>
                     <div>
                         <p class="{{ $title }}">미디어로그</p>
-                        <p class="{{ $sub }}">LG U+ IP TV 사업본부 — IP TV 플랫폼 포스터 디자인</p>
+                        <p class="{{ $sub }}">LG U+ IP TV 사업본부 / IP TV 플랫폼 포스터 디자인</p>
                     </div>
                     <span class="{{ $right }}">2019년 12월 ~ 2020년 10월</span>
                 </div>
@@ -250,17 +265,18 @@
                     <span class="{{ $label }}">2017 – 2019</span>
                     <div>
                         <p class="{{ $title }}">이디엠에듀케이션</p>
-                        <p class="{{ $sub }}">IELTS 인강 신사업부 서비스기획팀 — 시스템 기획 및 사업 기획 · 서비스 운영</p>
-                        <ul class="mt-2 list-disc ps-4 text-label-1-reading text-body">
-                            <li>edm IELTS 인강 플랫폼 기획 · IELTS 토스 및 한국어 인강 론칭</li>
-                            <li>연 매출 3억 규모 인강 사이트 운영 담당</li>
+                        <p class="{{ $sub }}">IELTS 인강 신사업부 서비스기획팀 / 시스템 기획 및 사업 기획 · 서비스 운영</p>
+                        <ul class="{{ $bullets }} list-disc">
+                            <li>연 매출 10억 규모 인강 사이트 운영 담당</li>
+                            <li>edm IELTS 인강 플랫폼 기획</li>
+                            <li>IELTS 토스 및 한국어 인강 론칭</li>
                         </ul>
                     </div>
                     <span class="{{ $right }}">2017년 10월 ~ 2019년 04월</span>
                 </div>
             </div>
 
-            <div class="mt-[clamp(2.5rem,5vw,4rem)]">
+            <div class="mt-16">
                 <p class="{{ $label }} mb-3">학력</p>
                 <div class="{{ $row }} border-b">
                     <span class="{{ $label }}">2012 – 2016</span>
@@ -272,28 +288,14 @@
                 </div>
             </div>
 
-            <div class="mt-[clamp(2.5rem,5vw,4rem)] grid gap-x-16 md:grid-cols-2">
-                <div>
-                    <p class="{{ $label }} mb-3">프로필</p>
-                    @foreach ([['생년월일','1993-05-26'],['전화번호','+82 010-2262-5913'],['이메일','wndtn0526@gmail.com'],['주소','경기도 수원시 장안구 화산로 263 신일APT 106-302']] as [$k, $val])
-                        <div class="{{ $row }} {{ $loop->last ? 'border-b' : '' }}">
-                            <span class="{{ $label }}">{{ $k }}</span>
-                            <p class="{{ $title }}">{{ $val }}</p>
-                        </div>
-                    @endforeach
-                </div>
-                <div>
-                    <p class="{{ $label }} mb-3">기술</p>
-                    {{-- 막대: 시안(슬라이드 01) 값 — 트랙 #dee2e6 · 채움 초록→청록 · 폭 100/82/89/100/100/100 --}}
-                    @foreach ([['피그마','w-full'],['SQL','w-[82%]'],['지라','w-[89%]'],['컨플루언스','w-full'],['어도비 포토샵','w-full'],['어도비 일러스트','w-full']] as [$skill, $w])
-                        <div class="grid grid-cols-[92px_1fr] items-center gap-x-4 border-t border-black/8 py-3.5 {{ $loop->last ? 'border-b' : '' }}">
-                            <span class="{{ $label }}">{{ $skill }}</span>
-                            <span class="block h-2.5 max-w-[280px] rounded-full bg-rule" role="img" aria-label="{{ $skill }} 숙련도">
-                                <span class="skill-fill block h-full rounded-full {{ $w }}"></span>
-                            </span>
-                        </div>
-                    @endforeach
-                </div>
+            <div class="mt-16">
+                <p class="{{ $label }} mb-3">프로필</p>
+                @foreach ([['생년월일','1993-05-26'],['전화번호','+82 010-2262-5913'],['이메일','wndtn0526@gmail.com'],['주소','경기도 수원시 장안구 화산로 263 신일APT 106-302']] as [$k, $val])
+                    <div class="{{ $row }} {{ $loop->last ? 'border-b' : '' }}">
+                        <span class="{{ $label }}">{{ $k }}</span>
+                        <p class="{{ $title }}">{{ $val }}</p>
+                    </div>
+                @endforeach
             </div>
         </section>
     </main>
