@@ -62,8 +62,9 @@ async function pickFonts() {
 
 // ── 텍스트 ──
 // parts: [{ t, style, color }] 를 한 텍스트 노드로 — 라벨(SemiBold 잉크) + ' : ' + 본문 같은 혼합 문단용
+const CREATED = [];   // 이번 실행에서 만든 노드 — 실패 시 정리용
 function rich(parts, spec, { width = null, stretch = false, align = 'LEFT' } = {}) {
-    const node = figma.createText();
+    const node = figma.createText(); CREATED.push(node);
     node.fontName = { family: FAMILY, style: F.regular };
     node.characters = parts.map((p) => p.t).join('');
     node.fontSize = spec.size;
@@ -103,7 +104,7 @@ function strongParts(html) {
 
 // ── 프레임 ──
 function frame(name, dir, { gap = 0, pad = [0, 0, 0, 0], width = null, stretch = false, fill = null, align = 'MIN' } = {}) {
-    const f = figma.createFrame();
+    const f = figma.createFrame(); CREATED.push(f);
     f.name = name;
     f.layoutMode = dir;
     f.itemSpacing = gap;
@@ -116,7 +117,8 @@ function frame(name, dir, { gap = 0, pad = [0, 0, 0, 0], width = null, stretch =
     if (stretch) { f.layoutAlign = 'STRETCH'; if (dir === 'HORIZONTAL') f.primaryAxisSizingMode = 'FIXED'; else f.counterAxisSizingMode = 'FIXED'; }
     return f;
 }
-const grow = (n) => { n.layoutGrow = 1; if (n.layoutMode === 'VERTICAL') n.counterAxisSizingMode = 'FIXED'; else n.primaryAxisSizingMode = 'FIXED'; return n; };
+// ⚠️ 텍스트 노드에는 sizing 속성이 없다 — 첫 실행에서 여기서 죽어 반쯤 만든 노드가 페이지에 남았다. 프레임일 때만 만진다.
+const grow = (n) => { n.layoutGrow = 1; if (n.type === 'FRAME') { if (n.layoutMode === 'VERTICAL') n.counterAxisSizingMode = 'FIXED'; else n.primaryAxisSizingMode = 'FIXED'; } return n; };
 function border(node, { top = false, bottom = false } = {}) {
     node.strokes = [{ type: 'SOLID', color: BORDER.color, opacity: BORDER.opacity }];
     node.strokeTopWeight = top ? 1 : 0; node.strokeBottomWeight = bottom ? 1 : 0; node.strokeLeftWeight = 0; node.strokeRightWeight = 0;
@@ -166,7 +168,7 @@ function buildArticle(screen, company, project, width) {
 
     if (project.figure) {
         const fig = frame('그림', 'VERTICAL', { gap: 12, stretch: true });
-        const img = figma.createRectangle();
+        const img = figma.createRectangle(); CREATED.push(img);
         img.name = project.figure.caption || '그림';
         img.resize(width, Math.round(width * project.figure.height / project.figure.width));
         img.cornerRadius = 12;
@@ -246,16 +248,49 @@ function buildScreen(screen, x) {
     return root;
 }
 
+// 이전 실행이 중간에 죽어 페이지 맨 위에 남은 잔해를 치운다.
+// 우리 이름표를 단 최상위 노드(중간 프레임 · 우리 글 텍스트)와, 덜 만들어진 '04 프로젝트' 프레임(높이 600 미만)만 지운다 — 완성돼 사용자가 손댄 프레임은 남긴다.
+function sweepLeftovers() {
+    const ours = new Set(['목록 + 아티클', '머리', '회사 탭', '목록', '번호', '내용', '태그', '그림', '항목', '하위', '항', '표', '정리 중', '다음 프로젝트', '단락']);
+    const strip = (t) => String(t || '').replace(/<[^>]+>/g, '');
+    for (const c of DATA) {
+        ours.add(c.name); ours.add(c.meta);
+        for (const p of c.projects) {
+            ours.add(p.title); ours.add(p.lead); ours.add('아티클 · ' + p.title); ours.add('행 · ' + p.title);
+            p.tags.forEach((t) => ours.add(t));
+            if (p.figure && p.figure.caption) ours.add(p.figure.caption);
+            p.sections.forEach((s, n) => {
+                ours.add(`${n + 1}. ${s.title}`);
+                for (const it of s.items) {
+                    if (it.label) { ours.add(it.label); ours.add(it.label + ' : ' + strip(it.text)); }
+                    if (it.text) ours.add(strip(it.text));
+                    (it.sub || []).forEach((sub) => { if (typeof sub === 'string') ours.add(strip(sub)); else { ours.add(sub.label); ours.add(sub.label + ' : ' + strip(sub.text)); } });
+                }
+            });
+        }
+    }
+    let n = 0;
+    for (const node of [...figma.currentPage.children]) {
+        const half = node.name.startsWith('04 프로젝트') && node.height < 600;
+        if (half || ours.has(node.name) || (node.type === 'TEXT' && ours.has(node.characters))) { node.remove(); n++; }
+    }
+    return n;
+}
+
 (async () => {
+    let swept = 0;
     try {
+        swept = sweepLeftovers();
         await pickFonts();
         for (const s of Object.values(F)) await figma.loadFontAsync({ family: FAMILY, style: s });
         const made = [];
         let x = 0;
         for (const s of SCREENS) { made.push(buildScreen(s, x)); x += s.w + 200; }
         figma.viewport.scrollAndZoomIntoView(made);
-        figma.closePlugin(`완료 — 글꼴 ${FAMILY}, 프레임 ${made.length}개`);
+        figma.closePlugin(`완료 — 글꼴 ${FAMILY}, 프레임 ${made.length}개` + (swept ? ` (이전 잔해 ${swept}개 정리)` : ''));
     } catch (e) {
+        // 이번에 만든 노드 중 페이지에 직접 붙은 것을 지운다(자식은 함께 사라진다) — 반쯤 만든 것이 남지 않게
+        for (const n of CREATED) { try { if (!n.removed && n.parent && n.parent.type === 'PAGE') n.remove(); } catch (_) {} }
         figma.closePlugin('실패: ' + (e && e.message ? e.message : e));
     }
 })();
