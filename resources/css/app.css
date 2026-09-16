@@ -177,6 +177,10 @@
     .project-tab.is-active .project-tab-title { @apply lg:text-ink; }
     .project-tab.is-active .project-tab-slash { @apply lg:opacity-100; }
 
+    /* 회사 탭 — #work 제목 줄. 크기 · 굵기는 h2 에서 상속(슬래시만 굵다). 활성 잉크 · 비활성 흐림 · 호버 본문색. */
+    .company-tab { @apply me-6 cursor-pointer text-muted transition-colors last:me-0 hover:text-body lg:me-8; }
+    .company-tab.is-active { @apply text-ink; }
+
     /* 아티클 — hidden 이 풀릴 때마다 살짝 떠오른다(display 가 바뀌면 애니메이션이 다시 돈다). */
     .project-panel { animation: project-fade 0.35s ease both; }
 

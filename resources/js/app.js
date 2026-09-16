@@ -261,43 +261,62 @@ if (menu && menuBg && menuInner && menuOpen && menuClose) {
 }
 
 /*
- * 워크앤조이 프로젝트(#work) — 왼쪽 목록(탭)에서 고르면 오른쪽 아티클이 바뀐다.
- * 아티클은 전부 DOM 에 있고 hidden 만 토글한다(정적 export · 검색 · JS 꺼짐에서도 첫 항목은 보인다).
- * 주소는 #project-<slug> 로 남겨 새로고침 · 공유 시 같은 프로젝트가 열린다.
+ * 프로젝트(#work) — 회사 탭 → 왼쪽 목록(탭) → 오른쪽 아티클.
+ * 아티클은 전부 DOM 에 있고 hidden 만 토글한다(정적 export · 검색 · JS 꺼짐에서도 첫 회사의 첫 항목은 보인다).
+ * 주소는 #project-<slug> 로 남겨 새로고침 · 공유 시 같은 회사 · 프로젝트가 열린다(프로젝트 slug 는 회사를 통틀어 유일).
  * 스크롤: 폰(목록이 위)은 아티클 머리로, 데스크톱은 섹션 머리가 화면 위로 지나간 뒤에만 섹션 머리로 올려 준다.
  */
 const workSection = document.getElementById('work');
-const projectTabs = [...document.querySelectorAll('[data-project-tab]')];
-const projectPanels = [...document.querySelectorAll('[data-project-panel]')];
-const projectPanelsBox = document.querySelector('[data-project-panels]');
+const companyTabs = [...document.querySelectorAll('[data-company-tab]')];
+const companyPanels = [...document.querySelectorAll('[data-company-panel]')];
+const companyMetas = [...document.querySelectorAll('[data-company-meta]')];
 
-if (workSection && projectTabs.length && projectPanels.length) {
+if (workSection && companyPanels.length) {
     const scrollTo = (el) => {
         const offset = -((nav ? nav.offsetHeight : 0) + 16);
         if (lenis) lenis.scrollTo(el, { offset });
         else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY + offset });
     };
+    const setHash = (slug) => history.replaceState(null, '', '#project-' + slug);
+    const toggleTabs = (tabs, isOn) => tabs.forEach((t) => {
+        const on = isOn(t);
+        t.classList.toggle('is-active', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+
+    const showCompany = (slug, { scroll = false } = {}) => {
+        const panel = companyPanels.find((p) => p.dataset.companyPanel === slug);
+        if (!panel) return;
+        toggleTabs(companyTabs, (t) => t.dataset.companyTab === slug);
+        companyMetas.forEach((m) => { m.hidden = m.dataset.companyMeta !== slug; });
+        companyPanels.forEach((p) => { p.hidden = p !== panel; });
+        const active = panel.querySelector('[data-project-panel]:not([hidden])');   // 그 회사에서 마지막으로 보던 프로젝트
+        if (active) setHash(active.dataset.projectPanel);
+        if (scroll) scrollTo(workSection);
+    };
 
     const showProject = (slug, { scroll = false, focus = false } = {}) => {
-        const panel = projectPanels.find((p) => p.dataset.projectPanel === slug);
+        const panel = document.querySelector(`[data-project-panel="${slug}"]`);
         if (!panel) return;
-        projectTabs.forEach((t) => {
-            const on = t.dataset.projectTab === slug;
-            t.classList.toggle('is-active', on);
-            t.setAttribute('aria-selected', on ? 'true' : 'false');
-        });
-        projectPanels.forEach((p) => { p.hidden = p !== panel; });
-        history.replaceState(null, '', '#project-' + slug);
-        if (scroll) scrollTo(window.innerWidth < 1024 ? projectPanelsBox : workSection);
+        const group = panel.closest('[data-company-panel]');
+        toggleTabs([...group.querySelectorAll('[data-project-tab]')], (t) => t.dataset.projectTab === slug);
+        group.querySelectorAll('[data-project-panel]').forEach((p) => { p.hidden = p !== panel; });
+        if (group.hidden) showCompany(group.dataset.companyPanel);
+        setHash(slug);
+        if (scroll) scrollTo(window.innerWidth < 1024 ? group.querySelector('[data-project-panels]') : workSection);
         if (focus) panel.focus({ preventScroll: true });
     };
 
-    projectTabs.forEach((t) => t.addEventListener('click', () => {
+    companyTabs.forEach((t) => t.addEventListener('click', () => {
+        showCompany(t.dataset.companyTab, { scroll: workSection.getBoundingClientRect().top < 0 });
+    }));
+
+    document.querySelectorAll('[data-project-tab]').forEach((t) => t.addEventListener('click', () => {
         const needScroll = window.innerWidth < 1024 || workSection.getBoundingClientRect().top < 0;
         showProject(t.dataset.projectTab, { scroll: needScroll });
     }));
 
-    // 아티클 끝의 「다음 프로젝트」
+    // 아티클 끝의 「다음 프로젝트」 — 같은 회사 안에서 돈다
     document.querySelectorAll('[data-project-link]').forEach((a) => a.addEventListener('click', (e) => {
         e.preventDefault();
         showProject(a.dataset.projectLink, { scroll: true, focus: true });
