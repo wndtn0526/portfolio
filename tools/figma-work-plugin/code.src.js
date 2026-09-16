@@ -29,6 +29,10 @@ const T = {
     label2:   { size: 13, lh: 153.8, ls: -1.54 },
     caption2: { size: 11, lh: 154.5, ls: 12 },
     tabs:     { size: 40, lh: 130, ls: -2.5 },
+    // 목록 행 — Figma 6:553(2056 조절본) 값
+    listNum:  { size: 20, lh: 152.6, ls: -2 },
+    listTitle:{ size: 20, lh: 152.6, ls: -3.16 },
+    listMeta: { size: 16, lh: 153.8, ls: -1.54 },
 };
 
 const SCREENS = [
@@ -149,12 +153,12 @@ function buildList(company, activeSlug, width) {
         const row = border(frame('행 · ' + p.title, 'HORIZONTAL', { gap: 16, pad: [16, 0, 16, 0], stretch: true, align: 'BASELINE' }),
                            { top: true, bottom: i === company.projects.length - 1 });
         const num = frame('번호', 'VERTICAL', { width: 40 });
-        num.appendChild(text(String(i + 1).padStart(2, '0'), F.semibold, T.caption2, C.muted));
+        num.appendChild(text(String(i + 1).padStart(2, '0'), F.semibold, T.listNum, C.muted));
         row.appendChild(num);
         const body = frame('내용', 'VERTICAL', { gap: 4 });
         // '/' 는 비활성일 때도 자리를 차지한다(웹: opacity 0). 여기서는 배경색 글자로 숨긴다.
-        body.appendChild(rich([{ t: '/', style: F.bold, color: active ? C.ink : C.canvas }, { t: p.title, style: F.medium, color: active ? C.ink : C.body }], T.headline1, { stretch: true }));
-        body.appendChild(text(p.tags.join(' · '), F.regular, T.label2, C.muted, { stretch: true }));
+        body.appendChild(rich([{ t: '/', style: F.bold, color: active ? C.ink : C.canvas }, { t: p.title, style: F.medium, color: active ? C.ink : C.body }], T.listTitle, { stretch: true }));
+        body.appendChild(text(p.year || p.tags.join(' · '), F.regular, T.listMeta, C.muted, { stretch: true }));   // Figma 6:553: 태그 대신 연도
         row.appendChild(grow(body));
         col.appendChild(row);
     });

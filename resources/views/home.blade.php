@@ -331,7 +331,7 @@
              내용은 resources/data/projects.php(회사 > 프로젝트, 경력기술서 4단 구성). 전환은 app.js 의 data-company-* / data-project-* — Alpine 은 정적 export 에만 있어 여기서도 안 쓴다.
              전부 DOM 에 있고 hidden 만 토글하므로 JS 가 없어도 첫 회사의 첫 프로젝트는 읽힌다.
              제목 줄이 곧 회사 탭이다(활성 잉크 · 비활성 흐림). 다른 섹션의 '/' 글리프는 여기선 뺐다(2026-09-16 사용자 지시).
-             목록 문법은 이력 섹션의 행(위 보더 1px 검정 8%, 라벨 | 제목). 폰(lg 미만)에서는 목록이 가로 스크롤 칩이 되고 아티클이 아래에 온다(.project-tab, app.css). --}}
+             목록 문법은 이력 섹션의 행(위 보더 1px 검정 8%, 번호 | 제목 + 연도) — Figma 6:553(2056 조절본) 값. 폰(lg 미만)에서는 목록이 가로 스크롤 칩이 되고 아티클이 아래에 온다(.project-tab, app.css). --}}
         @php
             $companies = require resource_path('data/projects.php');
             $wlabel = 'text-[clamp(14px,1.167vw,24px)] leading-[1.545] font-semibold tracking-[-0.02em] text-muted';
@@ -365,7 +365,7 @@
                                         class="project-tab {{ $loop->first ? 'is-active' : '' }}">
                                     <span class="project-tab-num">{{ sprintf('%02d', $i + 1) }}</span>
                                     <span class="project-tab-title"><span class="project-tab-slash" aria-hidden="true">/</span>{{ $p['title'] }}</span>
-                                    <span class="project-tab-meta">{{ implode(' · ', $p['tags']) }}</span>
+                                    <span class="project-tab-meta">{{ $p['year'] }}</span>
                                 </button>
                             @endforeach
                         </div>
