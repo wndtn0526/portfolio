@@ -304,7 +304,7 @@
 
         {{-- ── 프로젝트 인트로 ── Figma GPRO_PORTFOLIO 슬라이드 03 (1083:280491, 1920×1080).
              실측: 배경 Tennis02(꽉 채움) · 「MAJOR / PROJECT」 98 ExtraBold 행간 98 자간 -1.2% #f8f9fa 좌상 (80,80)
-                  「GROUPWARE PRO」 72 ExtraBold 행간 72 자간 -1.2% 좌하 (80, 바닥 80) · 우상 점 셋(more icon 108×20, 첫 줄 세로 중앙)
+                  좌하 72 ExtraBold 행간 72 자간 -1.2% (80, 바닥 80) — 시안 「GROUPWARE PRO」, 웹은 「2021~2026」 · 우상 점 셋(more icon 108×20, 첫 줄 세로 중앙)
              시안 글꼴은 Sharp Sans Extrabold 인데 사이트에 없어서 히어로처럼 Pretendard Black 으로 간다.
              좌우 여백은 시안 80 대신 페이지 거터(24/48)를 따른다 — GNB·다른 섹션과 같은 선에 맞추기 위해.
              글자 크기는 히어로 h1 과 같은 clamp — 같은 화면에서 두 제목이 같은 크기로 보이게. --}}
@@ -323,7 +323,8 @@
                 </svg>
             </div>
 
-            <p class="font-black text-[clamp(1.875rem,5.6vw,72px)] leading-none tracking-[-0.012em]">GROUPWARE PRO</p>
+            {{-- 시안은 「GROUPWARE PRO」 였는데 기간으로 바꿨다(2026-09-16 사용자 지시) — 프로젝트가 청담원까지 이어져서 한 제품명으로 못 묶는다. --}}
+            <p class="font-black text-[clamp(1.875rem,5.6vw,72px)] leading-none tracking-[-0.012em]">2021~2026</p>
         </section>
     </main>
 </x-layouts.app>
