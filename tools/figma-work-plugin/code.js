@@ -212,8 +212,11 @@ function buildArticle(screen, company, project, width) {
         art.appendChild(wrap(sec, 40));
     });
 
-    if (project.draft) art.appendChild(wrap(border(frame('정리 중', 'VERTICAL', { pad: [24, 0, 0, 0], stretch: true }), { top: true }), 40))
-        .children[0].appendChild(text('상세 내용은 정리 중입니다.', F.regular, T.label1, C.muted));
+    if (project.draft) {   // appendChild 는 값을 돌려주지 않는다 — 이어 붙이지 말고 먼저 만든다
+        const dr = border(frame('정리 중', 'VERTICAL', { pad: [24, 0, 0, 0], stretch: true }), { top: true });
+        dr.appendChild(text('상세 내용은 정리 중입니다.', F.regular, T.label1, C.muted));
+        art.appendChild(wrap(dr, 40));
+    }
 
     if (company.projects.length > 1) {
         const next = company.projects[(idx + 1) % company.projects.length];
