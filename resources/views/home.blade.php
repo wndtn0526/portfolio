@@ -326,5 +326,86 @@
             {{-- 시안은 「GROUPWARE PRO」 였는데 기간으로 바꿨다(2026-09-16 사용자 지시) — 프로젝트가 청담원까지 이어져서 한 제품명으로 못 묶는다. --}}
             <p class="font-black text-[clamp(1.875rem,5.6vw,72px)] leading-none tracking-[-0.012em]">2021~2026</p>
         </section>
+
+        {{-- ── 워크앤조이 프로젝트 ── 왼쪽 목록에서 고르면 오른쪽에 아티클로 펼쳐진다(2026-09-16 사용자 지시).
+             내용은 resources/data/projects.php(경력기술서 4단 구성). 전환 동작은 app.js 의 data-project-* — Alpine 은 정적 export 에만 있어 여기서도 안 쓴다.
+             전부 DOM 에 있고 hidden 만 토글하므로 JS 가 없어도 첫 프로젝트는 읽힌다.
+             문법은 이력 섹션의 행(위 보더 1px 검정 8%, 라벨 | 제목)을 그대로. 폰(lg 미만)에서는 목록이 가로 스크롤 칩이 되고 아티클이 아래에 온다(.project-tab, app.css). --}}
+        @php
+            $projects = require resource_path('data/projects.php');
+            $wlabel = 'text-[clamp(14px,1.167vw,24px)] leading-[1.545] font-semibold tracking-[-0.02em] text-muted';
+        @endphp
+        <section id="work" class="px-6 py-[clamp(4rem,10vh,120px)] lg:px-12">
+            <div class="border-b border-black/8 pb-8">
+                <p class="{{ $wlabel }}">경력기술 · 워크앤조이</p>
+                <h2 class="mt-3 text-display-2 break-keep text-ink"><span class="font-bold">/</span>그룹웨어프로 프로젝트</h2>
+                <p class="mt-3 text-[clamp(16px,0.973vw,20px)] leading-[1.533] tracking-[-0.04em] break-keep text-body">2021년 10월 ~ 2025년 8월 · 서비스 기획 · UX Design · Visual Design</p>
+            </div>
+
+            <div class="mt-10 grid gap-y-8 lg:grid-cols-[3fr_7fr] lg:gap-x-16">
+                {{-- 목록. lg 에서 GNB(73) 아래에 붙어 따라온다. --}}
+                {{-- min-w-0: 그리드 항목의 자동 최소 폭은 내용의 min-content 인데, 가로 스크롤 칩 줄(nowrap)이 그 값을 1200px 로 만들어 폰에서 페이지가 가로로 넘쳤다. --}}
+                <nav aria-label="프로젝트 목록" class="min-w-0 lg:sticky lg:top-[calc(73px+2rem)] lg:self-start">
+                    <div role="tablist" aria-orientation="vertical" class="-mx-6 flex gap-2 overflow-x-auto px-6 pb-1 lg:mx-0 lg:block lg:overflow-visible lg:px-0 lg:pb-0">
+                        @foreach ($projects as $i => $p)
+                            <button type="button" role="tab" id="project-tab-{{ $p['slug'] }}" data-project-tab="{{ $p['slug'] }}"
+                                    aria-controls="project-{{ $p['slug'] }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}"
+                                    class="project-tab {{ $loop->first ? 'is-active' : '' }}">
+                                <span class="project-tab-num">{{ sprintf('%02d', $i + 1) }}</span>
+                                <span class="project-tab-title"><span class="project-tab-slash" aria-hidden="true">/</span>{{ $p['title'] }}</span>
+                                <span class="project-tab-meta">{{ implode(' · ', $p['tags']) }}</span>
+                            </button>
+                        @endforeach
+                    </div>
+                </nav>
+
+                {{-- 아티클. 한 번에 하나만 보인다. --}}
+                <div data-project-panels class="min-w-0">
+                    @foreach ($projects as $i => $p)
+                        <article id="project-{{ $p['slug'] }}" role="tabpanel" aria-labelledby="project-tab-{{ $p['slug'] }}"
+                                 data-project-panel="{{ $p['slug'] }}" class="project-panel max-w-readable outline-none" tabindex="-1"
+                                 @unless ($loop->first) hidden @endunless>
+                            <p class="{{ $wlabel }}">Project {{ sprintf('%02d', $i + 1) }}</p>
+                            <h3 class="mt-3 text-title-1 font-bold break-keep text-ink">{{ $p['title'] }}</h3>
+                            <p class="mt-4 text-heading-2 break-keep text-body">{{ $p['lead'] }}</p>
+                            <ul class="mt-4 flex flex-wrap gap-x-3 text-label-1 text-muted">
+                                @foreach ($p['tags'] as $t)<li>{{ $t }}</li>@endforeach
+                            </ul>
+
+                            @foreach ($p['sections'] as $n => $s)
+                                <section class="mt-10 border-t border-black/8 pt-6">
+                                    <h4 class="text-heading-2 font-semibold text-ink">{{ $n + 1 }}. {{ $s['title'] }}</h4>
+                                    <div class="mt-4 space-y-4">
+                                        @foreach ($s['items'] as $item)
+                                            <div class="text-body-1-reading break-keep text-body">
+                                                @if (!empty($item['label']))
+                                                    <p><strong class="font-semibold text-ink">{{ $item['label'] }}</strong>@if (!empty($item['text'])) <span class="text-muted">:</span> {!! $item['text'] !!}@endif</p>
+                                                @elseif (!empty($item['text']))
+                                                    <p>{!! $item['text'] !!}</p>
+                                                @endif
+                                                @if (!empty($item['sub']))
+                                                    <ol class="mt-2 list-[lower-alpha] space-y-1.5 ps-6 marker:text-muted">
+                                                        @foreach ($item['sub'] as $sub)
+                                                            <li>@if (is_array($sub))<strong class="font-semibold text-ink">{{ $sub['label'] }}</strong> <span class="text-muted">:</span> {!! $sub['text'] !!}@else{!! $sub !!}@endif</li>
+                                                        @endforeach
+                                                    </ol>
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </section>
+                            @endforeach
+
+                            @php $next = $projects[($i + 1) % count($projects)]; @endphp
+                            <p class="mt-12 border-t border-black/8 pt-6 text-label-1 text-muted">다음 프로젝트</p>
+                            <a href="#project-{{ $next['slug'] }}" data-project-link="{{ $next['slug'] }}" class="group mt-2 inline-flex items-center gap-3 text-heading-2 font-semibold break-keep text-ink">
+                                <span class="underline decoration-1 underline-offset-[6px]">{{ $next['title'] }}</span>
+                                <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
+                            </a>
+                        </article>
+                    @endforeach
+                </div>
+            </div>
+        </section>
     </main>
 </x-layouts.app>

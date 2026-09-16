@@ -155,3 +155,37 @@
 @media (prefers-reduced-motion: reduce) {
     .animate-scroll-cue { animation: none; }
 }
+
+@layer components {
+    /*
+     * 프로젝트 목록(탭) — #work 섹션.
+     * lg 미만: 가로로 스크롤되는 칩 한 줄(제목만). lg 이상: 이력 섹션과 같은 행 — 위 보더 1px 검정 8%, 번호 | 제목 | 태그.
+     * 활성 표시는 칩에서는 검정 채움, 행에서는 잉크색 제목 + 앞의 '/' (사이트의 슬래시 제목 문법).
+     * '/' 는 비활성일 때도 자리를 차지한다(opacity 0) — 켜고 끌 때 제목이 옆으로 밀리지 않게.
+     */
+    .project-tab {
+        @apply shrink-0 cursor-pointer whitespace-nowrap rounded-full border border-rule px-4 py-2 text-label-1 text-body transition-colors;
+        @apply lg:grid lg:w-full lg:grid-cols-[2.5rem_1fr] lg:items-baseline lg:gap-x-4 lg:whitespace-normal lg:rounded-none lg:border-0 lg:border-t lg:border-black/8 lg:px-0 lg:py-4 lg:text-start;
+    }
+    .project-tab:last-child { @apply lg:border-b; }
+    .project-tab-num   { @apply hidden lg:block lg:text-caption-2 lg:font-semibold lg:tracking-[0.12em] lg:text-muted; }
+    .project-tab-title { @apply lg:block lg:text-headline-1 lg:font-medium lg:break-keep lg:text-body lg:transition-colors; }
+    .project-tab-slash { @apply hidden lg:inline lg:font-bold lg:text-ink lg:opacity-0 lg:transition-opacity; }
+    .project-tab-meta  { @apply hidden lg:col-start-2 lg:mt-1 lg:block lg:text-label-2 lg:text-muted; }
+    .project-tab:hover .project-tab-title { @apply lg:text-ink; }
+    .project-tab.is-active { @apply border-ink bg-ink text-canvas lg:border-black/8 lg:bg-transparent lg:text-ink; }
+    .project-tab.is-active .project-tab-title { @apply lg:text-ink; }
+    .project-tab.is-active .project-tab-slash { @apply lg:opacity-100; }
+
+    /* 아티클 — hidden 이 풀릴 때마다 살짝 떠오른다(display 가 바뀌면 애니메이션이 다시 돈다). */
+    .project-panel { animation: project-fade 0.35s ease both; }
+
+    @media (prefers-reduced-motion: reduce) {
+        .project-panel { animation: none; }
+    }
+}
+
+@keyframes project-fade {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: none; }
+}

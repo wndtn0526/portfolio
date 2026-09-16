@@ -259,3 +259,53 @@ if (menu && menuBg && menuInner && menuOpen && menuClose) {
     setOrigin();
     menuInner.style.transform = `scale(${1 / MIN_INNER})`;
 }
+
+/*
+ * 워크앤조이 프로젝트(#work) — 왼쪽 목록(탭)에서 고르면 오른쪽 아티클이 바뀐다.
+ * 아티클은 전부 DOM 에 있고 hidden 만 토글한다(정적 export · 검색 · JS 꺼짐에서도 첫 항목은 보인다).
+ * 주소는 #project-<slug> 로 남겨 새로고침 · 공유 시 같은 프로젝트가 열린다.
+ * 스크롤: 폰(목록이 위)은 아티클 머리로, 데스크톱은 섹션 머리가 화면 위로 지나간 뒤에만 섹션 머리로 올려 준다.
+ */
+const workSection = document.getElementById('work');
+const projectTabs = [...document.querySelectorAll('[data-project-tab]')];
+const projectPanels = [...document.querySelectorAll('[data-project-panel]')];
+const projectPanelsBox = document.querySelector('[data-project-panels]');
+
+if (workSection && projectTabs.length && projectPanels.length) {
+    const scrollTo = (el) => {
+        const offset = -((nav ? nav.offsetHeight : 0) + 16);
+        if (lenis) lenis.scrollTo(el, { offset });
+        else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY + offset });
+    };
+
+    const showProject = (slug, { scroll = false, focus = false } = {}) => {
+        const panel = projectPanels.find((p) => p.dataset.projectPanel === slug);
+        if (!panel) return;
+        projectTabs.forEach((t) => {
+            const on = t.dataset.projectTab === slug;
+            t.classList.toggle('is-active', on);
+            t.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        projectPanels.forEach((p) => { p.hidden = p !== panel; });
+        history.replaceState(null, '', '#project-' + slug);
+        if (scroll) scrollTo(window.innerWidth < 1024 ? projectPanelsBox : workSection);
+        if (focus) panel.focus({ preventScroll: true });
+    };
+
+    projectTabs.forEach((t) => t.addEventListener('click', () => {
+        const needScroll = window.innerWidth < 1024 || workSection.getBoundingClientRect().top < 0;
+        showProject(t.dataset.projectTab, { scroll: needScroll });
+    }));
+
+    // 아티클 끝의 「다음 프로젝트」
+    document.querySelectorAll('[data-project-link]').forEach((a) => a.addEventListener('click', (e) => {
+        e.preventDefault();
+        showProject(a.dataset.projectLink, { scroll: true, focus: true });
+    }));
+
+    const fromHash = location.hash.match(/^#project-(.+)$/);
+    if (fromHash) {
+        showProject(fromHash[1]);
+        requestAnimationFrame(() => scrollTo(workSection));
+    }
+}
