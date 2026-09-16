@@ -64,7 +64,7 @@
                 <div class="h-full px-6 pt-[24vh] lg:px-12">
                     <ul class="text-[clamp(3rem,6.67vw,96px)] leading-[1.13] font-light tracking-[-0.03em] text-white">
                         <li data-menu-item><a href="#intro" class="inline-block transition-opacity hover:opacity-70">/소개</a></li>
-                        <li data-menu-item><a href="#top" class="inline-block transition-opacity hover:opacity-70">/프로젝트</a></li>
+                        <li data-menu-item><a href="#projects" class="inline-block transition-opacity hover:opacity-70">/프로젝트</a></li>
                         <li data-menu-item><a href="#career" class="inline-block transition-opacity hover:opacity-70">/이력</a></li>
                     </ul>
                 </div>
@@ -300,6 +300,30 @@
                     </div>
                 @endforeach
             </div>
+        </section>
+
+        {{-- ── 프로젝트 인트로 ── Figma GPRO_PORTFOLIO 슬라이드 03 (1083:280491, 1920×1080).
+             실측: 배경 Tennis02(꽉 채움) · 「MAJOR / PROJECT」 98 ExtraBold 행간 98 자간 -1.2% #f8f9fa 좌상 (80,80)
+                  「GROUPWARE PRO」 72 ExtraBold 행간 72 자간 -1.2% 좌하 (80, 바닥 80) · 우상 점 셋(more icon 108×20, 첫 줄 세로 중앙)
+             시안 글꼴은 Sharp Sans Extrabold 인데 사이트에 없어서 히어로처럼 Pretendard Black 으로 간다.
+             좌우 여백은 시안 80 대신 페이지 거터(24/48)를 따른다 — GNB·다른 섹션과 같은 선에 맞추기 위해.
+             글자 크기는 히어로 h1 과 같은 clamp — 같은 화면에서 두 제목이 같은 크기로 보이게. --}}
+        <section id="projects" class="relative flex min-h-dvh flex-col justify-between overflow-hidden px-6 py-[clamp(3rem,7.4vh,80px)] text-[#f8f9fa] lg:px-12">
+            <img src="{{ asset('images/project-intro.webp') }}"
+                 srcset="{{ asset('images/project-intro-1280.webp') }} 1280w, {{ asset('images/project-intro.webp') }} 1920w"
+                 sizes="100vw" alt="" aria-hidden="true" loading="lazy" width="1920" height="1080"
+                 class="pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover object-left">
+            {{-- object-left: 16:9 보다 좁은 화면에서는 오른쪽만 잘라 왼쪽 파란 면(글자 자리)을 지킨다. 가운데 기준이면 1440 에서 PROJECT 가 노란 면에 걸친다. --}}
+
+            <div class="flex items-start justify-between gap-6">
+                <h2 class="font-black text-[clamp(2.5rem,7.6vw,98px)] leading-none tracking-[-0.012em]">MAJOR<br>PROJECT</h2>
+                {{-- 점 셋 — 첫 줄 세로 중앙(시안 y 119 = 80 + 49 - 10). 장식. --}}
+                <svg class="mt-[calc(clamp(2.5rem,7.6vw,98px)/2-10px)] h-[clamp(10px,1.04vw,20px)] w-auto shrink-0" viewBox="0 0 108 20" fill="currentColor" aria-hidden="true">
+                    <circle cx="10" cy="10" r="10"/><circle cx="54" cy="10" r="10"/><circle cx="98" cy="10" r="10"/>
+                </svg>
+            </div>
+
+            <p class="font-black text-[clamp(1.875rem,5.6vw,72px)] leading-none tracking-[-0.012em]">GROUPWARE PRO</p>
         </section>
     </main>
 </x-layouts.app>
