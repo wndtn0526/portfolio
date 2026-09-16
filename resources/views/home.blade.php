@@ -389,6 +389,17 @@
                                         <h4 class="text-heading-2 font-semibold text-ink">{{ $n + 1 }}. {{ $s['title'] }}</h4>
                                         <div class="mt-4 space-y-4">
                                             @foreach ($s['items'] as $item)
+                                                @if (!empty($item['image']))
+                                                    {{-- 그림. 테두리 1px 검정 8% · 모서리 12 — 화면 캡처가 배경(#f9f9f9)에 묻히지 않게. --}}
+                                                    <figure class="!mt-6 !mb-8">
+                                                        <img src="{{ asset($item['image']['src']) }}" width="{{ $item['image']['width'] }}" height="{{ $item['image']['height'] }}"
+                                                             alt="{{ $item['image']['alt'] }}" loading="lazy" class="w-full rounded-[12px] border border-black/8 bg-white">
+                                                        @if (!empty($item['image']['caption']))
+                                                            <figcaption class="mt-3 text-label-2 break-keep text-muted">{{ $item['image']['caption'] }}</figcaption>
+                                                        @endif
+                                                    </figure>
+                                                    @continue
+                                                @endif
                                                 <div class="text-body-1-reading break-keep text-body">
                                                     @if (!empty($item['label']))
                                                         <p><strong class="font-semibold text-ink">{{ $item['label'] }}</strong>@if (!empty($item['text'])) <span class="text-muted">:</span> {!! $item['text'] !!}@endif</p>
