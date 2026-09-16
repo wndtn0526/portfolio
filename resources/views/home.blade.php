@@ -384,6 +384,17 @@
                                     @foreach ($p['tags'] as $t)<li>{{ $t }}</li>@endforeach
                                 </ul>
 
+                                @if (!empty($p['figure']))
+                                    {{-- 머리 그림. 테두리 1px 검정 8% · 모서리 12 — 화면 캡처가 배경(#f9f9f9)에 묻히지 않게. --}}
+                                    <figure class="mt-8">
+                                        <img src="{{ asset($p['figure']['src']) }}" width="{{ $p['figure']['width'] }}" height="{{ $p['figure']['height'] }}"
+                                             alt="{{ $p['figure']['alt'] }}" loading="lazy" class="w-full rounded-[12px] border border-black/8 bg-white">
+                                        @if (!empty($p['figure']['caption']))
+                                            <figcaption class="mt-3 text-label-2 break-keep text-muted">{{ $p['figure']['caption'] }}</figcaption>
+                                        @endif
+                                    </figure>
+                                @endif
+
                                 @foreach ($p['sections'] as $n => $s)
                                     <section class="mt-10 border-t border-black/8 pt-6">
                                         <h4 class="text-heading-2 font-semibold text-ink">{{ $n + 1 }}. {{ $s['title'] }}</h4>
