@@ -35,7 +35,8 @@ def label(x, y, s):
     add(f'<text x="{x}" y="{y}" font-size="13" font-weight="600" fill="{MUTED}">{s}</text>')
 
 def path(d, dashed=False):
-    add(f'<path d="{d}" fill="none" stroke="{MUTED}" stroke-width="1.5"{" stroke-dasharray=\"4 4\"" if dashed else ""}/>')
+    dash = ' stroke-dasharray="4 4"' if dashed else ''
+    add(f'<path d="{d}" fill="none" stroke="{MUTED}" stroke-width="1.5"{dash}/>')
 
 def head(x, y, dir):   # 화살촉 — 끝점 (x, y), dir: r/d/u
     if dir == 'r': pts = f'{x-9},{y-5} {x},{y} {x-9},{y+5}'
