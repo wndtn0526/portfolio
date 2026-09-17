@@ -418,6 +418,18 @@
                                                     </ul>
                                                     @continue
                                                 @endif
+                                                @if (!empty($item['diagram']))
+                                                    {{-- 도식. SVG 를 인라인으로 — <img> 로 넣으면 Pretendard 가 안 걸린다. 폰에서는 720 폭을 지켜 가로로 스크롤(본문은 절대 가로로 넘치지 않게). --}}
+                                                    <figure class="!mt-6 !mb-8">
+                                                        <div class="overflow-x-auto rounded-[12px] border border-black/8 bg-white" role="img" aria-label="{{ $item['diagram']['alt'] }}">
+                                                            <div class="min-w-[720px] [&_svg]:block [&_svg]:h-auto [&_svg]:w-full">{!! file_get_contents(public_path($item['diagram']['file'])) !!}</div>
+                                                        </div>
+                                                        @if (!empty($item['diagram']['caption']))
+                                                            <figcaption class="mt-3 text-label-2 break-keep text-muted">{{ $item['diagram']['caption'] }}</figcaption>
+                                                        @endif
+                                                    </figure>
+                                                    @continue
+                                                @endif
                                                 @if (!empty($item['image']))
                                                     {{-- 그림. 테두리 1px 검정 8% · 모서리 12 — 화면 캡처가 배경(#f9f9f9)에 묻히지 않게. --}}
                                                     <figure class="!mt-6 !mb-8">
