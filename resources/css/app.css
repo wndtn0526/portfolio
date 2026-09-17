@@ -169,6 +169,7 @@
         @apply lg:grid lg:w-full lg:grid-cols-[2.5rem_1fr] lg:items-baseline lg:gap-x-4 lg:whitespace-normal lg:rounded-none lg:border-0 lg:border-t lg:border-black/8 lg:px-0 lg:py-4 lg:text-start;
     }
     .project-tab:last-child { @apply lg:border-b; }
+    .project-tab:first-child { @apply lg:border-t-0; }   /* Figma 6:553: 첫 행 위 보더 없음 — 머리 줄 보더와 겹쳐 두 줄로 보였다 */
     .project-tab-num   { @apply hidden lg:block lg:text-[clamp(14px,0.973vw,20px)] lg:leading-[1.526] lg:font-semibold lg:tracking-[-0.02em] lg:text-muted; }
     .project-tab-title { @apply lg:block lg:text-[clamp(19px,0.973vw,20px)] lg:leading-[1.526] lg:font-medium lg:tracking-[-0.0316em] lg:break-keep lg:text-body lg:transition-colors; }
     .project-tab-slash { @apply hidden lg:inline lg:font-bold lg:text-ink lg:opacity-0 lg:transition-opacity; }

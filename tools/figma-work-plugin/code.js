@@ -152,7 +152,7 @@ function buildList(company, activeSlug, width) {
     company.projects.forEach((p, i) => {
         const active = p.slug === activeSlug;
         const row = border(frame('행 · ' + p.title, 'HORIZONTAL', { gap: 16, pad: [16, 0, 16, 0], stretch: true, align: 'BASELINE' }),
-                           { top: true, bottom: i === company.projects.length - 1 });
+                           { top: i > 0, bottom: i === company.projects.length - 1 });   // Figma 6:553: 첫 행은 위 보더 없음
         const num = frame('번호', 'VERTICAL', { width: 40 });
         num.appendChild(text(String(i + 1).padStart(2, '0'), F.semibold, T.listNum, C.muted));
         row.appendChild(num);
