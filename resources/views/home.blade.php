@@ -400,6 +400,24 @@
                                         <h4 class="text-heading-2 font-semibold text-ink">{{ $n + 1 }}. {{ $s['title'] }}</h4>
                                         <div class="mt-4 space-y-4">
                                             @foreach ($s['items'] as $item)
+                                                @if (!empty($item['links']))
+                                                    {{-- 같은 회사의 딥다이브로 가는 링크. 전환은 app.js 의 [data-project-link]. --}}
+                                                    <ul class="space-y-3">
+                                                        @foreach ($item['links'] as $slug)
+                                                            @php $lp = collect($projects)->firstWhere('slug', $slug); @endphp
+                                                            @if ($lp)
+                                                                <li>
+                                                                    <a href="#project-{{ $lp['slug'] }}" data-project-link="{{ $lp['slug'] }}" class="group inline-flex flex-wrap items-baseline gap-x-3 text-heading-2 font-semibold break-keep text-ink">
+                                                                        <span class="underline decoration-1 underline-offset-[6px]">{{ $lp['title'] }}</span>
+                                                                        <span class="text-label-1 font-normal text-muted">{{ $lp['year'] }}</span>
+                                                                        <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
+                                                                    </a>
+                                                                </li>
+                                                            @endif
+                                                        @endforeach
+                                                    </ul>
+                                                    @continue
+                                                @endif
                                                 @if (!empty($item['image']))
                                                     {{-- 그림. 테두리 1px 검정 8% · 모서리 12 — 화면 캡처가 배경(#f9f9f9)에 묻히지 않게. --}}
                                                     <figure class="!mt-6 !mb-8">

@@ -196,6 +196,15 @@ function buildArticle(screen, company, project, width) {
         const items = frame('항목', 'VERTICAL', { gap: 16, stretch: true });
         for (const it of s.items) {
             if (it.image) continue;   // 본문 그림은 이 화면에 없다(머리 그림만)
+            if (it.links) {           // 딥다이브 링크 목록 — 밑줄 제목 + 연도 + →
+                const ul = frame('링크', 'VERTICAL', { gap: 12, stretch: true });
+                for (const slug of it.links) {
+                    const lp = company.projects.find((q) => q.slug === slug);
+                    if (lp) ul.appendChild(rich([{ t: lp.title, style: F.semibold, color: C.ink, underline: true }, { t: '  ' + (lp.year || ''), style: F.regular, color: C.muted }, { t: '  →', style: F.semibold, color: C.ink }], T.heading2));
+                }
+                items.appendChild(ul);
+                continue;
+            }
             const item = frame(it.label || '단락', 'VERTICAL', { gap: 8, stretch: true });
             const parts = [];
             if (it.label) parts.push({ t: it.label, style: F.semibold, color: C.ink });
