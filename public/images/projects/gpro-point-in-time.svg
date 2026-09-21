@@ -1,26 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" width="1200" height="380" font-family="Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, sans-serif" aria-hidden="true">
 <rect width="1200" height="380" fill="#ffffff"/>
 <text x="40" y="52" font-size="13" font-weight="600" fill="#868e96" text-anchor="start">구성원 A 의 발령 이력. 발령이 날 때마다 구간이 하나 더 쌓입니다</text>
-<rect x="80" y="116" width="398" height="56" rx="10" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
+<rect x="80" y="116" width="341" height="56" rx="10" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
 <text x="96" y="150" font-size="15" font-weight="600" fill="#212529">영업1팀 · 팀원</text>
 <text x="80.0" y="194" font-size="12" font-weight="500" fill="#868e96" text-anchor="start">2022-01-03</text>
-<rect x="484" y="116" width="456" height="56" rx="10" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
-<text x="500" y="150" font-size="15" font-weight="600" fill="#212529">영업2팀 · 팀장</text>
-<text x="484.44444444444446" y="194" font-size="12" font-weight="500" fill="#868e96" text-anchor="start">2023-03-01</text>
-<rect x="947" y="116" width="167" height="56" rx="10" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
-<text x="963" y="150" font-size="15" font-weight="600" fill="#212529">경영지원팀 · 팀장</text>
-<text x="946.6666666666666" y="194" font-size="12" font-weight="500" fill="#868e96" text-anchor="start">2024-07-01</text>
+<rect x="427" y="116" width="390" height="56" rx="10" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
+<text x="443" y="150" font-size="15" font-weight="600" fill="#212529">영업2팀 · 팀장</text>
+<text x="426.6666666666667" y="194" font-size="12" font-weight="500" fill="#868e96" text-anchor="start">2023-03-01</text>
+<rect x="823" y="116" width="291" height="56" rx="10" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
+<text x="839" y="150" font-size="15" font-weight="600" fill="#212529">경영지원팀 · 팀장</text>
+<text x="822.8571428571429" y="194" font-size="12" font-weight="500" fill="#868e96" text-anchor="start">2024-07-01</text>
 <text x="1114" y="150" font-size="13" fill="#868e96" text-anchor="end">지금</text>
-<path d="M427 92 V270" stroke="#504fed" stroke-width="2"/>
-<circle cx="427" cy="144.0" r="6" fill="#504fed"/>
-<text x="427" y="84" font-size="14" font-weight="700" fill="#504fed" text-anchor="middle">2022-12-31 에 결재를 올리면</text>
-<rect x="277" y="270" width="340" height="72" rx="12" fill="#ffffff" stroke="#504fed" stroke-width="1.5"/>
-<text x="295" y="300" font-size="16" font-weight="600" fill="#212529">그날의 소속 · 직책: 영업1팀 · 팀원</text>
-<text x="295" y="324" font-size="13" fill="#495057">결재선: 영업1팀장 → 영업본부장</text>
-<path d="M1004 92 V270" stroke="#504fed" stroke-width="2"/>
-<circle cx="1004" cy="144.0" r="6" fill="#504fed"/>
-<text x="1004" y="84" font-size="14" font-weight="700" fill="#504fed" text-anchor="middle">2024-09-01 에 결재를 올리면</text>
-<rect x="814" y="270" width="340" height="72" rx="12" fill="#ffffff" stroke="#504fed" stroke-width="1.5"/>
-<text x="832" y="300" font-size="16" font-weight="600" fill="#212529">그날의 소속 · 직책: 경영지원팀 · 팀장</text>
-<text x="832" y="324" font-size="13" fill="#495057">결재선: 경영지원본부장</text>
+<path d="M377 92 V270" stroke="#504fed" stroke-width="2"/>
+<circle cx="377" cy="144.0" r="6" fill="#504fed"/>
+<text x="377" y="84" font-size="14" font-weight="700" fill="#504fed" text-anchor="middle">2022-12-31 에 결재를 올리면</text>
+<rect x="227" y="270" width="340" height="72" rx="12" fill="#ffffff" stroke="#504fed" stroke-width="1.5"/>
+<text x="245" y="300" font-size="16" font-weight="600" fill="#212529">그날의 소속 · 직책: 영업1팀 · 팀원</text>
+<text x="245" y="324" font-size="13" fill="#495057">결재선: 영업1팀장 → 영업본부장</text>
+<path d="M1021 92 V270" stroke="#504fed" stroke-width="2"/>
+<circle cx="1021" cy="144.0" r="6" fill="#504fed"/>
+<text x="1021" y="84" font-size="14" font-weight="700" fill="#504fed" text-anchor="middle">2025-03-01 에 결재를 올리면</text>
+<rect x="820" y="270" width="340" height="72" rx="12" fill="#ffffff" stroke="#504fed" stroke-width="1.5"/>
+<text x="838" y="300" font-size="16" font-weight="600" fill="#212529">그날의 소속 · 직책: 경영지원팀 · 팀장</text>
+<text x="838" y="324" font-size="13" fill="#495057">결재선: 경영지원본부장</text>
 </svg>

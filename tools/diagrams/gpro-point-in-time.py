@@ -20,8 +20,8 @@ def add(s): out.append(s)
 def label(x, y, s, color=MUTED, anchor='start', size=13, weight=600):
     add(f'<text x="{x}" y="{y}" font-size="{size}" font-weight="{weight}" fill="{color}" text-anchor="{anchor}">{s}</text>')
 
-# 시간축: 2022-01 ~ 2025-01 (36개월) → x 80 ~ 1120
-X0, X1, MONTHS = 80, 1120, 36
+# 시간축: 2022-01 ~ 2025-07 (42개월) → x 80 ~ 1120. 마지막 구간을 넉넉히 두어 기준일 선이 글자를 지나지 않게.
+X0, X1, MONTHS = 80, 1120, 42
 px = lambda m: X0 + (X1 - X0) * m / MONTHS
 
 add(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" font-family="{FONT}" aria-hidden="true">')
@@ -29,7 +29,7 @@ add(f'<rect width="{W}" height="{H}" fill="{WHITE}"/>')
 label(40, 52, '구성원 A 의 발령 이력. 발령이 날 때마다 구간이 하나 더 쌓입니다')
 
 # 구간 (시작 개월, 끝 개월, 소속 · 직책, 시작일)
-segs = [(0, 14, '영업1팀 · 팀원', '2022-01-03'), (14, 30, '영업2팀 · 팀장', '2023-03-01'), (30, 36, '경영지원팀 · 팀장', '2024-07-01')]
+segs = [(0, 14, '영업1팀 · 팀원', '2022-01-03'), (14, 30, '영업2팀 · 팀장', '2023-03-01'), (30, 42, '경영지원팀 · 팀장', '2024-07-01')]
 Y, HB = 116, 56
 for i, (a, b, name, start) in enumerate(segs):
     x, w = px(a), px(b) - px(a)
@@ -41,7 +41,7 @@ add(f'<text x="{X1 - 6}" y="{Y + 34}" font-size="13" fill="{MUTED}" text-anchor=
 
 # 기준일 두 개 — 축 위에 찍고 아래 결과 상자로
 marks = [(12, '2022-12-31', '영업1팀 · 팀원', '결재선: 영업1팀장 → 영업본부장', 'left'),
-         (32, '2024-09-01', '경영지원팀 · 팀장', '결재선: 경영지원본부장', 'right')]
+         (38, '2025-03-01', '경영지원팀 · 팀장', '결재선: 경영지원본부장', 'right')]
 for m, date, who, line, side in marks:
     x = px(m)
     add(f'<path d="M{x:.0f} 92 V270" stroke="{ACCENT}" stroke-width="2"/>')
