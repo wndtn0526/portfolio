@@ -41,22 +41,22 @@ add(f'<rect width="{W}" height="{H}" fill="{WHITE}"/>')
 label(40, 66, '따로 쓸 때')
 box(40, 84, 400, 64, '구성원 정보가 바뀌면', '발령 · 입사 · 퇴사')
 arrow_down(240, 148, 192)
-label(252, 176, '서비스마다 다시 입력', size=12, weight=500)
+label(252, 176, '서비스마다 따로 고쳐야 함', size=12, weight=500)
 services = ['인사 서비스', '근태 서비스', '결재 서비스', '재무 서비스', '커뮤니티 서비스']
 pos = [(40, 196), (246, 196), (40, 276), (246, 276), (143, 356)]
 for name, (x, y) in zip(services, pos):
-    box(x, y, 194, 68, name, '자체 구성원 데이터')
+    box(x, y, 194, 68, name, '구성원 데이터가 따로 있음')
 
 # ── 오른쪽: 그룹웨어프로 — 인사 데이터가 바뀌면 함께 바뀐다 ──
 add(f'<rect x="520" y="40" width="640" height="380" rx="16" fill="{WHITE}" stroke="{ACCENT}" stroke-width="1.5"/>')
 label(544, 74, '그룹웨어프로', color=ACCENT, size=16, weight=700)
 box(544, 92, 592, 64, '구성원 정보가 바뀌면', '발령 · 입사 · 퇴사')
 arrow_down(840, 156, 188)
-box(544, 188, 592, 68, '인사 데이터', '구성원 · 조직 · 발령을 한 번 입력', accent=True)
+box(544, 188, 592, 68, '인사 데이터', '여기서 한 번만 고치면', accent=True)
 arrow_down(840, 256, 296)
-label(852, 282, '자동으로 함께 바뀜', size=12, weight=500)
+label(852, 282, '알아서 따라 바뀜', size=12, weight=500)
 for i, name in enumerate(['근태', '조직도', '결재선', '정산']):
-    box(544 + i * 152, 296, 136, 68, name, '자동 반영')
+    box(544 + i * 152, 296, 136, 68, name, '같이 바뀜')
 
 add('</svg>')
 dst = Path(__file__).resolve().parents[2] / 'public/images/projects/gpro-one-flow.svg'
