@@ -7,20 +7,15 @@
 <polygon points="235,183 240,192 245,183" fill="#868e96"/>
 <text x="252" y="176" font-size="12" font-weight="500" fill="#868e96" text-anchor="start">서비스마다 따로 고쳐야 함</text>
 <rect x="40" y="196" width="194" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
-<text x="58" y="227" font-size="16" font-weight="600" fill="#212529">인사 서비스</text>
-<text x="58" y="248" font-size="13" fill="#495057" fill-opacity="1">구성원 데이터가 따로 있음</text>
+<text x="58" y="236" font-size="16" font-weight="600" fill="#212529">인사 서비스</text>
 <rect x="246" y="196" width="194" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
-<text x="264" y="227" font-size="16" font-weight="600" fill="#212529">근태 서비스</text>
-<text x="264" y="248" font-size="13" fill="#495057" fill-opacity="1">구성원 데이터가 따로 있음</text>
+<text x="264" y="236" font-size="16" font-weight="600" fill="#212529">근태 서비스</text>
 <rect x="40" y="276" width="194" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
-<text x="58" y="307" font-size="16" font-weight="600" fill="#212529">결재 서비스</text>
-<text x="58" y="328" font-size="13" fill="#495057" fill-opacity="1">구성원 데이터가 따로 있음</text>
+<text x="58" y="316" font-size="16" font-weight="600" fill="#212529">결재 서비스</text>
 <rect x="246" y="276" width="194" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
-<text x="264" y="307" font-size="16" font-weight="600" fill="#212529">재무 서비스</text>
-<text x="264" y="328" font-size="13" fill="#495057" fill-opacity="1">구성원 데이터가 따로 있음</text>
+<text x="264" y="316" font-size="16" font-weight="600" fill="#212529">재무 서비스</text>
 <rect x="143" y="356" width="194" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
-<text x="161" y="387" font-size="16" font-weight="600" fill="#212529">커뮤니티 서비스</text>
-<text x="161" y="408" font-size="13" fill="#495057" fill-opacity="1">구성원 데이터가 따로 있음</text>
+<text x="161" y="396" font-size="16" font-weight="600" fill="#212529">커뮤니티 서비스</text>
 <rect x="520" y="40" width="640" height="380" rx="16" fill="#ffffff" stroke="#504fed" stroke-width="1.5"/>
 <text x="544" y="74" font-size="16" font-weight="700" fill="#504fed" text-anchor="start">그룹웨어프로</text>
 <rect x="544" y="92" width="592" height="64" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>

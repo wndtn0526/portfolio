@@ -45,7 +45,7 @@ label(252, 176, '서비스마다 따로 고쳐야 함', size=12, weight=500)
 services = ['인사 서비스', '근태 서비스', '결재 서비스', '재무 서비스', '커뮤니티 서비스']
 pos = [(40, 196), (246, 196), (40, 276), (246, 276), (143, 356)]
 for name, (x, y) in zip(services, pos):
-    box(x, y, 194, 68, name, '구성원 데이터가 따로 있음')
+    box(x, y, 194, 68, name)
 
 # ── 오른쪽: 그룹웨어프로 — 인사 데이터가 바뀌면 함께 바뀐다 ──
 add(f'<rect x="520" y="40" width="640" height="380" rx="16" fill="{WHITE}" stroke="{ACCENT}" stroke-width="1.5"/>')
