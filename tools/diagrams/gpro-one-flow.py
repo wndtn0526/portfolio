@@ -50,6 +50,7 @@ add(f'<rect width="{W}" height="{H}" fill="{WHITE}"/>')
 
 # ── 왼쪽: 따로 쓸 때 ──
 label(40, 64, '따로 쓸 때')
+label(128, 64, '조직도 · 결재 · 알림이 서비스마다 하나씩, 여섯 벌', weight=500)   # 화살표와 겹치지 않게 제목 줄에
 services = ['인사', '근태', '결재', '재무', '커뮤니티', '칸반']
 for i, name in enumerate(services):
     cx = 40 + (i % 3) * 138
@@ -60,11 +61,10 @@ for i, name in enumerate(services):
         chip(cx + 14, cy + 38 + k * 22, 96, c, dim=True) if False else add(
             f'<rect x="{cx + 14}" y="{cy + 38 + k * 22}" width="96" height="18" rx="9" fill="{WHITE}" stroke="#000000" stroke-opacity="0.08"/>'
             f'<text x="{cx + 62}" y="{cy + 51 + k * 22}" font-size="11" font-weight="600" fill="{MUTED}" text-anchor="middle">{c}</text>')
-label(40, 352, '조직도 · 결재 · 알림이 서비스마다 하나씩, 여섯 벌', color=MUTED, weight=500)
 box(40, 420, 400, 92, '구성원', ['같은 정보를 여러 번 입력하고', '알림은 여러 곳에서 확인'])
 for cx in (102, 240, 378):
     path(f'M{cx} 420 V332'); head(cx, 332, 'u')
-label(240, 396, '반복 입력', anchor='middle', size=12, weight=500)
+label(252, 384, '반복 입력', size=12, weight=500)   # 가운데 화살표 오른쪽
 
 # ── 오른쪽: 그룹웨어프로 하나 ──
 add(f'<rect x="520" y="40" width="640" height="480" rx="16" fill="{WHITE}" stroke="{ACCENT}" stroke-width="1.5"/>')
