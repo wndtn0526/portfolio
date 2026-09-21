@@ -2,8 +2,9 @@
 """
 그룹웨어프로 · 시점 관리 도식 → public/images/projects/gpro-point-in-time.svg
 
-한눈에 읽히는 한 가지만 보인다(2026-09-21 사용자: 표 도식은 너무 어렵다):
-  구성원 A 의 발령이 시간축 위에 구간으로 쌓이고, 날짜를 하나 찍으면 그날의 소속 · 직책 · 결재선이 나온다.
+앞 도식(따로 쓸 때 vs 그룹웨어프로)과 같은 좌우 비교 문법:
+  왼쪽  현재 상태만 저장하면 — 발령이 나면 예전 소속이 덮어써져 예전 조직도를 못 꺼내고 발령을 되돌릴 수 없다
+  오른쪽 시점 기준으로 저장하면 — 발령마다 행이 하나 더 쌓여, 어느 날짜든 그날의 조직도 · 소속 · 결재선을 꺼내고 발령 정정도 그 행만 고친다
 
 예시 값(구성원 A · 영업1팀 · 경영지원팀 …)은 설명용 가상 데이터다.
 색은 tokens.css. 화살촉은 marker 대신 도형(Figma SVG 가져오기가 marker 를 떨어뜨린다).
@@ -11,47 +12,55 @@
 """
 from pathlib import Path
 
-W, H = 1200, 380
+W, H = 1200, 400
 INK, BODY, MUTED, CANVAS, ACCENT, WHITE = '#212529', '#495057', '#868e96', '#f9f9f9', '#504fed', '#ffffff'
 FONT = "Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, sans-serif"
 out = []
 def add(s): out.append(s)
 
+def box(x, y, w, h, title, sub=None, accent=False, size=16, title_color=None):
+    fill, stroke, so = (ACCENT, ACCENT, 0) if accent else (CANVAS, '#000000', 0.08)
+    add(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="12" fill="{fill}" stroke="{stroke}" stroke-opacity="{so}" stroke-width="1"/>')
+    tc, sc = (WHITE, WHITE) if accent else (title_color or INK, BODY)
+    if sub:
+        add(f'<text x="{x + 18}" y="{y + h / 2 - 3:.0f}" font-size="{size}" font-weight="600" fill="{tc}">{title}</text>')
+        add(f'<text x="{x + 18}" y="{y + h / 2 + 18:.0f}" font-size="13" fill="{sc}" fill-opacity="{0.85 if accent else 1}">{sub}</text>')
+    else:
+        add(f'<text x="{x + 18}" y="{y + h / 2 + 6:.0f}" font-size="{size}" font-weight="600" fill="{tc}">{title}</text>')
+
 def label(x, y, s, color=MUTED, anchor='start', size=13, weight=600):
     add(f'<text x="{x}" y="{y}" font-size="{size}" font-weight="{weight}" fill="{color}" text-anchor="{anchor}">{s}</text>')
 
-# 시간축: 2022-01 ~ 2025-07 (42개월) → x 80 ~ 1120. 마지막 구간을 넉넉히 두어 기준일 선이 글자를 지나지 않게.
-X0, X1, MONTHS = 80, 1120, 42
-px = lambda m: X0 + (X1 - X0) * m / MONTHS
+def arrow(x1, y1, x2, y2):   # 수직 또는 수평
+    add(f'<path d="M{x1} {y1} L{x2} {y2}" fill="none" stroke="{MUTED}" stroke-width="1.5"/>')
+    if x1 == x2: pts = f'{x2-5},{y2-9} {x2},{y2} {x2+5},{y2-9}'
+    else: pts = f'{x2-9},{y2-5} {x2},{y2} {x2-9},{y2+5}'
+    add(f'<polygon points="{pts}" fill="{MUTED}"/>')
 
 add(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" font-family="{FONT}" aria-hidden="true">')
 add(f'<rect width="{W}" height="{H}" fill="{WHITE}"/>')
-label(40, 52, '구성원 A 의 발령 이력. 발령이 날 때마다 구간이 하나 더 쌓입니다')
 
-# 구간 (시작 개월, 끝 개월, 소속 · 직책, 시작일)
-segs = [(0, 14, '영업1팀 · 팀원', '2022-01-03'), (14, 30, '영업2팀 · 팀장', '2023-03-01'), (30, 42, '경영지원팀 · 팀장', '2024-07-01')]
-Y, HB = 116, 56
-for i, (a, b, name, start) in enumerate(segs):
-    x, w = px(a), px(b) - px(a)
-    add(f'<rect x="{x:.0f}" y="{Y}" width="{w - 6:.0f}" height="{HB}" rx="10" fill="{CANVAS}" stroke="#000000" stroke-opacity="0.08"/>')
-    add(f'<text x="{x + 16:.0f}" y="{Y + 34}" font-size="15" font-weight="600" fill="{INK}">{name}</text>')
-    label(x, Y + HB + 22, start, size=12, weight=500)
-# 마지막 구간은 열려 있다
-add(f'<text x="{X1 - 6}" y="{Y + 34}" font-size="13" fill="{MUTED}" text-anchor="end">지금</text>')
+# ── 왼쪽: 현재 상태만 저장하면 ──
+label(40, 66, '현재 상태만 저장하면')
+box(40, 84, 400, 60, '구성원 A', '소속: 영업1팀 · 팀원')
+arrow(240, 144, 240, 184); label(252, 170, '발령', size=12, weight=500)
+box(40, 188, 400, 60, '구성원 A', '소속: 경영지원팀 · 팀장 (영업1팀이었던 기록은 사라짐)')
+box(40, 276, 194, 60, '예전 조직도를', '꺼낼 수 없음', size=15)
+box(246, 276, 194, 60, '잘못 넣은 발령을', '되돌릴 수 없음', size=15)
 
-# 기준일 두 개 — 축 위에 찍고 아래 결과 상자로
-marks = [(12, '2022-12-31', '영업1팀 · 팀원', '결재선: 영업1팀장 → 영업본부장', 'left'),
-         (38, '2025-03-01', '경영지원팀 · 팀장', '결재선: 경영지원본부장', 'right')]
-for m, date, who, line, side in marks:
-    x = px(m)
-    add(f'<path d="M{x:.0f} 92 V270" stroke="{ACCENT}" stroke-width="2"/>')
-    add(f'<circle cx="{x:.0f}" cy="{Y + HB / 2}" r="6" fill="{ACCENT}"/>')
-    add(f'<text x="{x:.0f}" y="{84}" font-size="14" font-weight="700" fill="{ACCENT}" text-anchor="middle">{date} 에 결재를 올리면</text>')
-    bx = x - 150 if side == 'left' else x - 190
-    bx = max(40, min(bx, W - 40 - 340))
-    add(f'<rect x="{bx:.0f}" y="270" width="340" height="72" rx="12" fill="{WHITE}" stroke="{ACCENT}" stroke-width="1.5"/>')
-    add(f'<text x="{bx + 18:.0f}" y="{270 + 30}" font-size="16" font-weight="600" fill="{INK}">그날의 소속 · 직책: {who}</text>')
-    add(f'<text x="{bx + 18:.0f}" y="{270 + 54}" font-size="13" fill="{BODY}">{line}</text>')
+# ── 오른쪽: 시점 기준으로 저장하면 ──
+add(f'<rect x="520" y="40" width="640" height="320" rx="16" fill="{WHITE}" stroke="{ACCENT}" stroke-width="1.5"/>')
+label(544, 74, '시점 기준으로 저장하면', color=ACCENT, size=16, weight=700)
+rows = [('2022-01-03', '영업1팀 · 팀원'), ('2023-03-01', '영업2팀 · 팀장'), ('2024-07-01', '경영지원팀 · 팀장')]
+for i, (d, who) in enumerate(rows):
+    y = 92 + i * 60
+    add(f'<rect x="544" y="{y}" width="300" height="48" rx="10" fill="{CANVAS}" stroke="#000000" stroke-opacity="0.08"/>')
+    add(f'<text x="562" y="{y + 30}" font-size="13" fill="{MUTED}">{d}</text>')
+    add(f'<text x="660" y="{y + 30}" font-size="15" font-weight="600" fill="{INK}">{who}</text>')
+label(544, 296, '발령마다 행이 하나 더 쌓이고, 예전 행은 그대로 남습니다', size=12, weight=500)
+arrow(844, 182, 900, 182)
+box(912, 92, 224, 84, '어느 날짜든', '그날의 조직도 · 소속 · 결재선', size=15)
+box(912, 200, 224, 84, '발령 정정은', '그 행만 고치고 이력은 남음', size=15)
 
 add('</svg>')
 dst = Path(__file__).resolve().parents[2] / 'public/images/projects/gpro-point-in-time.svg'
