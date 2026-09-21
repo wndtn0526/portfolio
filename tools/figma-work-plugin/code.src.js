@@ -14,6 +14,7 @@
 
 const DATA = __DATA_JSON__;          // resources/data/projects.php 그대로 (build.sh)
 const PHOTO_B64 = '__PHOTO_B64__';   // public/images/projects/gpro-home.webp → PNG
+const IMAGES = __IMAGES_JSON__;      // public/images/projects/*.webp → PNG base64 (캐러셀 화면 캡처)
 const DIAGRAMS = __DIAGRAMS_JSON__;  // public/images/projects/*.svg (도식) — createNodeFromSvg 로 편집 가능한 레이어가 된다
 
 const hex = (h) => ({ r: parseInt(h.slice(1, 3), 16) / 255, g: parseInt(h.slice(3, 5), 16) / 255, b: parseInt(h.slice(5, 7), 16) / 255 });
@@ -211,6 +212,24 @@ function buildArticle(screen, company, project, width) {
                 }
                 continue;
             }
+            if (it.carousel) {        // 캐러셀 — Figma 에서는 세로로 쌓는다(한 장씩 + 설명)
+                const col = frame('캐러셀', 'VERTICAL', { gap: 16, stretch: true });
+                for (const sl of it.carousel.slides) {
+                    const b64 = IMAGES[sl.src];
+                    if (!b64) continue;
+                    const one = frame(sl.label, 'VERTICAL', { gap: 8, stretch: true });
+                    const img = figma.createRectangle(); CREATED.push(img);
+                    img.name = sl.label; img.resize(width, Math.round(width * sl.height / sl.width)); img.cornerRadius = 12;
+                    img.strokes = [{ type: 'SOLID', color: BORDER.color, opacity: BORDER.opacity }]; img.strokeWeight = 1;
+                    img.fills = [{ type: 'IMAGE', scaleMode: 'FILL', imageHash: figma.createImage(figma.base64Decode(b64)).hash }];
+                    one.appendChild(img);
+                    one.appendChild(rich([{ t: sl.label, style: F.semibold, color: C.ink }, { t: ' · ' + sl.note, style: F.regular, color: C.muted }], T.label2, { stretch: true }));
+                    col.appendChild(one);
+                }
+                if (it.carousel.caption) col.appendChild(text(it.carousel.caption, F.regular, T.label2, C.muted, { stretch: true }));
+                items.appendChild(col);
+                continue;
+            }
             if (it.links) {           // 딥다이브 링크 목록 — 밑줄 제목 + 연도 + →
                 const ul = frame('링크', 'VERTICAL', { gap: 12, stretch: true });
                 for (const slug of it.links) {
@@ -285,7 +304,7 @@ function buildScreen(screen, x) {
 // 이전 실행이 중간에 죽어 페이지 맨 위에 남은 잔해를 치운다.
 // 우리 이름표를 단 최상위 노드(중간 프레임 · 우리 글 텍스트)와, 덜 만들어진 '04 프로젝트' 프레임(높이 600 미만)만 지운다 — 완성돼 사용자가 손댄 프레임은 남긴다.
 function sweepLeftovers() {
-    const ours = new Set(['목록 + 아티클', '머리', '회사 탭', '목록', '번호', '내용', '태그', '그림', '도식', '링크', '항목', '하위', '항', '표', '정리 중', '다음 프로젝트', '단락']);
+    const ours = new Set(['목록 + 아티클', '머리', '회사 탭', '목록', '번호', '내용', '태그', '그림', '도식', '링크', '캐러셀', '항목', '하위', '항', '표', '정리 중', '다음 프로젝트', '단락']);
     const strip = (t) => String(t || '').replace(/<[^>]+>/g, '');
     for (const c of DATA) {
         ours.add(c.name); ours.add(c.meta);

@@ -328,3 +328,42 @@ if (workSection && companyPanels.length) {
         requestAnimationFrame(() => scrollTo(workSection));
     }
 }
+
+/*
+ * 캐러셀([data-carousel]) — 화면 캡처 여러 장. 넘김은 스크롤 스냅(손가락 · 트랙패드), 버튼과 점은 여기서.
+ * 현재 장은 scrollLeft 로 계산한다 — 스냅이 끝난 뒤 값이라 점 · 설명이 손 넘김에도 따라온다.
+ */
+document.querySelectorAll('[data-carousel]').forEach((root) => {
+    const track = root.querySelector('[data-carousel-track]');
+    const slides = [...root.querySelectorAll('[data-carousel-slide]')];
+    const dots = [...root.querySelectorAll('[data-carousel-dot]')];
+    const notes = [...root.querySelectorAll('[data-carousel-note]')];
+    const prev = root.querySelector('[data-carousel-prev]');
+    const next = root.querySelector('[data-carousel-next]');
+    if (!track || slides.length < 2) return;
+    let index = 0;
+    const render = () => {
+        dots.forEach((d, i) => d.classList.toggle('bg-ink', i === index));
+        notes.forEach((n, i) => { n.hidden = i !== index; });
+        prev.disabled = index === 0;
+        next.disabled = index === slides.length - 1;
+    };
+    const go = (i) => {
+        index = Math.max(0, Math.min(slides.length - 1, i));
+        track.scrollTo({ left: slides[index].offsetLeft, behavior: reducedMotion ? 'auto' : 'smooth' });
+        render();
+    };
+    prev.addEventListener('click', () => go(index - 1));
+    next.addEventListener('click', () => go(index + 1));
+    dots.forEach((d, i) => d.addEventListener('click', () => go(i)));
+    let raf = 0;
+    track.addEventListener('scroll', () => {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+            const i = Math.round(track.scrollLeft / slides[0].offsetWidth);
+            if (i !== index) { index = i; render(); }
+        });
+    }, { passive: true });
+    render();
+});
+

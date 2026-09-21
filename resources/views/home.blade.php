@@ -418,6 +418,41 @@
                                                     </ul>
                                                     @continue
                                                 @endif
+                                                @if (!empty($item['carousel']))
+                                                    {{-- 캐러셀. 스크롤 스냅으로 넘기고 버튼 · 점은 app.js. data-lenis-prevent: 가로 스크롤을 Lenis 가 가로채지 않게.
+                                                         marks: 기준일 자리를 파란 테두리로 — 어디를 봐야 하는지 바로 보이게. --}}
+                                                    <figure class="!mt-6 !mb-8" data-carousel>
+                                                        <div class="overflow-hidden rounded-[12px] border border-black/8 bg-white">
+                                                            <div data-carousel-track data-lenis-prevent class="flex snap-x snap-mandatory overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                                                                @foreach ($item['carousel']['slides'] as $k => $slide)
+                                                                    <div class="relative w-full shrink-0 snap-start" data-carousel-slide>
+                                                                        <img src="{{ asset($slide['src']) }}" width="{{ $slide['width'] }}" height="{{ $slide['height'] }}" alt="{{ $slide['alt'] }}" loading="lazy" class="block w-full">
+                                                                        @foreach ($slide['marks'] ?? [] as [$l, $t, $w, $hh])
+                                                                            <span aria-hidden="true" class="pointer-events-none absolute rounded-md border-2 border-statement shadow-[0_0_0_4px_rgba(80,79,237,0.18)]" style="left:{{ $l }}%;top:{{ $t }}%;width:{{ $w }}%;height:{{ $hh }}%"></span>
+                                                                        @endforeach
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                        <div class="mt-3 flex items-start justify-between gap-4">
+                                                            <figcaption class="min-w-0 text-label-2 break-keep text-muted">
+                                                                @foreach ($item['carousel']['slides'] as $k => $slide)
+                                                                    <span data-carousel-note @if ($k) hidden @endif><strong class="font-semibold text-ink">{{ $slide['label'] }}</strong> · {{ $slide['note'] }}</span>
+                                                                @endforeach
+                                                            </figcaption>
+                                                            <div class="flex shrink-0 items-center gap-2">
+                                                                <button type="button" data-carousel-prev aria-label="이전 화면" class="grid size-8 place-items-center rounded-full border border-rule text-ink transition-colors hover:bg-white disabled:opacity-30">←</button>
+                                                                <span class="flex items-center gap-1.5" aria-hidden="true">
+                                                                    @foreach ($item['carousel']['slides'] as $k => $slide)
+                                                                        <button type="button" data-carousel-dot="{{ $k }}" class="size-2 rounded-full bg-rule transition-colors {{ $k === 0 ? 'bg-ink' : '' }}"></button>
+                                                                    @endforeach
+                                                                </span>
+                                                                <button type="button" data-carousel-next aria-label="다음 화면" class="grid size-8 place-items-center rounded-full border border-rule text-ink transition-colors hover:bg-white disabled:opacity-30">→</button>
+                                                            </div>
+                                                        </div>
+                                                    </figure>
+                                                    @continue
+                                                @endif
                                                 @if (!empty($item['diagram']))
                                                     {{-- 도식. SVG 를 인라인으로 — <img> 로 넣으면 Pretendard 가 안 걸린다. 폰에서는 720 폭을 지켜 가로로 스크롤(본문은 절대 가로로 넘치지 않게). --}}
                                                     <figure class="!mt-6 !mb-8">
