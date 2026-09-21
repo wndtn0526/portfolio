@@ -55,8 +55,9 @@ arrow_down(840, 156, 188)
 box(544, 188, 592, 68, '인사 데이터', '여기서 한 번만 고치면', accent=True)
 arrow_down(840, 256, 296)
 label(852, 282, '알아서 따라 바뀜', size=12, weight=500)
-for i, name in enumerate(['근태', '조직도', '결재선', '정산']):
-    box(544 + i * 152, 296, 136, 68, name, '같이 바뀜')
+# 셋 — 폭 (592 - 2*16) / 3 = 186.67
+for i, name in enumerate(['근태 정보', '조직도 정보', '결재선 및 정산 정보']):
+    box(544 + i * 203, 296, 186, 68, name, '같이 바뀜')
 
 add('</svg>')
 dst = Path(__file__).resolve().parents[2] / 'public/images/projects/gpro-one-flow.svg'

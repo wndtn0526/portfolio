@@ -28,16 +28,13 @@
 <path d="M840 256 V296" fill="none" stroke="#868e96" stroke-width="1.5"/>
 <polygon points="835,287 840,296 845,287" fill="#868e96"/>
 <text x="852" y="282" font-size="12" font-weight="500" fill="#868e96" text-anchor="start">알아서 따라 바뀜</text>
-<rect x="544" y="296" width="136" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
-<text x="562" y="327" font-size="16" font-weight="600" fill="#212529">근태</text>
+<rect x="544" y="296" width="186" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="562" y="327" font-size="16" font-weight="600" fill="#212529">근태 정보</text>
 <text x="562" y="348" font-size="13" fill="#495057" fill-opacity="1">같이 바뀜</text>
-<rect x="696" y="296" width="136" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
-<text x="714" y="327" font-size="16" font-weight="600" fill="#212529">조직도</text>
-<text x="714" y="348" font-size="13" fill="#495057" fill-opacity="1">같이 바뀜</text>
-<rect x="848" y="296" width="136" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
-<text x="866" y="327" font-size="16" font-weight="600" fill="#212529">결재선</text>
-<text x="866" y="348" font-size="13" fill="#495057" fill-opacity="1">같이 바뀜</text>
-<rect x="1000" y="296" width="136" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
-<text x="1018" y="327" font-size="16" font-weight="600" fill="#212529">정산</text>
-<text x="1018" y="348" font-size="13" fill="#495057" fill-opacity="1">같이 바뀜</text>
+<rect x="747" y="296" width="186" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="765" y="327" font-size="16" font-weight="600" fill="#212529">조직도 정보</text>
+<text x="765" y="348" font-size="13" fill="#495057" fill-opacity="1">같이 바뀜</text>
+<rect x="950" y="296" width="186" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="968" y="327" font-size="16" font-weight="600" fill="#212529">결재선 및 정산 정보</text>
+<text x="968" y="348" font-size="13" fill="#495057" fill-opacity="1">같이 바뀜</text>
 </svg>
