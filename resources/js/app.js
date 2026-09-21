@@ -343,7 +343,7 @@ document.querySelectorAll('[data-carousel]').forEach((root) => {
     if (!track || slides.length < 2) return;
     let index = 0;
     const render = () => {
-        dots.forEach((d, i) => d.classList.toggle('bg-ink', i === index));
+        dots.forEach((d, i) => { const on = i === index; d.classList.toggle('bg-statement', on); d.classList.toggle('bg-rule', !on); d.classList.toggle('hover:bg-muted', !on); });
         notes.forEach((n, i) => { n.hidden = i !== index; });
         prev.disabled = index === 0;
         next.disabled = index === slides.length - 1;

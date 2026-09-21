@@ -444,7 +444,8 @@
                                                                 <button type="button" data-carousel-prev aria-label="이전 화면" class="grid size-8 place-items-center rounded-full border border-rule text-ink transition-colors hover:bg-white disabled:opacity-30">←</button>
                                                                 <span class="flex items-center gap-1.5" aria-hidden="true">
                                                                     @foreach ($item['carousel']['slides'] as $k => $slide)
-                                                                        <button type="button" data-carousel-dot="{{ $k }}" class="size-2 rounded-full bg-rule transition-colors {{ $k === 0 ? 'bg-ink' : '' }}"></button>
+                                                                        {{-- 현재 장은 파란 채움. bg-rule 과 같이 두면 CSS 순서로 bg-rule 이 이겨서 색이 안 보인다 — 둘 중 하나만 단다. --}}
+                                                                        <button type="button" data-carousel-dot="{{ $k }}" aria-label="{{ $k + 1 }}번째 화면" class="size-2.5 rounded-full transition-colors {{ $k === 0 ? 'bg-statement' : 'bg-rule hover:bg-muted' }}"></button>
                                                                     @endforeach
                                                                 </span>
                                                                 <button type="button" data-carousel-next aria-label="다음 화면" class="grid size-8 place-items-center rounded-full border border-rule text-ink transition-colors hover:bg-white disabled:opacity-30">→</button>
