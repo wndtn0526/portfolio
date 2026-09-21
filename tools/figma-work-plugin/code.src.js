@@ -95,6 +95,7 @@ const text = (t, style, spec, color, opts) => rich([{ t, style, color }], spec, 
 
 // '<strong>…</strong>' 만 쓰는 본문을 parts 로 — 굵은 구간은 SemiBold 잉크
 function strongParts(html) {
+    html = String(html).replace(/<(?!\/?strong\b)[^>]+>/g, '');   // <a> 등 다른 태그는 글자만 남긴다
     const parts = [];
     const re = /<strong>(.*?)<\/strong>/g;
     let last = 0, m;
