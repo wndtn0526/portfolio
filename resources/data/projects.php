@@ -93,10 +93,17 @@ return [
             ['title' => '세부 프로젝트', 'items' => [
                         ['links' => ['card-hometax', 'gpro-ir', 'member-workspace', 'overtime-52h', 'gpro-voc']],
             ]],
-            // 작업물 — Figma GPRO_PORTFOLIO 파일의 페이지별 링크(포트폴리오 페이지 제외). 사용자가 하나씩 준다. ⚠️ 방문자가 열려면 파일 공유가 「링크가 있는 모든 사용자 · 보기」여야 한다.
+            // 작업물 — Figma GPRO_PORTFOLIO 파일의 페이지별 링크(PORTFOLIO · GPRO_NEW 페이지 제외). 페이지 이름은 MCP 로 확인: Design guide · GPRO_공통 · GPRO_인사(발령 화면 프레임으로 열림) · GPRO_재무 · GPRO_결재 · GPRO_커뮤니티 · GPRO_칸반보드 · GPRO_문서 양식 빌더. ⚠️ 방문자가 열려면 파일 공유가 「링크가 있는 모든 사용자 · 보기」여야 한다.
             ['title' => '작업물', 'items' => [
                         ['external' => [
                             ['label' => '디자인 시스템', 'note' => 'Figma', 'url' => 'https://www.figma.com/design/sJC6AduTG0I4cTttQJFAes/GPRO_PORTFOLIO?node-id=1002-517500'],
+                            ['label' => '공통', 'note' => 'Figma', 'url' => 'https://www.figma.com/design/sJC6AduTG0I4cTttQJFAes/GPRO_PORTFOLIO?node-id=0-1'],
+                            ['label' => '인사', 'note' => 'Figma', 'url' => 'https://www.figma.com/design/sJC6AduTG0I4cTttQJFAes/GPRO_PORTFOLIO?node-id=1002-263292'],
+                            ['label' => '재무', 'note' => 'Figma', 'url' => 'https://www.figma.com/design/sJC6AduTG0I4cTttQJFAes/GPRO_PORTFOLIO?node-id=1002-3'],
+                            ['label' => '결재', 'note' => 'Figma', 'url' => 'https://www.figma.com/design/sJC6AduTG0I4cTttQJFAes/GPRO_PORTFOLIO?node-id=1002-4'],
+                            ['label' => '커뮤니티', 'note' => 'Figma', 'url' => 'https://www.figma.com/design/sJC6AduTG0I4cTttQJFAes/GPRO_PORTFOLIO?node-id=1002-5'],
+                            ['label' => '칸반보드', 'note' => 'Figma', 'url' => 'https://www.figma.com/design/sJC6AduTG0I4cTttQJFAes/GPRO_PORTFOLIO?node-id=1002-6'],
+                            ['label' => '문서 양식 빌더', 'note' => 'Figma', 'url' => 'https://www.figma.com/design/sJC6AduTG0I4cTttQJFAes/GPRO_PORTFOLIO?node-id=1002-158561'],
                         ]],
             ]],
                 ],
