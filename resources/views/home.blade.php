@@ -418,6 +418,21 @@
                                                     </ul>
                                                     @continue
                                                 @endif
+                                                @if (!empty($item['external']))
+                                                    {{-- 바깥 링크(새 탭). 딥다이브 링크와 같은 모양, 화살표만 ↗. --}}
+                                                    <ul class="space-y-3">
+                                                        @foreach ($item['external'] as $ext)
+                                                            <li>
+                                                                <a href="{{ $ext['url'] }}" target="_blank" rel="noopener" class="group inline-flex flex-wrap items-baseline gap-x-3 text-heading-2 font-semibold break-keep text-ink">
+                                                                    <span class="underline decoration-1 underline-offset-[6px]">{{ $ext['label'] }}</span>
+                                                                    @if (!empty($ext['note']))<span class="text-label-1 font-normal text-muted">{{ $ext['note'] }}</span>@endif
+                                                                    <span aria-hidden="true" class="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
+                                                                </a>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                    @continue
+                                                @endif
                                                 @if (!empty($item['carousel']))
                                                     {{-- 캐러셀. 스크롤 스냅으로 넘기고 버튼 · 점은 app.js. data-lenis-prevent: 가로 스크롤을 Lenis 가 가로채지 않게.
                                                          marks: 기준일 자리를 파란 테두리로 — 어디를 봐야 하는지 바로 보이게. --}}

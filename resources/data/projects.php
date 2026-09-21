@@ -12,6 +12,7 @@
  *   - image 항목: ['image' => [같은 키]] — 섹션 본문 그 자리에 그림이 들어간다. 그림은 public/images/projects/ 에 둔다.
  *   - links 항목: ['links' => [slug, …]] — 같은 회사의 다른 프로젝트로 가는 링크 목록(개요 → 딥다이브).
  *   - diagram 항목: ['diagram' => [file · alt · caption]] — public/ 의 SVG 를 인라인으로 넣는다(tools/diagrams/*.py 생성물). 폰에서는 가로 스크롤.
+ *   - external 항목: ['external' => [[label · note · url], …]] — 바깥 링크 목록(새 탭). Figma 작업물 등.
  *   - carousel 항목: ['carousel' => [caption · slides[ src · width · height · label · note · alt · marks[[left,top,w,h]%] ]]] — 화면 캡처 여러 장을 넘겨 보는 캐러셀(app.js [data-carousel]).
  *   - sub 는 문자열 또는 [label, text]. 문자열이면 그대로, 배열이면 「라벨 : 본문」.
  *
@@ -91,6 +92,12 @@ return [
             // 개요 → 딥다이브. slug 는 같은 회사 안의 프로젝트.
             ['title' => '세부 프로젝트', 'items' => [
                         ['links' => ['card-hometax', 'gpro-ir', 'member-workspace', 'overtime-52h', 'gpro-voc']],
+            ]],
+            // 작업물 — Figma GPRO_PORTFOLIO 파일의 페이지별 링크(포트폴리오 페이지 제외). 사용자가 하나씩 준다. ⚠️ 방문자가 열려면 파일 공유가 「링크가 있는 모든 사용자 · 보기」여야 한다.
+            ['title' => '작업물', 'items' => [
+                        ['external' => [
+                            ['label' => '디자인 시스템', 'note' => 'Figma', 'url' => 'https://www.figma.com/design/sJC6AduTG0I4cTttQJFAes/GPRO_PORTFOLIO?node-id=1002-517500'],
+                        ]],
             ]],
                 ],
             ],
