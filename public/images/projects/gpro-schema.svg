@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" width="1200" height="500" font-family="Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, sans-serif" aria-hidden="true">
+<rect width="1200" height="500" fill="#ffffff"/>
+<rect x="400" y="60" width="400" height="380" rx="16" fill="#ffffff" stroke="#504fed" stroke-width="1.5"/>
+<text x="420" y="92" font-size="16" font-weight="700" fill="#504fed" text-anchor="start">인사 코어</text>
+<text x="500" y="92" font-size="12" font-weight="500" fill="#868e96" text-anchor="start">모든 모듈이 여기를 읽습니다</text>
+<rect x="420" y="112" width="172" height="106" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="436" y="138" font-size="15" font-weight="600" fill="#212529">구성원</text>
+<text x="436" y="162" font-size="13" fill="#495057">사번 · 이름</text>
+<text x="436" y="184" font-size="13" fill="#495057">고용 구분</text>
+<text x="436" y="206" font-size="13" fill="#495057">재직 상태</text>
+<rect x="608" y="112" width="172" height="106" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="624" y="138" font-size="15" font-weight="600" fill="#212529">조직</text>
+<text x="624" y="162" font-size="13" fill="#495057">조직 코드 · 이름</text>
+<text x="624" y="184" font-size="13" fill="#495057">상위 조직</text>
+<text x="624" y="206" font-size="13" fill="#495057">시작일 · 종료일</text>
+<rect x="420" y="232" width="360" height="106" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="436" y="258" font-size="15" font-weight="600" fill="#212529">발령 이력</text>
+<text x="436" y="282" font-size="13" fill="#495057">구성원 → 조직 · 직책</text>
+<text x="436" y="304" font-size="13" fill="#495057">발령 유형 (입사 · 발령 · 퇴사)</text>
+<text x="436" y="326" font-size="13" fill="#495057">시작일 · 종료일</text>
+<text x="420" y="386" font-size="12" font-weight="500" fill="#868e96" text-anchor="start">시작일 · 종료일을 가진 행은 날짜로 조회합니다.</text>
+<text x="420" y="406" font-size="12" font-weight="500" fill="#868e96" text-anchor="start">다른 모듈은 구성원 · 조직 정보를 따로 갖지 않습니다.</text>
+<rect x="40" y="60" width="300" height="106" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="56" y="86" font-size="15" font-weight="600" fill="#212529">근태</text>
+<text x="56" y="110" font-size="13" fill="#495057">근무제 · 휴일 · 연차 기준 (법인별)</text>
+<text x="56" y="132" font-size="13" fill="#495057">출퇴근 · 휴가 기록</text>
+<text x="56" y="154" font-size="13" fill="#495057">읽음: 구성원 · 조직</text>
+<rect x="40" y="320" width="300" height="84" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="56" y="346" font-size="15" font-weight="600" fill="#212529">커뮤니티</text>
+<text x="56" y="370" font-size="13" fill="#495057">게시판 · 글</text>
+<text x="56" y="392" font-size="13" fill="#495057">열람 범위 = 조직</text>
+<rect x="860" y="60" width="300" height="106" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="876" y="86" font-size="15" font-weight="600" fill="#212529">결재</text>
+<text x="876" y="110" font-size="13" fill="#495057">결재 문서 · 양식</text>
+<text x="876" y="132" font-size="13" fill="#495057">결재선 = 그날의 소속 · 직책</text>
+<text x="876" y="154" font-size="13" fill="#495057">읽음: 발령 이력</text>
+<rect x="860" y="232" width="300" height="128" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="876" y="258" font-size="15" font-weight="600" fill="#212529">재무</text>
+<text x="876" y="282" font-size="13" fill="#495057">지출결의서 = 결재 문서</text>
+<text x="876" y="304" font-size="13" fill="#495057">예산과목 · 계정 코드</text>
+<text x="876" y="326" font-size="13" fill="#495057">마감 · 자금 지급</text>
+<text x="876" y="348" font-size="13" fill="#495057">법인카드 내역 · 홈택스 세금계산서</text>
+<rect x="860" y="372" width="300" height="62" rx="12" fill="#ffffff" stroke="#504fed" stroke-opacity="1" stroke-width="1.5"/>
+<text x="876" y="398" font-size="15" font-weight="600" fill="#504fed">ERP 커넥터</text>
+<text x="876" y="422" font-size="13" fill="#495057">예산과목 · 계정 코드로 회사별 ERP 에 맞춤</text>
+<path d="M340 126 H370 V180 H400" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="391,175 400,180 391,185" fill="#868e96"/>
+<path d="M340 360 H370 V330 H400" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="391,325 400,330 391,335" fill="#868e96"/>
+<path d="M860 126 H830 V180 H800" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="809,175 800,180 809,185" fill="#868e96"/>
+<path d="M860 300 H830 V330 H800" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="809,325 800,330 809,335" fill="#868e96"/>
+<path d="M1010 166 V232" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="1005,223 1010,232 1015,223" fill="#868e96"/>
+<text x="1022" y="204" font-size="12" font-weight="500" fill="#868e96" text-anchor="start">승인되면 재무로</text>
+</svg>
