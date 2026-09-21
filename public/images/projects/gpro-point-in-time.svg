@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 580" width="1200" height="580" font-family="Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, sans-serif" aria-hidden="true">
+<rect width="1200" height="580" fill="#ffffff"/>
+<text x="40" y="56" font-size="13" font-weight="600" fill="#868e96" text-anchor="start">인사 데이터는 현재 상태가 아니라 이력으로 쌓입니다</text>
+<text x="40" y="92" font-size="14" font-weight="600" fill="#212529">발령 이력 · 구성원 A</text>
+<rect x="40" y="104" width="428" height="118" rx="10" fill="#ffffff" stroke="#000000" stroke-opacity="0.08"/>
+<rect x="41" y="105" width="426" height="27" rx="9" fill="#f9f9f9"/>
+<text x="56" y="123" font-size="12" font-weight="600" fill="#868e96">시작일</text>
+<text x="156" y="123" font-size="12" font-weight="600" fill="#868e96">종료일</text>
+<text x="256" y="123" font-size="12" font-weight="600" fill="#868e96">소속</text>
+<text x="372" y="123" font-size="12" font-weight="600" fill="#868e96">직책</text>
+<text x="56" y="152" font-size="13" fill="#495057">2022-01-03</text>
+<text x="156" y="152" font-size="13" fill="#495057">2023-02-28</text>
+<text x="256" y="152" font-size="13" fill="#495057">영업1팀</text>
+<text x="372" y="152" font-size="13" fill="#495057">팀원</text>
+<path d="M41 162 H467" stroke="#000000" stroke-opacity="0.08"/>
+<text x="56" y="182" font-size="13" fill="#495057">2023-03-01</text>
+<text x="156" y="182" font-size="13" fill="#495057">2024-06-30</text>
+<text x="256" y="182" font-size="13" fill="#495057">영업2팀</text>
+<text x="372" y="182" font-size="13" fill="#495057">팀장</text>
+<path d="M41 192 H467" stroke="#000000" stroke-opacity="0.08"/>
+<text x="56" y="212" font-size="13" fill="#495057">2024-07-01</text>
+<text x="156" y="212" font-size="13" fill="#868e96">(지금)</text>
+<text x="256" y="212" font-size="13" fill="#495057">경영지원팀</text>
+<text x="372" y="212" font-size="13" fill="#495057">팀장</text>
+<text x="40" y="262" font-size="14" font-weight="600" fill="#212529">조직 이력</text>
+<rect x="40" y="274" width="428" height="118" rx="10" fill="#ffffff" stroke="#000000" stroke-opacity="0.08"/>
+<rect x="41" y="275" width="426" height="27" rx="9" fill="#f9f9f9"/>
+<text x="56" y="293" font-size="12" font-weight="600" fill="#868e96">시작일</text>
+<text x="156" y="293" font-size="12" font-weight="600" fill="#868e96">종료일</text>
+<text x="256" y="293" font-size="12" font-weight="600" fill="#868e96">조직</text>
+<text x="372" y="293" font-size="12" font-weight="600" fill="#868e96">상위 조직</text>
+<text x="56" y="322" font-size="13" fill="#495057">2022-01-01</text>
+<text x="156" y="322" font-size="13" fill="#495057">2023-12-31</text>
+<text x="256" y="322" font-size="13" fill="#495057">영업1팀</text>
+<text x="372" y="322" font-size="13" fill="#495057">영업본부</text>
+<path d="M41 332 H467" stroke="#000000" stroke-opacity="0.08"/>
+<text x="56" y="352" font-size="13" fill="#495057">2024-01-01</text>
+<text x="156" y="352" font-size="13" fill="#868e96">(지금)</text>
+<text x="256" y="352" font-size="13" fill="#495057">영업1팀</text>
+<text x="372" y="352" font-size="13" fill="#495057">세일즈본부</text>
+<path d="M41 362 H467" stroke="#000000" stroke-opacity="0.08"/>
+<text x="56" y="382" font-size="13" fill="#495057">2022-01-01</text>
+<text x="156" y="382" font-size="13" fill="#868e96">(지금)</text>
+<text x="256" y="382" font-size="13" fill="#495057">경영지원팀</text>
+<text x="372" y="382" font-size="13" fill="#495057">경영지원본부</text>
+<text x="40" y="418" font-size="12" font-weight="500" fill="#868e96" text-anchor="start">고치지 않고 행을 더합니다. 예전 행은 그대로 남습니다.</text>
+<path d="M468 148 H560" fill="none" stroke="#868e96" stroke-width="1.5" stroke-dasharray="4 4"/>
+<polygon points="551,143 560,148 551,153" fill="#868e96"/>
+<rect x="560" y="120" width="176" height="56" rx="12" fill="#504fed" stroke="#504fed" stroke-opacity="0" stroke-width="1"/>
+<text x="578" y="154" font-size="15" font-weight="600" fill="#ffffff">기준일 2022-12-31</text>
+<path d="M736 148 H800" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="791,143 800,148 791,153" fill="#868e96"/>
+<rect x="800" y="104" width="360" height="88" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="818" y="145" font-size="15" font-weight="600" fill="#212529">영업본부 > 영업1팀 > A (팀원)</text>
+<text x="818" y="166" font-size="13" fill="#495057" fill-opacity="1">결재선: 영업1팀장 → 영업본부장</text>
+<path d="M468 328 H560" fill="none" stroke="#868e96" stroke-width="1.5" stroke-dasharray="4 4"/>
+<polygon points="551,323 560,328 551,333" fill="#868e96"/>
+<rect x="560" y="300" width="176" height="56" rx="12" fill="#504fed" stroke="#504fed" stroke-opacity="0" stroke-width="1"/>
+<text x="578" y="334" font-size="15" font-weight="600" fill="#ffffff">기준일 2024-09-01</text>
+<path d="M736 328 H800" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="791,323 800,328 791,333" fill="#868e96"/>
+<rect x="800" y="284" width="360" height="88" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="818" y="325" font-size="15" font-weight="600" fill="#212529">경영지원본부 > 경영지원팀 > A (팀장)</text>
+<text x="818" y="346" font-size="13" fill="#495057" fill-opacity="1">결재선: 경영지원본부장</text>
+<text x="668" y="104" font-size="12" font-weight="500" fill="#868e96" text-anchor="middle">그날 유효한 행만 고르면</text>
+<text x="40" y="480" font-size="13" font-weight="600" fill="#868e96" text-anchor="start">이 데이터를 기준일로 읽는 곳</text>
+<rect x="40" y="494" width="208" height="60" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="58" y="521" font-size="15" font-weight="600" fill="#212529">조직도</text>
+<text x="58" y="542" font-size="13" fill="#495057" fill-opacity="1">어느 날짜든 그날의 조직도</text>
+<rect x="262" y="494" width="208" height="60" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="280" y="521" font-size="15" font-weight="600" fill="#212529">결재선</text>
+<text x="280" y="542" font-size="13" fill="#495057" fill-opacity="1">상신일의 소속 · 직책</text>
+<rect x="484" y="494" width="208" height="60" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="502" y="521" font-size="15" font-weight="600" fill="#212529">근태 기준</text>
+<text x="502" y="542" font-size="13" fill="#495057" fill-opacity="1">그날의 근무제 · 휴일</text>
+<rect x="706" y="494" width="208" height="60" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="724" y="521" font-size="15" font-weight="600" fill="#212529">정산</text>
+<text x="724" y="542" font-size="13" fill="#495057" fill-opacity="1">그달 소속으로 집계</text>
+<rect x="928" y="494" width="208" height="60" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="946" y="521" font-size="15" font-weight="600" fill="#212529">발령 정정</text>
+<text x="946" y="542" font-size="13" fill="#495057" fill-opacity="1">과거 행만 고치고 이력은 보존</text>
+</svg>
