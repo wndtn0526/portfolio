@@ -1,0 +1,9 @@
+{
+  "name": "포트폴리오 · 원본 2배 내보내기",
+  "id": "portfolio-hires-export",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": { "allowedDomains": ["none"], "devAllowedDomains": ["http://localhost:8899"] }
+}

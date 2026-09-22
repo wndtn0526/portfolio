@@ -504,7 +504,8 @@
                                                 @endif
                                                 @if (!empty($item['image']))
                                                     {{-- 그림. 테두리 1px 검정 8% · 모서리 12 — 화면 캡처가 배경(#f9f9f9)에 묻히지 않게. --}}
-                                                    <figure class="!mt-6 !mb-8">
+                                                    {{-- 'max' 가 있으면 그 폭(px)까지만 — 덱에서 잘라 온 차트는 본문 폭에 꽉 채우면 글자가 본문보다 커진다. --}}
+                                                    <figure class="!mt-6 !mb-8" @if (!empty($item['image']['max'])) style="max-width: {{ $item['image']['max'] }}px" @endif>
                                                         <img src="{{ asset($item['image']['src']) }}" width="{{ $item['image']['width'] }}" height="{{ $item['image']['height'] }}"
                                                              alt="{{ $item['image']['alt'] }}" loading="lazy" class="w-full rounded-[12px] border border-black/8 bg-white">
                                                         @if (!empty($item['image']['caption']))
