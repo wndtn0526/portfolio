@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 330" width="1200" height="330" font-family="Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, sans-serif" aria-hidden="true">
+<rect width="1200" height="330" fill="#ffffff"/>
+<rect x="614" y="64" width="355" height="26" rx="13" fill="#504fed" fill-opacity="0.1"/>
+<text x="791" y="82" font-size="12" font-weight="600" fill="#504fed" text-anchor="middle">담당자가 하는 일은 여기까지</text>
+<rect x="40" y="120" width="163" height="96" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
+<text x="56" y="160" font-size="15" font-weight="600" fill="#212529">거래처 발행</text>
+<text x="56" y="182" font-size="12" fill="#495057" fill-opacity="1">홈택스에서 세금계산서 발행</text>
+<path d="M203 168 H229" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="222,163 231,168 222,173" fill="#868e96"/>
+<rect x="231" y="120" width="163" height="96" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
+<text x="247" y="160" font-size="15" font-weight="600" fill="#212529">GPRO 수신</text>
+<text x="247" y="182" font-size="12" fill="#495057" fill-opacity="1">국세청 서버에서 자동 수신</text>
+<path d="M395 168 H421" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="414,163 423,168 414,173" fill="#868e96"/>
+<rect x="423" y="120" width="163" height="96" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
+<text x="439" y="160" font-size="15" font-weight="600" fill="#212529">담당자 매핑</text>
+<text x="439" y="182" font-size="12" fill="#495057" fill-opacity="1">거래처 마스터로 담당자 찾고 알림</text>
+<path d="M586 168 H612" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="605,163 614,168 605,173" fill="#868e96"/>
+<rect x="614" y="120" width="163" height="96" rx="12" fill="#504fed" stroke="#504fed" stroke-opacity="0"/>
+<text x="630" y="160" font-size="15" font-weight="600" fill="#ffffff">지출결의서 생성</text>
+<text x="630" y="182" font-size="12" fill="#ffffff" fill-opacity="0.85">버튼 한 번, 거래처 · 금액 · 부가세 자동</text>
+<path d="M777 168 H803" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="796,163 805,168 796,173" fill="#868e96"/>
+<rect x="805" y="120" width="163" height="96" rx="12" fill="#504fed" stroke="#504fed" stroke-opacity="0"/>
+<text x="821" y="160" font-size="15" font-weight="600" fill="#ffffff">결재 · 검증</text>
+<text x="821" y="182" font-size="12" fill="#ffffff" fill-opacity="0.85">결재선 자동 지정 · 항목 검증</text>
+<path d="M969 168 H995" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="988,163 997,168 988,173" fill="#868e96"/>
+<rect x="997" y="120" width="163" height="96" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
+<text x="1013" y="160" font-size="15" font-weight="600" fill="#212529">ERP 전표</text>
+<text x="1013" y="182" font-size="12" fill="#495057" fill-opacity="1">승인되면 자동 반영</text>
+<text x="409" y="250" font-size="12" font-weight="500" fill="#868e96" text-anchor="middle">홈택스 API</text>
+<text x="600" y="250" font-size="12" font-weight="500" fill="#868e96" text-anchor="middle">미등록 거래처면 등록부터</text>
+</svg>

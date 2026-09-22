@@ -12,6 +12,7 @@
  *   - image 항목: ['image' => [같은 키]] — 섹션 본문 그 자리에 그림이 들어간다. 그림은 public/images/projects/ 에 둔다.
  *   - links 항목: ['links' => [slug, …]] — 같은 회사의 다른 프로젝트로 가는 링크 목록(개요 → 딥다이브).
  *   - diagram 항목: ['diagram' => [file · alt · caption]] — public/ 의 SVG 를 인라인으로 넣는다(tools/diagrams/*.py 생성물). 폰에서는 가로 스크롤.
+ *   - table 항목: ['table' => [headers[] · rows[[…]] · caption]] — 비교표. 첫 열은 굵게. 셀에 <strong> 가능.
  *   - external 항목: ['external' => [[label · note · url], …]] — 바깥 링크 목록(새 탭). Figma 작업물 등.
  *   - carousel 항목: ['carousel' => [caption · slides[ src · width · height · label · note · alt · marks[[left,top,w,h]%] ]]] — 화면 캡처 여러 장을 넘겨 보는 캐러셀(app.js [data-carousel]).
  *   - sub 는 문자열 또는 [label, text]. 문자열이면 그대로, 배열이면 「라벨 : 본문」.

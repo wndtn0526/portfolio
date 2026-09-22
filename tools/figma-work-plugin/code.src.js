@@ -230,6 +230,14 @@ function buildArticle(screen, company, project, width) {
                 items.appendChild(col);
                 continue;
             }
+            if (it.table) {           // 표 — 행마다 한 줄 텍스트로(열은 ' · ' 로)
+                const tb = frame('표', 'VERTICAL', { gap: 6, stretch: true });
+                tb.appendChild(text(it.table.headers.join(' · '), F.semibold, T.label2, C.muted, { stretch: true }));
+                for (const row of it.table.rows) tb.appendChild(rich([{ t: String(row[0]).replace(/<[^>]+>/g, ''), style: F.semibold, color: C.ink }, { t: ' · ' + row.slice(1).map((c) => String(c).replace(/<[^>]+>/g, '')).join(' · '), style: F.regular, color: C.body }], T.label1r, { stretch: true }));
+                if (it.table.caption) tb.appendChild(text(it.table.caption, F.regular, T.label2, C.muted, { stretch: true }));
+                items.appendChild(tb);
+                continue;
+            }
             if (it.external) {        // 바깥 링크 목록 — 밑줄 라벨 + 메모 + ↗ (주소는 Figma 에 안 싣는다)
                 const ul = frame('바깥 링크', 'VERTICAL', { gap: 12, stretch: true });
                 for (const ex of it.external) ul.appendChild(rich([{ t: ex.label, style: F.semibold, color: C.ink, underline: true }, { t: ex.note ? '  ' + ex.note : '', style: F.regular, color: C.muted }, { t: '  ↗', style: F.semibold, color: C.ink }], T.heading2));
@@ -310,7 +318,7 @@ function buildScreen(screen, x) {
 // 이전 실행이 중간에 죽어 페이지 맨 위에 남은 잔해를 치운다.
 // 우리 이름표를 단 최상위 노드(중간 프레임 · 우리 글 텍스트)와, 덜 만들어진 '04 프로젝트' 프레임(높이 600 미만)만 지운다 — 완성돼 사용자가 손댄 프레임은 남긴다.
 function sweepLeftovers() {
-    const ours = new Set(['목록 + 아티클', '머리', '회사 탭', '목록', '번호', '내용', '태그', '그림', '도식', '링크', '바깥 링크', '캐러셀', '항목', '하위', '항', '표', '정리 중', '다음 프로젝트', '단락']);
+    const ours = new Set(['목록 + 아티클', '머리', '회사 탭', '목록', '번호', '내용', '태그', '그림', '도식', '링크', '바깥 링크', '캐러셀', '표', '항목', '하위', '항', '표', '정리 중', '다음 프로젝트', '단락']);
     const strip = (t) => String(t || '').replace(/<[^>]+>/g, '');
     for (const c of DATA) {
         ours.add(c.name); ours.add(c.meta);

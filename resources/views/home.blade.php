@@ -418,6 +418,27 @@
                                                     </ul>
                                                     @continue
                                                 @endif
+                                                @if (!empty($item['table']))
+                                                    {{-- 표(Before / After 같은 비교). 좁은 폰에서는 표만 가로 스크롤. --}}
+                                                    <div class="overflow-x-auto rounded-[12px] border border-black/8 bg-white">
+                                                        <table class="w-full min-w-[640px] text-label-1-reading text-body">
+                                                            <thead>
+                                                                <tr class="border-b border-black/8 bg-canvas text-start">
+                                                                    @foreach ($item['table']['headers'] as $th)<th scope="col" class="px-4 py-3 text-start text-label-2 font-semibold text-muted">{{ $th }}</th>@endforeach
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($item['table']['rows'] as $row)
+                                                                    <tr class="border-b border-black/8 last:border-b-0">
+                                                                        @foreach ($row as $ci => $cell)<td class="px-4 py-3 align-top break-keep {{ $ci === 0 ? 'font-semibold text-ink' : '' }}">{!! $cell !!}</td>@endforeach
+                                                                    </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    @if (!empty($item['table']['caption']))<p class="mt-3 text-label-2 break-keep text-muted">{{ $item['table']['caption'] }}</p>@endif
+                                                    @continue
+                                                @endif
                                                 @if (!empty($item['external']))
                                                     {{-- 바깥 링크(새 탭). 딥다이브 링크와 같은 모양, 화살표만 ↗. --}}
                                                     <ul class="space-y-3">
