@@ -1,47 +1,46 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" width="1200" height="380" font-family="Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, sans-serif" aria-hidden="true">
-<rect width="1200" height="380" fill="#ffffff"/>
-<rect x="40" y="90" width="168" height="64" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
-<text x="56" y="127" font-size="14" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="start">관리자 연동 설정</text>
-<path d="M208 122 L240 122" fill="none" stroke="#868e96" stroke-width="1.5"/>
-<polygon points="231,117 240,122 231,127" fill="#868e96"/>
-<rect x="240" y="90" width="168" height="64" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
-<text x="256" y="118" font-size="14" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="start">세금계산서 수신</text>
-<text x="256" y="138" font-size="12" font-weight="500" fill="#495057" fill-opacity="1" text-anchor="start">국세청 서버에서 자동</text>
-<path d="M408 122 L440 122" fill="none" stroke="#868e96" stroke-width="1.5"/>
-<polygon points="431,117 440,122 431,127" fill="#868e96"/>
-<polygon points="440,122 514,80 588,122 514,164" fill="#ffffff" stroke="#504fed" stroke-width="1.5"/>
-<text x="514" y="119" font-size="12" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="middle">등록된</text>
-<text x="514" y="135" font-size="12" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="middle">거래처인가?</text>
-<path d="M588 122 L620 122" fill="none" stroke="#868e96" stroke-width="1.5"/>
-<polygon points="611,117 620,122 611,127" fill="#868e96"/>
-<text x="598" y="112" font-size="11" font-weight="600" fill="#868e96" fill-opacity="1" text-anchor="start">예</text>
-<polygon points="620,122 694,80 768,122 694,164" fill="#ffffff" stroke="#504fed" stroke-width="1.5"/>
-<text x="694" y="119" font-size="12" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="middle">담당자 매칭에</text>
-<text x="694" y="135" font-size="12" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="middle">성공했는가?</text>
-<path d="M768 122 L800 122" fill="none" stroke="#868e96" stroke-width="1.5"/>
-<polygon points="791,117 800,122 791,127" fill="#868e96"/>
-<text x="778" y="112" font-size="11" font-weight="600" fill="#868e96" fill-opacity="1" text-anchor="start">예</text>
-<rect x="800" y="90" width="176" height="64" rx="12" fill="#504fed" stroke="#504fed" stroke-opacity="0"/>
-<text x="816" y="118" font-size="14" font-weight="600" fill="#ffffff" fill-opacity="1" text-anchor="start">지출결의서 생성</text>
-<text x="816" y="138" font-size="12" font-weight="500" fill="#ffffff" fill-opacity="0.85" text-anchor="start">담당자가 버튼 한 번</text>
-<path d="M976 122 L1008 122" fill="none" stroke="#868e96" stroke-width="1.5"/>
-<polygon points="999,117 1008,122 999,127" fill="#868e96"/>
-<rect x="1008" y="90" width="152" height="64" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
-<text x="1024" y="118" font-size="14" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="start">결재 · ERP 전표</text>
-<text x="1024" y="138" font-size="12" font-weight="500" fill="#495057" fill-opacity="1" text-anchor="start">승인되면 자동 반영</text>
-<path d="M514 164 L514 232" fill="none" stroke="#868e96" stroke-width="1.5"/>
-<polygon points="509,223 514,232 519,223" fill="#868e96"/>
-<text x="524" y="206" font-size="11" font-weight="600" fill="#868e96" fill-opacity="1" text-anchor="start">아니오</text>
-<rect x="430" y="232" width="168" height="64" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
-<text x="446" y="269" font-size="14" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="start">신규 거래처 등록</text>
-<path d="M598 264 L610 264" fill="none" stroke="#868e96" stroke-width="1.5"/>
-<polygon points="601,259 610,264 601,269" fill="#868e96"/>
-<rect x="610" y="232" width="168" height="64" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
-<text x="626" y="269" font-size="14" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="start">담당자 지정</text>
-<path d="M694 164 L694 232" fill="none" stroke="#868e96" stroke-width="1.5"/>
-<polygon points="689,223 694,232 699,223" fill="#868e96"/>
-<text x="704" y="206" font-size="11" font-weight="600" fill="#868e96" fill-opacity="1" text-anchor="start">아니오</text>
-<path d="M778 264 H888 V154" fill="none" stroke="#868e96" stroke-width="1.5"/>
-<polygon points="883,163 888,154 893,163" fill="#868e96"/>
-<text x="40" y="56" font-size="13" font-weight="600" fill="#868e96" fill-opacity="1" text-anchor="start">거래처와 담당자가 없어도 흐름이 끊기지 않습니다</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 330" width="1200" height="330" font-family="Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, sans-serif" aria-hidden="true">
+<rect width="1200" height="330" fill="#ffffff"/>
+<rect x="40" y="60" width="168" height="64" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
+<text x="56" y="97" font-size="14" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="start">관리자 연동 설정</text>
+<path d="M208 92 L240 92" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="231,87 240,92 231,97" fill="#868e96"/>
+<rect x="240" y="60" width="168" height="64" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
+<text x="256" y="88" font-size="14" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="start">세금계산서 수신</text>
+<text x="256" y="108" font-size="12" font-weight="500" fill="#495057" fill-opacity="1" text-anchor="start">국세청 서버에서 자동</text>
+<path d="M408 92 L440 92" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="431,87 440,92 431,97" fill="#868e96"/>
+<polygon points="440,92 514,50 588,92 514,134" fill="#ffffff" stroke="#504fed" stroke-width="1.5"/>
+<text x="514" y="89" font-size="12" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="middle">등록된</text>
+<text x="514" y="105" font-size="12" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="middle">거래처인가?</text>
+<path d="M588 92 L620 92" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="611,87 620,92 611,97" fill="#868e96"/>
+<text x="598" y="82" font-size="11" font-weight="600" fill="#868e96" fill-opacity="1" text-anchor="start">예</text>
+<polygon points="620,92 694,50 768,92 694,134" fill="#ffffff" stroke="#504fed" stroke-width="1.5"/>
+<text x="694" y="89" font-size="12" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="middle">담당자 매칭에</text>
+<text x="694" y="105" font-size="12" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="middle">성공했는가?</text>
+<path d="M768 92 L800 92" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="791,87 800,92 791,97" fill="#868e96"/>
+<text x="778" y="82" font-size="11" font-weight="600" fill="#868e96" fill-opacity="1" text-anchor="start">예</text>
+<rect x="800" y="60" width="176" height="64" rx="12" fill="#504fed" stroke="#504fed" stroke-opacity="0"/>
+<text x="816" y="88" font-size="14" font-weight="600" fill="#ffffff" fill-opacity="1" text-anchor="start">지출결의서 생성</text>
+<text x="816" y="108" font-size="12" font-weight="500" fill="#ffffff" fill-opacity="0.85" text-anchor="start">담당자가 버튼 한 번</text>
+<path d="M976 92 L1008 92" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="999,87 1008,92 999,97" fill="#868e96"/>
+<rect x="1008" y="60" width="152" height="64" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
+<text x="1024" y="88" font-size="14" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="start">결재 · ERP 전표</text>
+<text x="1024" y="108" font-size="12" font-weight="500" fill="#495057" fill-opacity="1" text-anchor="start">승인되면 자동 반영</text>
+<path d="M514 134 L514 202" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="509,193 514,202 519,193" fill="#868e96"/>
+<text x="524" y="176" font-size="11" font-weight="600" fill="#868e96" fill-opacity="1" text-anchor="start">아니오</text>
+<rect x="430" y="202" width="168" height="64" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
+<text x="446" y="239" font-size="14" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="start">신규 거래처 등록</text>
+<path d="M598 234 L610 234" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="601,229 610,234 601,239" fill="#868e96"/>
+<rect x="610" y="202" width="168" height="64" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
+<text x="626" y="239" font-size="14" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="start">담당자 지정</text>
+<path d="M694 134 L694 202" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="689,193 694,202 699,193" fill="#868e96"/>
+<text x="704" y="176" font-size="11" font-weight="600" fill="#868e96" fill-opacity="1" text-anchor="start">아니오</text>
+<path d="M778 234 H888 V124" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="883,133 888,124 893,133" fill="#868e96"/>
 </svg>
