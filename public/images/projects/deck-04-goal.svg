@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="50 345 475 189" width="1200" height="477" font-family="Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, sans-serif" aria-hidden="true">
-<defs><linearGradient id="g1" x1="0.007" y1="0.420" x2="0.993" y2="0.580"><stop offset="0%" stop-color="rgb(52, 199, 89)"/><stop offset="100%" stop-color="rgb(36, 199, 170)"/></linearGradient></defs>
-<rect x="50.0" y="345.0" width="475.0" height="189.0" rx="32.0" fill="url(#g1)" fill-opacity="1"/>
-<text x="82.0" y="399.9" font-size="24" font-weight="800" fill="#f8f9fa" text-anchor="start">재무 프로세스 업무 자동화율 94% 향상</text>
-<text x="82.0" y="455.6" font-size="16" font-weight="400" fill="#f8f9fa" text-anchor="start" letter-spacing="-0.32">법인카드 승인내역처리 속도</text>
-<text x="82.0" y="494.4" font-size="24" font-weight="700" fill="#f8f9fa" text-anchor="start">98%증가</text>
-<text x="292.0" y="455.6" font-size="16" font-weight="400" fill="#f8f9fa" text-anchor="start" letter-spacing="-0.32">세금계산서 지출결의서 생성 시간</text>
-<text x="292.0" y="494.4" font-size="24" font-weight="700" fill="#f8f9fa" text-anchor="start">89% 단축</text>
-</svg>
