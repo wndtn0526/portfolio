@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="40 400 1860 360" width="1200" height="232" font-family="Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, sans-serif" aria-hidden="true">
+<defs><linearGradient id="g1" x1="0.467" y1="0.001" x2="0.533" y2="0.999"><stop offset="0%" stop-color="rgb(52, 199, 89)"/><stop offset="100%" stop-color="rgb(36, 199, 170)"/></linearGradient><linearGradient id="g2" x1="0.442" y1="0.003" x2="0.558" y2="0.997"><stop offset="0%" stop-color="rgb(52, 199, 89)"/><stop offset="100%" stop-color="rgb(36, 199, 170)"/></linearGradient><linearGradient id="g3" x1="0.449" y1="0.003" x2="0.551" y2="0.997"><stop offset="0%" stop-color="rgb(52, 199, 89)"/><stop offset="100%" stop-color="rgb(36, 199, 170)"/></linearGradient></defs>
+<text x="50.0" y="723.9" font-size="14" font-weight="600" fill="#495057" text-anchor="start" letter-spacing="-0.28">매출 상승률</text>
+<text x="238.0" y="723.9" font-size="14" font-weight="600" fill="#495057" text-anchor="start" letter-spacing="-0.28">결제 전환율</text>
+<text x="426.0" y="723.9" font-size="14" font-weight="600" fill="#495057" text-anchor="start" letter-spacing="-0.28">고객 유지율</text>
+<text x="506.0" y="462.9" font-size="14" font-weight="600" fill="#495057" text-anchor="start" letter-spacing="-0.14">100%</text>
+<text x="506.0" y="582.9" font-size="14" font-weight="600" fill="#495057" text-anchor="start" letter-spacing="-0.14">50%</text>
+<text x="50.0" y="751.2" font-size="12" font-weight="400" fill="#868e96" text-anchor="start" letter-spacing="-0.24">도입 고객 기준, 전 분기 대비</text>
+<text x="238.0" y="755.2" font-size="12" font-weight="400" fill="#868e96" text-anchor="start" letter-spacing="-0.24">데모 시연 이후 실제</text>
+<text x="238.0" y="773.2" font-size="12" font-weight="400" fill="#868e96" text-anchor="start" letter-spacing="-0.24">계약 전환율 상승</text>
+<text x="426.0" y="755.2" font-size="12" font-weight="400" fill="#868e96" text-anchor="start" letter-spacing="-0.24">도입 6개월 내</text>
+<text x="426.0" y="773.2" font-size="12" font-weight="400" fill="#868e96" text-anchor="start" letter-spacing="-0.24">유지 고객 비중 증가</text>
+<image x="50.0" y="697.5" width="432.0" height="1.0" href="data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjQzMiIgaGVpZ2h0PSIxIiB2aWV3Qm94PSIwIDAgNDMyIDEiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGlkPSJBcnJvdyA0IiBkPSJNMCAwLjVINDMyIiBzdHJva2U9IiNERUUyRTYiLz4KPC9zdmc+Cg==" preserveAspectRatio="none" opacity="1"/>
+<image x="50.0" y="457.0" width="432.0" height="1.0" href="data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjQzMiIgaGVpZ2h0PSIxIiB2aWV3Qm94PSIwIDAgNDMyIDEiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxsaW5lIGlkPSJMaW5lIDEyIiB5MT0iMC41IiB4Mj0iNDMyIiB5Mj0iMC41IiBzdHJva2U9IiNERUUyRTYiIHN0cm9rZS1kYXNoYXJyYXk9IjYgNiIvPgo8L3N2Zz4K" preserveAspectRatio="none" opacity="1"/>
+<image x="50.0" y="517.0" width="432.0" height="1.0" href="data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjQzMiIgaGVpZ2h0PSIxIiB2aWV3Qm94PSIwIDAgNDMyIDEiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxsaW5lIGlkPSJMaW5lIDEyIiB5MT0iMC41IiB4Mj0iNDMyIiB5Mj0iMC41IiBzdHJva2U9IiNERUUyRTYiIHN0cm9rZS1kYXNoYXJyYXk9IjYgNiIvPgo8L3N2Zz4K" preserveAspectRatio="none" opacity="1"/>
+<image x="50.0" y="577.0" width="432.0" height="1.0" href="data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjQzMiIgaGVpZ2h0PSIxIiB2aWV3Qm94PSIwIDAgNDMyIDEiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxsaW5lIGlkPSJMaW5lIDEyIiB5MT0iMC41IiB4Mj0iNDMyIiB5Mj0iMC41IiBzdHJva2U9IiNERUUyRTYiIHN0cm9rZS1kYXNoYXJyYXk9IjYgNiIvPgo8L3N2Zz4K" preserveAspectRatio="none" opacity="1"/>
+<image x="50.0" y="637.0" width="432.0" height="1.0" href="data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjQzMiIgaGVpZ2h0PSIxIiB2aWV3Qm94PSIwIDAgNDMyIDEiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxsaW5lIGlkPSJMaW5lIDEyIiB5MT0iMC41IiB4Mj0iNDMyIiB5Mj0iMC41IiBzdHJva2U9IiNERUUyRTYiIHN0cm9rZS1kYXNoYXJyYXk9IjYgNiIvPgo8L3N2Zz4K" preserveAspectRatio="none" opacity="1"/>
+<rect x="82.0" y="565.0" width="62.0" height="26.0" rx="4.0" fill="#212529" fill-opacity="1"/>
+<text x="88.0" y="582.2" font-size="12" font-weight="700" fill="#f8f9fa" text-anchor="start" letter-spacing="-0.12">47% 상승</text>
+<image x="94.2" y="597.5" width="10.4" height="7.0" href="data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjEwLjM5MjMiIGhlaWdodD0iNyIgdmlld0JveD0iMCAwIDEwLjM5MjMgNyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggaWQ9IlBvbHlnb24gMSIgZD0iTTMuNDY0MSAxQzQuMjMzOSAtMC4zMzMzMzQgNi4xNTg0IC0wLjMzMzMzMyA2LjkyODIgMUwxMC4zOTIzIDdIMEwzLjQ2NDEgMVoiIGZpbGw9IiMyMTI1MjkiLz4KPC9zdmc+Cg==" preserveAspectRatio="none" opacity="1"/>
+<rect x="270.0" y="449.0" width="62.0" height="26.0" rx="4.0" fill="#212529" fill-opacity="1"/>
+<text x="276.0" y="466.2" font-size="12" font-weight="700" fill="#f8f9fa" text-anchor="start" letter-spacing="-0.12">38% 상승</text>
+<image x="282.2" y="481.5" width="10.4" height="7.0" href="data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjEwLjM5MjMiIGhlaWdodD0iNyIgdmlld0JveD0iMCAwIDEwLjM5MjMgNyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggaWQ9IlBvbHlnb24gMSIgZD0iTTMuNDY0MSAxQzQuMjMzOSAtMC4zMzMzMzQgNi4xNTg0IC0wLjMzMzMzMyA2LjkyODIgMUwxMC4zOTIzIDdIMEwzLjQ2NDEgMVoiIGZpbGw9IiMyMTI1MjkiLz4KPC9zdmc+Cg==" preserveAspectRatio="none" opacity="1"/>
+<rect x="458.0" y="423.0" width="60.0" height="26.0" rx="4.0" fill="#212529" fill-opacity="1"/>
+<text x="464.0" y="440.2" font-size="12" font-weight="700" fill="#f8f9fa" text-anchor="start" letter-spacing="-0.12">21% 상승</text>
+<image x="470.2" y="455.5" width="10.4" height="7.0" href="data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjEwLjM5MjMiIGhlaWdodD0iNyIgdmlld0JveD0iMCAwIDEwLjM5MjMgNyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggaWQ9IlBvbHlnb24gMSIgZD0iTTMuNDY0MSAxQzQuMjMzOSAtMC4zMzMzMzQgNi4xNTg0IC0wLjMzMzMzMyA2LjkyODIgMUwxMC4zOTIzIDdIMEwzLjQ2NDEgMVoiIGZpbGw9IiMyMTI1MjkiLz4KPC9zdmc+Cg==" preserveAspectRatio="none" opacity="1"/>
+<rect x="50.0" y="657.0" width="24.0" height="41.0" rx="0" fill="#dee2e6" fill-opacity="1"/>
+<rect x="82.0" y="608.0" width="24.0" height="90.0" rx="0" fill="url(#g1)" fill-opacity="1"/>
+<rect x="238.0" y="557.0" width="24.0" height="141.0" rx="0" fill="#dee2e6" fill-opacity="1"/>
+<rect x="270.0" y="492.0" width="24.0" height="206.0" rx="0" fill="url(#g2)" fill-opacity="1"/>
+<rect x="426.0" y="506.0" width="24.0" height="192.0" rx="0" fill="#dee2e6" fill-opacity="1"/>
+<rect x="458.0" y="466.0" width="24.0" height="232.0" rx="0" fill="url(#g3)" fill-opacity="1"/>
+<rect x="603.0" y="447.0" width="402.0" height="214.0" rx="32.0" fill="#ffffff" fill-opacity="1"/>
+<rect x="1035.0" y="447.0" width="402.0" height="214.0" rx="32.0" fill="#ffffff" fill-opacity="1"/>
+<rect x="1468.0" y="447.0" width="402.0" height="214.0" rx="32.0" fill="#ffffff" fill-opacity="1"/>
+<text x="633.0" y="612.2" font-size="12" font-weight="400" fill="#868e96" text-anchor="start" letter-spacing="-0.24">시스템을 일상 업무에 정착시켜 활용 빈도가 높아짐. ERP･전자 결재･근태 등</text>
+<text x="633.0" y="630.2" font-size="12" font-weight="400" fill="#868e96" text-anchor="start" letter-spacing="-0.24">주요 기능 사용이 활성화되어 이탈률 (Churn) 방어 효과 확보.</text>
+<text x="1065.0" y="612.2" font-size="12" font-weight="400" fill="#868e96" text-anchor="start" letter-spacing="-0.24">고객이 동일 기능을 반복 사용하며 습관화･내재화가 진행됨.</text>
+<text x="1065.0" y="630.2" font-size="12" font-weight="400" fill="#868e96" text-anchor="start" letter-spacing="-0.24">이는 도입 성공도와 LTV 상승의 선행 지표.</text>
+<text x="1498.0" y="612.2" font-size="12" font-weight="400" fill="#868e96" text-anchor="start" letter-spacing="-0.24">기능 도입 후 업무 효율 향상을 체감한 긍정 응답 비율 증가.</text>
+<text x="1498.0" y="630.2" font-size="12" font-weight="400" fill="#868e96" text-anchor="start" letter-spacing="-0.24">만족도･브랜드 신뢰도 향상으로 신규 전환 및 업셀 가능성 확대.</text>
+<text x="633.0" y="580.3" font-size="18" font-weight="700" fill="#212529" text-anchor="start" letter-spacing="-0.36">고객사 평균 거래(사용) 건수</text>
+<text x="816.0" y="524.6" font-size="56" font-weight="700" fill="#212529" text-anchor="start" letter-spacing="-1.12">+29%</text>
+<text x="633.0" y="517.8" font-size="48" font-weight="700" fill="#212529" text-anchor="start" letter-spacing="-0.96">🧑‍💻</text>
+<text x="1065.0" y="517.8" font-size="48" font-weight="700" fill="#212529" text-anchor="start" letter-spacing="-0.96">🔄</text>
+<text x="1498.0" y="517.8" font-size="48" font-weight="700" fill="#212529" text-anchor="start" letter-spacing="-0.96">💎</text>
+<text x="1258.0" y="524.6" font-size="56" font-weight="700" fill="#212529" text-anchor="start" letter-spacing="-1.12">+19%</text>
+<text x="1680.0" y="524.6" font-size="56" font-weight="700" fill="#212529" text-anchor="start" letter-spacing="-1.12">+34%</text>
+<text x="1065.0" y="580.3" font-size="18" font-weight="700" fill="#212529" text-anchor="start" letter-spacing="-0.36">기능 재활용률</text>
+<text x="1498.0" y="580.3" font-size="18" font-weight="700" fill="#212529" text-anchor="start" letter-spacing="-0.36">고객 피드백 긍정률</text>
+</svg>
