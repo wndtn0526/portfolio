@@ -54,7 +54,7 @@ class Tree(HTMLParser):
             return
         if tag in ('p', 'li') and not node['nid']:  # 부모 텍스트의 한 줄 (li 는 글머리표를 단다)
             bullet = ('•  ' if self.ul_depth == 1 else '      ·  ') if tag == 'li' else ''
-            parent['lines'].append(bullet); parent['line_cls'].append(cls); self.cur_line = parent
+            parent['lines'].append(bullet); parent['line_cls'].append(cls); self.cur_line = parent; self.trail = False
             self.stack.append(node); return
         if tag == 'p':                               # 자기 자신이 텍스트 노드
             node['lines'].append(''); node['line_cls'].append(''); self.cur_line = node
@@ -68,9 +68,13 @@ class Tree(HTMLParser):
         if tag in ('p', 'li'): self.cur_line = None
         if len(self.stack) > 1: self.stack.pop()
     def handle_data(self, data):
+        lead = ' ' if (data[:1].isspace() or data.startswith('{" "}') or getattr(self, 'trail', False)) else ''
+        self.trail = data[-1:].isspace() or data.endswith('{" "}')
         t = re.sub(r'^\{`|`\}$', '', data.strip()).replace('{" "}', ' ').strip()
         if not t: return
-        if self.cur_line and self.cur_line['lines']: self.cur_line['lines'][-1] += t
+        if self.cur_line and self.cur_line['lines']:
+            cur = self.cur_line['lines'][-1]
+            self.cur_line['lines'][-1] = cur + (lead if cur and not cur.endswith(' ') else '') + t
         else:
             n = self.stack[-1]
             if n['tag'] == 'div': n['lines'].append(t); n['line_cls'].append('')
@@ -113,6 +117,8 @@ def calc(cls, key, parent_len):
 def color(cls, prefix):
     m = re.search(r'(?<![\w-])' + prefix + r'-\[(#[0-9a-fA-F]{3,8}|rgba?\([^)]*\))\]', cls)
     if m: return m.group(1)
+    m = re.search(r'(?<![\w-])' + prefix + r'-\[var\([^,\]]*,\s*([^)\]]+)\)\]', cls)   # bg-[var(--mono\/w,white)]
+    if m: return {'white': '#ffffff', 'black': '#000000'}.get(m.group(1).strip(), m.group(1).strip())
     if re.search(r'(?<![\w-])' + prefix + r'-white\b', cls): return '#ffffff'
     if re.search(r'(?<![\w-])' + prefix + r'-black\b', cls): return '#000000'
     return None
@@ -257,6 +263,8 @@ def render(nid, region, out_name, root_size=(1920, 1080), skip_png=False, skip_i
     (OUT / out_name).write_text(svg, encoding='utf-8'); print(out_name, len(body), '요소', (OUT / out_name).stat().st_size, 'bytes')
 
 JOBS = [   # (노드, 영역 x y w h — 슬라이드 1920x1080 좌표, 파일, PNG 에셋 건너뛰기)
+    ('1083:280499', (50, 345, 475, 189), 'deck-04-goal.svg', False),          # 02 배경 — GOAL 카드(자동화율 94% · 98% · 89%)
+    ('1083:280499', (766, 186, 1154, 640), 'deck-04-screen.svg', False),       # 02 배경 — 법인카드 정산 화면 시안(표 + 팝업)
     ('1083:280814', (40, 400, 1840, 590), 'deck-05-problem.svg', False, ('1083:280895',)),   # 💡 가설 정의 상자(Group 2258)는 글로 있으니 뺀다
     ('1083:280980', (0, 330, 1920, 420), 'deck-07-phases.svg', False),
     ('1083:281080', (40, 400, 1860, 590), 'deck-08-card-flow.svg', False, (), ((1532, 448),)),   # S자 선은 Figma 에서 세로로 뒤집힌 인스턴스
