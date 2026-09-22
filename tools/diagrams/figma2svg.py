@@ -148,14 +148,19 @@ def grad(g, gid, defs):
 def render(nid, region, out_name, root_size=(1920, 1080), skip_png=False, skip_ids=(), flip_v_at=()):
     xml, jsx = fetch(nid); sizes = meta_sizes(xml); tree = parse_jsx(jsx)
     rx, ry, rw, rh = region; body, defs = [], []; gi = [0]
-    def walk(node, px_, py_, pw, ph, in_flex, box=None):
+    def walk(node, px_, py_, pw, ph, in_flex, box=None, inh=None):
         cls = node['cls']
+        inh = dict(inh or {})
+        c_ = color(cls, 'text'); f_ = px(cls, 'text'); fam_ = re.search(r"font-\['[^:'\]]+:(\w+)'\]", cls)
+        if c_: inh['color'] = c_
+        if f_: inh['fs'] = f_
+        if fam_: inh['weight'] = WEIGHT.get(fam_.group(1), 400)
         if node['nid'] in skip_ids: return
         if node['tag'] == 'root':
-            for k in node['kids']: walk(k, 0, 0, root_size[0], root_size[1], False)
+            for k in node['kids']: walk(k, 0, 0, root_size[0], root_size[1], False, inh=inh)
             return
         if 'contents' in cls.split():             # 그룹: 자식은 부모 좌표계 그대로
-            for k in node['kids']: walk(k, px_, py_, pw, ph, in_flex)
+            for k in node['kids']: walk(k, px_, py_, pw, ph, in_flex, inh=inh)
             return
         # 크기
         w = px(cls, 'w') or px(cls, 'size'); h = px(cls, 'h') or px(cls, 'size')
@@ -213,9 +218,9 @@ def render(nid, region, out_name, root_size=(1920, 1080), skip_png=False, skip_i
                 else:
                     body.append(f'<image x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{h:.1f}" href="{data_uri(node["img"])}" preserveAspectRatio="none" opacity="{opacity}"/>')
             if node['lines']:
-                fs = px(cls, 'text') or 14
-                fam = re.search(r"font-\['[^:'\]]+:(\w+)'\]", cls); weight = WEIGHT.get(fam.group(1), 400) if fam else 400
-                col = color(cls, 'text') or '#212529'
+                fs = px(cls, 'text') or inh.get('fs') or 14
+                fam = re.search(r"font-\['[^:'\]]+:(\w+)'\]", cls); weight = WEIGHT.get(fam.group(1), 400) if fam else inh.get('weight', 400)
+                col = color(cls, 'text') or inh.get('color') or '#212529'
                 if node['grad'] and 'bg-clip-text' in cls: gi[0] += 1; col = grad(html.unescape(node['grad']), f'g{gi[0]}', defs) or col
                 lh = px(cls, 'leading'); lh = lh if lh else round(fs * 1.2)
                 center = 'text-center' in cls or (in_flex and 'items-center' in cls) or ('-translate-x-1/2' in cls)
@@ -254,9 +259,9 @@ def render(nid, region, out_name, root_size=(1920, 1080), skip_png=False, skip_i
                     kx = x + pl + ((inner_w - kw) / 2 if 'items-center' in cls else 0); ky = y + pt + cur; cur += kh + g
                 else:
                     kx = x + pl + cur; ky = y + pt + ((inner_h - kh) / 2 if 'items-center' in cls else 0); cur += kw + g
-                walk(k, kx, ky, kw, kh, True, box=(kx, ky, kw, kh))
+                walk(k, kx, ky, kw, kh, True, box=(kx, ky, kw, kh), inh=inh)
         else:
-            for k in node['kids']: walk(k, x, y, w, h, flex)
+            for k in node['kids']: walk(k, x, y, w, h, flex, inh=inh)
     walk(tree, 0, 0, *root_size, False)
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{rx} {ry} {rw} {rh}" width="1200" height="{round(1200 * rh / rw)}" font-family="{FONT}" aria-hidden="true">\n'
            + (f'<defs>{"".join(defs)}</defs>\n' if defs else '') + '\n'.join(body) + '\n</svg>\n')
