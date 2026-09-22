@@ -40,20 +40,21 @@ class Tree(HTMLParser):
     def __init__(self, assets):
         super().__init__(convert_charrefs=True); self.assets = assets
         self.root = {'tag': 'root', 'cls': '', 'kids': [], 'lines': [], 'line_cls': [], 'nid': None, 'img': None, 'grad': None}
-        self.stack = [self.root]; self.cur_line = None
+        self.stack = [self.root]; self.cur_line = None; self.ul_depth = 0
     def handle_starttag(self, tag, attrs):
         a = dict(attrs); cls = a.get('class', '') or ''
         node = {'tag': tag, 'cls': cls, 'kids': [], 'lines': [], 'line_cls': [], 'nid': a.get('data-node-id'), 'img': None, 'grad': a.get('data-grad')}
         parent = self.stack[-1]
         if tag in ('ul', 'ol'):
-            self.stack.append(parent); return
+            self.ul_depth += 1; self.stack.append(parent); return
         if tag == 'img':
             parent['img'] = self.assets.get(a.get('src', ''), a.get('src')); return
         if tag == 'br':
             if self.cur_line: self.cur_line['lines'].append(''); self.cur_line['line_cls'].append('')
             return
-        if tag in ('p', 'li') and not node['nid']:  # 부모 텍스트의 한 줄
-            parent['lines'].append(''); parent['line_cls'].append(cls); self.cur_line = parent
+        if tag in ('p', 'li') and not node['nid']:  # 부모 텍스트의 한 줄 (li 는 글머리표를 단다)
+            bullet = ('•  ' if self.ul_depth == 1 else '      ·  ') if tag == 'li' else ''
+            parent['lines'].append(bullet); parent['line_cls'].append(cls); self.cur_line = parent
             self.stack.append(node); return
         if tag == 'p':                               # 자기 자신이 텍스트 노드
             node['lines'].append(''); node['line_cls'].append(''); self.cur_line = node
@@ -61,6 +62,7 @@ class Tree(HTMLParser):
     def handle_endtag(self, tag):
         if tag in ('img', 'br'): return
         if tag in ('ul', 'ol'):
+            self.ul_depth = max(0, self.ul_depth - 1)
             if len(self.stack) > 1: self.stack.pop()
             return
         if tag in ('p', 'li'): self.cur_line = None
@@ -197,7 +199,9 @@ def render(nid, region, out_name, root_size=(1920, 1080), skip_png=False, skip_i
                 if nat and nat[0] > 0 and nat[1] > 0 and ((nat[0] > nat[1]) != (w > h)) and max(w, h) / max(min(w, h), 1) > 2:
                     # 회전된 인스턴스(예: 세로 화살표): 에셋은 가로인데 상자는 세로 — 90도 돌려 그린다
                     cx, cy = x + w / 2, y + h / 2
-                    body.append(f'<image x="{cx - h / 2:.1f}" y="{cy - w / 2:.1f}" width="{h:.1f}" height="{w:.1f}" href="{data_uri(node["img"])}" preserveAspectRatio="none" opacity="{opacity}" transform="rotate(90 {cx:.1f} {cy:.1f})"/>')
+                    flip = any(abs(x - fx) < 2 and abs(y - fy) < 2 for fx, fy in flip_v_at)
+                    tf = (f'translate(0 {2 * y + h:.1f}) scale(1 -1) ' if flip else '') + f'rotate(90 {cx:.1f} {cy:.1f})'
+                    body.append(f'<image x="{cx - h / 2:.1f}" y="{cy - w / 2:.1f}" width="{h:.1f}" height="{w:.1f}" href="{data_uri(node["img"])}" preserveAspectRatio="none" opacity="{opacity}" transform="{tf}"/>')
                 elif any(abs(x - fx) < 2 and abs(y - fy) < 2 for fx, fy in flip_v_at):
                     body.append(f'<image x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{h:.1f}" href="{data_uri(node["img"])}" preserveAspectRatio="none" opacity="{opacity}" transform="translate(0 {2 * y + h:.1f}) scale(1 -1)"/>')
                 else:
@@ -257,7 +261,7 @@ JOBS = [   # (노드, 영역 x y w h — 슬라이드 1920x1080 좌표, 파일, 
     ('1083:280980', (0, 330, 1920, 420), 'deck-07-phases.svg', False),
     ('1083:281080', (40, 400, 1860, 590), 'deck-08-card-flow.svg', False, (), ((1532, 448),)),   # S자 선은 Figma 에서 세로로 뒤집힌 인스턴스
     ('1083:281052', (40, 410, 1860, 580), 'deck-10-hometax-flow.svg', False),
-    ('1083:281117', (860, 180, 1040, 330), 'deck-12-results.svg', True),    # 흰 페이드(Rectangle 1861, PNG) 제외
+    ('1083:281117', (860, 180, 1040, 330), 'deck-12-results.svg', False),   # PNG(Rectangle 1861)는 5월 막대의 그라디언트 채움
     ('1083:281207', (40, 400, 1860, 360), 'deck-13-kpi.svg', False),
 ]
 if __name__ == '__main__':
