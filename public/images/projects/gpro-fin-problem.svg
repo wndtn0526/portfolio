@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400" font-family="Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, sans-serif" aria-hidden="true">
+<rect width="1200" height="400" fill="#ffffff"/>
+<text x="40" y="56" font-size="14" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="start">결재-재무 데이터 불일치율</text>
+<text x="40" y="76" font-size="12" font-weight="500" fill="#868e96" fill-opacity="1" text-anchor="start">단절 지점을 지날 때마다 쌓입니다</text>
+<path d="M80 320 H420" fill="none" stroke="#dee2e6" stroke-width="1"/>
+<path d="M80 300 L240 196 L400 166" fill="none" stroke="#504fed" stroke-width="2"/>
+<circle cx="80" cy="300" r="6" fill="#ffffff" stroke="#504fed" stroke-width="2"/>
+<text x="80" y="284" font-size="13" font-weight="700" fill="#212529" fill-opacity="1" text-anchor="middle">0%</text>
+<text x="80" y="342" font-size="12" font-weight="500" fill="#868e96" fill-opacity="1" text-anchor="middle">그룹웨어 결재</text>
+<circle cx="240" cy="196" r="6" fill="#ffffff" stroke="#504fed" stroke-width="2"/>
+<text x="240" y="180" font-size="13" font-weight="700" fill="#212529" fill-opacity="1" text-anchor="middle">17%</text>
+<text x="240" y="342" font-size="12" font-weight="500" fill="#868e96" fill-opacity="1" text-anchor="middle">재무 시스템 수기 입력</text>
+<circle cx="400" cy="166" r="6" fill="#ffffff" stroke="#504fed" stroke-width="2"/>
+<text x="400" y="150" font-size="13" font-weight="700" fill="#212529" fill-opacity="1" text-anchor="middle">21%</text>
+<text x="400" y="342" font-size="12" font-weight="500" fill="#868e96" fill-opacity="1" text-anchor="middle">ERP 전표</text>
+<text x="240" y="140" font-size="11" font-weight="600" fill="#868e96" fill-opacity="1" text-anchor="middle">1차 단절</text>
+<text x="400" y="110" font-size="11" font-weight="600" fill="#868e96" fill-opacity="1" text-anchor="middle">2차 단절</text>
+<text x="500" y="56" font-size="14" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="start">세금계산서 첨부 누락률</text>
+<text x="500" y="76" font-size="12" font-weight="500" fill="#868e96" fill-opacity="1" text-anchor="start">홈택스 메뉴에서 내려받아 첨부할 때</text>
+<path d="M500 320 H820" fill="none" stroke="#dee2e6" stroke-width="1"/>
+<rect x="560" y="140" width="80" height="180" rx="6" fill="#dee2e6"/>
+<text x="600" y="128" font-size="15" font-weight="700" fill="#212529" fill-opacity="1" text-anchor="middle">43%</text>
+<text x="600" y="342" font-size="12" font-weight="500" fill="#868e96" fill-opacity="1" text-anchor="middle">홈택스 미연계 고객사</text>
+<rect x="700" y="302" width="80" height="18" rx="6" fill="#504fed"/>
+<text x="740" y="290" font-size="15" font-weight="700" fill="#212529" fill-opacity="1" text-anchor="middle">4%</text>
+<text x="740" y="342" font-size="12" font-weight="500" fill="#868e96" fill-opacity="1" text-anchor="middle">홈택스 연계 고객사</text>
+<rect x="880" y="100" width="280" height="96" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
+<text x="896" y="135" font-size="15" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="start">전표 반영 평균 리드타임</text>
+<text x="896" y="155" font-size="12" font-weight="500" fill="#495057" fill-opacity="1" text-anchor="start">2.8일 ~ 4.2일</text>
+<text x="896" y="173" font-size="12" font-weight="500" fill="#495057" fill-opacity="1" text-anchor="start">전자결재 승인 로그 기준</text>
+<rect x="880" y="216" width="280" height="96" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
+<text x="896" y="251" font-size="15" font-weight="600" fill="#212529" fill-opacity="1" text-anchor="start">재무팀 재요청률</text>
+<text x="896" y="271" font-size="12" font-weight="500" fill="#495057" fill-opacity="1" text-anchor="start">25% ~ 33%</text>
+<text x="896" y="289" font-size="12" font-weight="500" fill="#495057" fill-opacity="1" text-anchor="start">재무팀 VOC 분석</text>
+<text x="880" y="342" font-size="12" font-weight="500" fill="#868e96" fill-opacity="1" text-anchor="start">정산 한 건에 6 ~ 8개 필드, 8 ~ 12분</text>
+</svg>
