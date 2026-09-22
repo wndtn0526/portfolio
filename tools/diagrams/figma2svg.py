@@ -268,7 +268,6 @@ def render(nid, region, out_name, root_size=(1920, 1080), skip_png=False, skip_i
     (OUT / out_name).write_text(svg, encoding='utf-8'); print(out_name, len(body), '요소', (OUT / out_name).stat().st_size, 'bytes')
 
 JOBS = [   # (노드, 영역 x y w h — 슬라이드 1920x1080 좌표, 파일, PNG 에셋 건너뛰기)
-    ('1083:280499', (766, 186, 1154, 640), 'deck-04-screen.svg', False),       # 02 배경 — 법인카드 정산 화면 시안(표 + 팝업). 오른쪽은 슬라이드 끝에서 잘린다(사용자 OK)
     ('1083:280814', (40, 400, 1840, 590), 'deck-05-problem.svg', False, ('1083:280895',)),   # 💡 가설 정의 상자(Group 2258)는 글로 있으니 뺀다
     ('1083:280980', (0, 330, 1920, 420), 'deck-07-phases.svg', False),
     ('1083:281080', (40, 400, 1860, 590), 'deck-08-card-flow.svg', False, (), ((1532, 448),)),   # S자 선은 Figma 에서 세로로 뒤집힌 인스턴스
