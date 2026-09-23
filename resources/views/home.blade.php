@@ -506,10 +506,14 @@
                                                     {{-- 그림. 테두리 1px 검정 8% · 모서리 12 — 화면 캡처가 배경(#f9f9f9)에 묻히지 않게. --}}
                                                     {{-- 'max' 가 있으면 그 폭(px)까지만 — 덱에서 잘라 온 차트는 본문 폭에 꽉 채우면 글자가 본문보다 커진다.
                                                          'plain' 이면 테두리 · 흰 배경을 뺀다 — 그림 자체가 카드(그림자 있는 박스)라 테두리가 겹쳐 보일 때. --}}
+                                                    {{-- 'scroll' 이면 그 폭(px) 아래로 줄이지 않고 가로 스크롤 — 덱의 1920 폭 흐름도는 본문 폭에 맞추면 글자가 읽히지 않는다. --}}
                                                     <figure class="!mt-6 !mb-8" @if (!empty($item['image']['max'])) style="max-width: {{ $item['image']['max'] }}px" @endif>
+                                                        <div class="{{ !empty($item['image']['scroll']) ? 'overflow-x-auto' : '' }}">
                                                         <img src="{{ asset($item['image']['src']) }}" width="{{ $item['image']['width'] }}" height="{{ $item['image']['height'] }}"
                                                              alt="{{ $item['image']['alt'] }}" loading="lazy"
+                                                             @if (!empty($item['image']['scroll'])) style="min-width: {{ $item['image']['scroll'] }}px" @endif
                                                              class="w-full {{ empty($item['image']['plain']) ? 'rounded-[12px] border border-black/8 bg-white' : '' }}">
+                                                        </div>
                                                         @if (!empty($item['image']['caption']))
                                                             <figcaption class="mt-3 text-label-2 break-keep text-muted">{{ $item['image']['caption'] }}</figcaption>
                                                         @endif
