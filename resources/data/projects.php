@@ -158,13 +158,6 @@ return [
                         ['label' => null, 'text' => '재무 프로세스 전체의 업무 자동화율이 18% 에서 94% 로 올랐습니다. 전자결재와 재무 데이터의 일치율은 83% 에서 98% 로, 세금계산서 지출결의서 생성 시간은 평균 6.5분에서 40초로 줄었습니다.'],
                         ['label' => null, 'text' => '도입 이후 전 분기 대비 매출은 47%, 데모 시연 뒤 계약 전환율은 38%, 도입 6개월 내 고객 유지율은 21% 올랐습니다. 고객사 평균 거래 건수 29%, 기능 재활용률 19%, 고객 피드백 긍정률 34% 상승이 이를 받쳤습니다.'],
                     ]],
-                    ['title' => '작업물', 'items' => [
-                        ['external' => [
-                            ['label' => '지출 결의서 작성 화면', 'note' => 'Figma', 'url' => 'https://www.figma.com/design/sJC6AduTG0I4cTttQJFAes/GPRO_PORTFOLIO?node-id=1002-14194'],
-                            ['label' => '재무 페이지', 'note' => 'Figma', 'url' => 'https://www.figma.com/design/sJC6AduTG0I4cTttQJFAes/GPRO_PORTFOLIO?node-id=1002-3'],
-                            ['label' => '포트폴리오 덱 04 ~ 13', 'note' => 'Figma', 'url' => 'https://www.figma.com/design/sJC6AduTG0I4cTttQJFAes/GPRO_PORTFOLIO?node-id=1083-280499'],
-                        ]],
-                    ]],
                 ],
             ],
             [
