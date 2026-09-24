@@ -502,6 +502,21 @@
                                                     </figure>
                                                     @continue
                                                 @endif
+                                                @if (!empty($item['images']))
+                                                    {{-- 그림 여럿을 한 줄에 — 덱에서 잘라 온 카드 셋처럼 같은 크기의 그림. 폰에서는 세로로 쌓인다. 테두리 없음(카드 자체가 그림자를 가진다). --}}
+                                                    <figure class="!mt-6 !mb-8">
+                                                        {{-- ⚠️ Tailwind 는 문자열을 훑는다 — 클래스명을 조립하면 CSS 가 안 생긴다. 완성된 이름으로. --}}
+                                                        <div class="grid gap-3 {{ ['', '', 'sm:grid-cols-2', 'sm:grid-cols-3', 'sm:grid-cols-4'][min(count($item['images']['items']), 4)] }}">
+                                                            @foreach ($item['images']['items'] as $im)
+                                                                <img src="{{ asset($im['src']) }}" width="{{ $im['width'] }}" height="{{ $im['height'] }}" alt="{{ $im['alt'] }}" loading="lazy" class="w-full">
+                                                            @endforeach
+                                                        </div>
+                                                        @if (!empty($item['images']['caption']))
+                                                            <figcaption class="mt-3 text-label-2 break-keep text-muted">{{ $item['images']['caption'] }}</figcaption>
+                                                        @endif
+                                                    </figure>
+                                                    @continue
+                                                @endif
                                                 @if (!empty($item['image']))
                                                     {{-- 그림. 테두리 1px 검정 8% · 모서리 12 — 화면 캡처가 배경(#f9f9f9)에 묻히지 않게. --}}
                                                     {{-- 'max' 가 있으면 그 폭(px)까지만 — 덱에서 잘라 온 차트는 본문 폭에 꽉 채우면 글자가 본문보다 커진다.
