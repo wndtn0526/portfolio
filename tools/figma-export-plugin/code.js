@@ -2,7 +2,8 @@
 // 로컬 서버(tools/figma-export-plugin/server.py)에서 작업(JSON)을 받아 그대로 한다 — 코드는 고정, 할 일은 작업 파일이 정한다.
 //   task.file   이 파일에서만 실행한다(figma.root.name 과 대조). 엉뚱한 파일에 그리거나 내보내지 않게.
 //   task.draw   [{ page, frame, x, y, export, items: [...] }] — 페이지에 프레임을 그리고(같은 이름 프레임은 지우고 다시), PNG 2x 로 내보낸다.
-//               item: rect(상자) · text(글) · svg(선 · 화살표 · 마름모 같은 벡터). 좌표는 프레임 기준.
+//               item: rect(상자 · 막대) · text(글) · line(가로선) · tooltip(검은 말풍선) · svg(선 · 화살표 · 마름모 같은 벡터). 좌표는 프레임 기준.
+//   task.renamePages [[옛 이름, 새 이름], …] — 그리기 전에 페이지 이름을 바꾼다(같은 페이지에 계속 그리려고).
 //   task.export [[노드 id, 이름], …] — 기존 노드를 PNG 2x 로 내보낸다.
 // Dev Mode MCP get_screenshot 이 긴 변 1024px 로 막혀 있어서 만든 우회로에 그리기를 더한 것이다.
 const SERVER = 'http://localhost:8899';
@@ -35,9 +36,14 @@ async function make(it) {
   if (it.type === 'rect') {
     const n = figma.createRectangle();
     n.resize(it.w, it.h);
-    n.fills = it.fill ? solid(it.fill) : [];
+    n.fills = it.gradient
+      // 위 → 아래 선형 그라디언트(덱 막대: 179° ≒ 세로)
+      ? [{ type: 'GRADIENT_LINEAR', gradientTransform: [[0, 1, 0], [-1, 0, 1]], gradientStops: [
+          { position: 0, color: Object.assign(rgb(it.gradient[0]), { a: 1 }) }, { position: 1, color: Object.assign(rgb(it.gradient[1]), { a: 1 }) }] }]
+      : it.fill ? solid(it.fill) : [];
     if (it.stroke) { n.strokes = solid(it.stroke); n.strokeWeight = it.strokeWeight || 1; n.strokeAlign = 'INSIDE'; }
-    n.cornerRadius = it.radius || 0;
+    if (it.radii) { [n.topLeftRadius, n.topRightRadius, n.bottomRightRadius, n.bottomLeftRadius] = it.radii; }
+    else n.cornerRadius = it.radius || 0;
     n.x = it.x; n.y = it.y;
     return n;
   }
@@ -52,9 +58,28 @@ async function make(it) {
     n.textAlignHorizontal = it.align || 'LEFT';
     if (it.w) { n.textAutoResize = 'HEIGHT'; n.resize(it.w, n.height); n.textAutoResize = 'HEIGHT'; }
     else n.textAutoResize = 'WIDTH_AND_HEIGHT';
-    n.x = it.x;
+    n.x = it.cx !== undefined ? Math.round(it.cx - n.width / 2) : it.x;   // cx 가 오면 가로 가운데
     n.y = it.cy !== undefined ? Math.round(it.cy - n.height / 2) : it.y;   // cy 가 오면 세로 가운데
     return n;
+  }
+  if (it.type === 'line') {
+    const n = figma.createLine();
+    n.resize(it.w, 0);
+    n.strokes = solid(it.color); n.strokeWeight = it.weight || 1;
+    if (it.dash) n.dashPattern = it.dash;
+    n.x = it.x; n.y = it.y;
+    return n;
+  }
+  if (it.type === 'tooltip') {
+    // 검은 말풍선 — 글 폭에 맞춰 늘어나는 오토 레이아웃. 꼬리는 따로 svg item 으로 둔다.
+    const f = figma.createFrame();
+    f.layoutMode = 'HORIZONTAL'; f.primaryAxisSizingMode = 'AUTO'; f.counterAxisSizingMode = 'AUTO';
+    f.paddingLeft = f.paddingRight = it.padX; f.paddingTop = f.paddingBottom = it.padY;
+    f.cornerRadius = it.radius; f.fills = solid(it.bg);
+    const t = await make({ type: 'text', x: 0, y: 0, lines: [it.text], font: it.font, size: it.size, lineHeight: it.lineHeight, tracking: it.tracking, color: it.color });
+    f.appendChild(t);
+    f.x = it.x; f.y = it.y;
+    return f;
   }
   if (it.type === 'svg') {
     const n = figma.createNodeFromSvg(it.svg);
@@ -89,6 +114,11 @@ async function main() {
     return figma.closePlugin();
   }
   const fails = []; let ok = 0;
+
+  for (const [from, to] of task.renamePages || []) {
+    const p = figma.root.children.find((c) => c.name === from);
+    if (p && !figma.root.children.some((c) => c.name === to)) p.name = to;
+  }
 
   for (const d of task.draw || []) {
     const created = [];

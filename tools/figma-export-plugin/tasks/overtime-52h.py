@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-03 주 52시간 · 연장 근무 / 휴일 근무 플로우차트 → 플러그인 작업(JSON)
+03 주 52시간 · 연장 근무 / 휴일 근무 플로우차트와 결과 지표 그래프 → 플러그인 작업(JSON)
 
 덱 슬라이드 08 의 플로우차트(GPRO_PORTFOLIO 1958:5268)와 같은 부품 · 치수로 그린다(2026-09-26, get_design_context 실측):
   시작끝     #688DF1 면 · 4px 테두리 · 반경 6 · 폭 200 · 위아래 30 · Apple SD Gothic Neo Bold 15/23 흰 글자 · 자간 -0.6
@@ -120,11 +120,55 @@ def holiday():
     f.label(d['right'] + 11, CY + 4, 'Y'); f.label(d['cx'] + 10, d['bottom'] + 9, 'N')
     return f
 
+# ── 결과 지표 그래프 — 덱 슬라이드 16 「정량적 변화 그래프 (Before vs After)」(1083:281916) 실측 ──
+#   차트 간격 188 · Before 막대 x 0 / After 막대 x 64 · 폭 24 · 위 모서리 6 · 축 y 305 · 점선 격자 65 / 125 / 185 / 245(6 6, #DEE2E6)
+#   Before #DEE2E6 · After 위 → 아래 #34C759 → #24C7AA · 값 글자 12/18 #868E96(막대 위 26) · Before / After 14/22 SemiBold #495057(축 아래 8)
+#   말풍선 #212529 · 반경 4 · 좌우 6 위아래 2 · Bold 12/22 #F8F9FA · 꼬리 10.392×7(말풍선 왼쪽 7) · 값 글자 위 17
+# 수치는 03 결과 표에 있는 것만: 검토 시간 하루 이상 → 5분 이내, 만족도 4.0 → 4.9. (부적절한 신청 0건은 이전 값이 없어 막대로 그리지 않는다.)
+GRAY, GREEN = '#DEE2E6', ('#34C759', '#24C7AA')
+TITLE_C, VALUE_C, TIP_BG, TIP_C = '#495057', '#868E96', '#212529', '#F8F9FA'
+PRE_SB = {'family': 'Pretendard', 'style': 'SemiBold'}
+PRE_R = {'family': 'Pretendard', 'style': 'Regular'}
+TAIL = '<svg width="10.3923" height="7" viewBox="0 0 10.3923 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.4641 6C4.2339 7.33333 6.1584 7.33333 6.9282 6L10.3923 0H0L3.4641 6Z" fill="#212529"/></svg>'
+
+def metrics():
+    items, P, AXIS = [], 188, 305
+    def t(lines, font, size, lh, tracking, color, **pos):
+        d = {'type': 'text', 'lines': lines, 'font': font, 'size': size, 'lineHeight': lh, 'tracking': tracking, 'color': color, 'align': 'LEFT'}
+        d.update(pos); return d
+    for y in (65, 125, 185, 245):
+        items.append({'type': 'line', 'x': 0, 'y': y, 'w': P + 88, 'color': GRAY, 'dash': [6, 6]})
+    items.append({'type': 'line', 'x': 0, 'y': AXIS, 'w': P + 88, 'color': GRAY})
+    charts = [
+        # 제목, (Before 값 글자, 높이), (After 값 글자, 높이), 말풍선 — 검토 시간은 5분/24시간이 0.3% 라 After 막대를 보이는 최소 높이 10 으로 둔다
+        ('연장 근무 검토 시간', ('하루 이상', 233), ('5분 이내', 10), '-98% 단축'),
+        ('인사 담당자 만족도', ('4.0점', round(4.0 / 5 * 200)), ('4.9점', round(4.9 / 5 * 200)), '0.9점 상승'),   # 5점 = 200 으로 비례
+    ]
+    for i, (title, before, after, tip) in enumerate(charts):
+        ox = i * P
+        items.append(t([title], PRE_SB, 14, 22, -0.28, TITLE_C, x=ox, y=0))
+        for j, (label, h) in enumerate((before, after)):
+            bx = ox + 64 * j; top = AXIS - h
+            bar = {'type': 'rect', 'name': ('Before ' if j == 0 else 'After ') + label, 'x': bx, 'y': top, 'w': 24, 'h': h, 'radii': [6, 6, 0, 0]}
+            bar.update({'fill': GRAY} if j == 0 else {'gradient': GREEN})
+            items.append(bar)
+            items.append(t([label], PRE_R if j == 0 else PRE_SB, 12, 18, -0.24, VALUE_C, cx=bx + 12, y=top - 26))
+            items.append(t(['Before' if j == 0 else 'After'], PRE_SB, 14, 22, -0.28, TITLE_C, cx=bx + 12, y=AXIS + 8))
+            if j == 1:
+                bottom = top - 26 - 17
+                items.append({'type': 'tooltip', 'x': bx, 'y': bottom - 26, 'text': tip, 'font': PRE, 'size': 12, 'lineHeight': 22, 'tracking': -0.12,
+                              'color': TIP_C, 'bg': TIP_BG, 'padX': 6, 'padY': 2, 'radius': 4})
+                items.append({'type': 'svg', 'name': '꼬리', 'x': bx + 7, 'y': bottom, 'svg': TAIL})
+    return items
+
+PAGE = '03 주 52시간'
 task = {
     'file': '포트폴리오_MCP',
+    'renamePages': [['플로우차트', PAGE]],
     'draw': [
-        {'page': '플로우차트', 'frame': '03 · 연장 근무 신청 플로우', 'x': 0, 'y': 0, 'export': 'gpro-overtime-flow', 'items': overtime().items},
-        {'page': '플로우차트', 'frame': '03 · 휴일 근무 신청 플로우', 'x': 0, 'y': 700, 'export': 'gpro-holiday-flow', 'items': holiday().items},
+        {'page': PAGE, 'frame': '03 · 연장 근무 신청 플로우', 'x': 0, 'y': 0, 'export': 'gpro-overtime-flow', 'items': overtime().items},
+        {'page': PAGE, 'frame': '03 · 휴일 근무 신청 플로우', 'x': 0, 'y': 700, 'export': 'gpro-holiday-flow', 'items': holiday().items},
+        {'page': PAGE, 'frame': '03 · 결과 지표 그래프', 'x': 0, 'y': 1200, 'export': 'gpro-overtime-metrics', 'items': metrics()},
     ],
 }
 json.dump(task, open(sys.argv[1], 'w'), ensure_ascii=False)
