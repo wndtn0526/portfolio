@@ -4,7 +4,7 @@
 // Dev Mode MCP get_screenshot 이 긴 변 1024px 로 막혀 있어서 만든 우회로다.
 const SERVER = 'http://localhost:8899';
 const JOBS = [
-  ['1958:5268', 'card-flowchart-08b'],
+  ['1973:5269', 'hometax-flowchart-10'],
 ];
 async function main() {
   const fails = []; let ok = 0;
