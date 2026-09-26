@@ -45,11 +45,12 @@ class Flow:
         self.items.append(text(x + 20, lines, SD if terminal else PRE, WHITE if terminal else ink, cy=cy, w=160, align='CENTER'))
         if note: self.items.append(text(x, note, PRE, NOTE, y=top + h + 16))
         self.nodes[key] = {'left': x, 'right': x + W, 'top': top, 'bottom': top + h, 'cx': x + W / 2, 'cy': cy}
-    def decision(self, key, x, cy, lines):
+    def decision(self, key, x, cy, lines, muted=False):
         top = cy - 55
-        svg = f'<svg width="{DW}" height="{DH}" viewBox="0 0 {DW} {DH}" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="{DIAMOND}" fill="{LIGHT}" stroke="{BLUE}" stroke-width="4"/></svg>'
+        line, face, ink = (MUTED_LINE, MUTED_FACE, MUTED_INK) if muted else (BLUE, LIGHT, TEXT_BLUE)
+        svg = f'<svg width="{DW}" height="{DH}" viewBox="0 0 {DW} {DH}" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="{DIAMOND}" fill="{face}" stroke="{line}" stroke-width="4"/></svg>'
         self.items.append({'type': 'svg', 'name': ' '.join(lines), 'x': x + 7.04, 'y': top + 0.825, 'svg': svg})
-        self.items.append(text(x + 39, lines, SD, TEXT_BLUE, cy=cy, w=134, align='CENTER'))
+        self.items.append(text(x + 39, lines, SD, ink, cy=cy, w=134, align='CENTER'))
         ox, oy = x + 7.04, top + 0.825      # 벡터 꼭짓점(곡선 끝 포함) — 왼 2.0 · 오 195.94 · 위 2.0 · 아래 106.48
         self.nodes[key] = {'left': ox + 2.0, 'right': ox + 195.94, 'top': oy + 2.0, 'bottom': oy + 106.48, 'cx': x + 106, 'cy': cy}
     def label(self, x, y, s): self.items.append(text(x, [s], PRE, NOTE, y=y))

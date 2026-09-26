@@ -5,7 +5,7 @@
 내용은 projects.php 의 이디엠 글(사용자 경력기술서, 2026-09-26)에 적힌 것만 옮긴다.
   production 커리큘럼 개발 → 교안 제작 → 강의 녹화 → 편집 · 인강 제작 → AWS 서버 업로드 → LMS 강의 관리(사용자 설명, 2026-09-26)
   (정보구조도는 그림 대신 projects.php 의 표로 옮겼다 — 2026-09-26 사용자 요청)
-  ielts   개선 전(흐린 줄) 익명 게시판 신청 → 관리자 수동 취합 / 개선 후 단계별 신청 → 자동 취합
+  ielts   개선 전(흐린 줄) 게시글 목록 → 신청 방법을 찾았나(N 이탈) → 신청 글 → 관리자 수동 취합 / 개선 후 일정 선택 → 정보 입력 → 확인 · 접수 완료 → 명단 자동 생성
   global  해외 유학 준비생 → 해외 결제 → 무료 교재 해외배송(EMS) → AWS 로 강의 접속 → 수강
   business edm 유학원 → 아이엘츠 어학원 인수 → 아이엘츠 인강, 인강 수강생이 다시 유학 상담으로(개요 문제 정의)
 사용: python3 tools/figma-export-plugin/tasks/edm.py <작업 JSON 경로>
@@ -31,19 +31,28 @@ def production():
     return f
 
 def ielts():
+    """모의고사 신청 개편 전후(경력기술서 + projects.php 02 글). 개선 전은 흐린 줄 — 첫 화면(게시글 목록)에서 신청 방법을 못 찾으면 이탈."""
     f = Flow()
-    CY2 = CY + 240
     f.box('b1', X[0], CY, ['신청 사이트 접속'], terminal=True, muted=True)
-    f.box('b2', X[1], CY, ['익명 게시판에', '신청 글 작성'], muted=True, note=['첫 화면에서 신청 방법이', '보이지 않아 이탈'])
-    f.box('b3', X[2], CY, ['관리자가', '수동으로 취합'], muted=True, note=['게시글을 하나씩 모아 정리'])
-    f.box('b4', X[3], CY, ['접수 명단'], terminal=True, muted=True)
+    f.box('b2', X[1], CY, ['익명 게시판', '글 목록'], muted=True, note=['첫 화면에', '다른 사람의 신청 글만 보임'])
+    f.decision('q', X[2], CY, ['신청 방법을', '찾았는가?'], muted=True)
+    d = f.nodes['q']
+    f.box('b3', round(d['right'] + 131), CY, ['신청 글 작성'], muted=True, note=['적는 방식이 사람마다 제각각'])
+    f.box('b4', f.nodes['b3']['left'] + 322, CY, ['관리자가', '수동으로 취합'], muted=True, note=['글을 하나씩 열어', '명단으로 옮겨 적음'])
+    f.box('out', d['cx'] - W / 2, d['bottom'] + 160 + 41.5, ['이탈'], terminal=True, muted=True, note=['이탈이 매우 높았던 구간'])
+    f.right('b1', 'b2', muted=True)
+    f.line([(f.nodes['b2']['right'] - 1, CY), (d['left'], CY)], muted=True)
+    f.line([(d['right'], CY), (f.nodes['b3']['left'] - 0.5, CY)], muted=True)
+    f.right('b3', 'b4', muted=True)
+    f.line([(d['cx'], d['bottom']), (d['cx'], f.nodes['out']['top'] - 0.5)], muted=True)
+    f.label(d['right'] + 11, CY + 4, 'Y'); f.label(d['cx'] + 10, d['bottom'] + 9, 'N')
+    CY2 = CY + 500
     f.box('a1', X[0], CY2, ['신청 화면 접속'], terminal=True, note=['모바일 · 웹'])
-    f.box('a2', X[1], CY2, ['단계를 따라', '신청'], note=['신청에 필요한 정보를', '차례로 입력'])
-    f.box('a3', X[2], CY2, ['접수 데이터', '자동 취합'], note=['관리자 취합 작업 없음'])
-    f.box('a4', X[3], CY2, ['접수 완료'], terminal=True)
-    for a, b in (('b1', 'b2'), ('b2', 'b3'), ('b3', 'b4')):
-        f.right(a, b, muted=True)
-    for a, b in (('a1', 'a2'), ('a2', 'a3'), ('a3', 'a4')):
+    f.box('a2', X[1], CY2, ['모의고사', '일정 선택'], note=['첫 화면에서 바로 시작'])
+    f.box('a3', X[2], CY2, ['응시자 정보 입력'], note=['꼭 필요한 항목만', '화면마다 한 가지씩'])
+    f.box('a4', X[3], CY2, ['신청 확인 후', '접수 완료'], note=['신청한 일정과 정보를', '다시 보여 줌'])
+    f.box('a5', X[4], CY2, ['접수 명단', '자동 생성'], terminal=True, note=['관리자 취합 작업 없음'])
+    for a, b in (('a1', 'a2'), ('a2', 'a3'), ('a3', 'a4'), ('a4', 'a5')):
         f.right(a, b)
     f.pill('b1', '개선 전'); f.pill('a1', '개선 후')
     return f
