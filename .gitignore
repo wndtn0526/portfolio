@@ -28,3 +28,5 @@ Thumbs.db
 
 # 로컬 전용 SQLite — 이 저장소는 DB 를 쓰지 않는다
 /database/*.sqlite
+# Figma 프로젝트 섹션 플러그인 번들 — build.sh 가 projects.php 와 그림으로 만드는 생성물(8MB 안팎). Figma 는 디스크의 파일을 읽으므로 추적하지 않는다.
+tools/figma-work-plugin/code.js

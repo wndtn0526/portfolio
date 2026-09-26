@@ -53,7 +53,11 @@ async function make(it) {
     n.fontSize = it.size;
     n.lineHeight = { value: it.lineHeight, unit: 'PIXELS' };
     n.letterSpacing = { value: it.tracking || 0, unit: 'PIXELS' };
-    n.fills = solid(it.color);
+    n.fills = it.gradient
+      // 왼 → 오른 그라디언트 글(덱 12 의 +76% 같은 큰 숫자)
+      ? [{ type: 'GRADIENT_LINEAR', gradientTransform: [[1, 0, 0], [0, 1, 0]], gradientStops: [
+          { position: 0, color: Object.assign(rgb(it.gradient[0]), { a: 1 }) }, { position: 1, color: Object.assign(rgb(it.gradient[1]), { a: 1 }) }] }]
+      : solid(it.color);
     n.characters = it.lines.join('\n');
     n.textAlignHorizontal = it.align || 'LEFT';
     if (it.w) { n.textAutoResize = 'HEIGHT'; n.resize(it.w, n.height); n.textAutoResize = 'HEIGHT'; }

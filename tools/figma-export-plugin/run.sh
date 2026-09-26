@@ -3,7 +3,7 @@
 #   run.sh <작업 JSON> <PNG 폴더>
 # 작업의 file(파일 이름) 로 탭을 고른다. 서버(server.py)는 먼저 켜 둔다. macOS 손쉬운 사용 권한이 필요하다.
 set -euo pipefail
-TASK="$1"; OUT="$2"
+TASK="$1"; OUT="$2"; SERVED="${FIGMA_TASK_FILE:-}"   # server.py 가 읽는 작업 파일 — 다르면 거기로 복사한다
 key() { case "$1" in 포트폴리오_MCP) echo fAhUR1W7RM9YVXmiSUb6b1;; GPRO_PORTFOLIO) echo sJC6AduTG0I4cTttQJFAes;; *) echo "";; esac; }   # macOS bash 3.2 — 연관 배열 없음
 FILE=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get('file',''))" "$TASK")
 NAMES=$(python3 -c "import json,sys; t=json.load(open(sys.argv[1])); print(' '.join([d['export'] for d in t.get('draw',[]) if d.get('export')] + [n for _,n in t.get('export',[])]))" "$TASK")
@@ -19,6 +19,7 @@ switch() {  # 탭 전환 — 창 제목으로 확인하고, 안 바뀌면 한 �
 }
 
 for n in $NAMES; do rm -f "$OUT/$n.png"; done
+if [ -n "$SERVED" ] && [ "$SERVED" != "$TASK" ]; then cp "$TASK" "$SERVED"; TASK="$SERVED"; fi
 switch "$FILE"
 osascript <<'AS'
 tell application "System Events"

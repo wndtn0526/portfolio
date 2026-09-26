@@ -15,6 +15,7 @@
 import math
 
 BLUE, TEXT_BLUE, LIGHT, NOTE, WHITE = '#688DF1', '#4270ED', '#ECF1FD', '#ADB5BD', '#FFFFFF'
+MUTED_LINE, MUTED_FACE, MUTED_INK = '#ADB5BD', '#F1F3F5', '#868E96'   # 개선 전 줄 — 덱 회색(차트 Before 막대 · 코멘트와 같은 계열)
 SD = {'family': 'Apple SD Gothic Neo', 'style': 'Bold'}
 PRE = {'family': 'Pretendard', 'style': 'Bold'}
 W, PAD, LH, SIZE, TRACK = 200, 30, 23, 15, -0.6
@@ -37,10 +38,11 @@ def text(x, lines, font, color, cy=None, y=None, w=None, align='LEFT'):
 
 class Flow:
     def __init__(self): self.items, self.nodes = [], {}
-    def box(self, key, x, cy, lines, terminal=False, note=None):
+    def box(self, key, x, cy, lines, terminal=False, note=None, muted=False):
         h = 2 * PAD + LH * len(lines); top = cy - h / 2
-        self.items.append({'type': 'rect', 'name': ' '.join(lines), 'x': x, 'y': top, 'w': W, 'h': h, 'fill': BLUE if terminal else LIGHT, 'stroke': BLUE, 'strokeWeight': 4, 'radius': 6})
-        self.items.append(text(x + 20, lines, SD if terminal else PRE, WHITE if terminal else TEXT_BLUE, cy=cy, w=160, align='CENTER'))
+        line, face, ink = (MUTED_LINE, MUTED_FACE, MUTED_INK) if muted else (BLUE, LIGHT, TEXT_BLUE)
+        self.items.append({'type': 'rect', 'name': ' '.join(lines), 'x': x, 'y': top, 'w': W, 'h': h, 'fill': line if terminal else face, 'stroke': line, 'strokeWeight': 4, 'radius': 6})
+        self.items.append(text(x + 20, lines, SD if terminal else PRE, WHITE if terminal else ink, cy=cy, w=160, align='CENTER'))
         if note: self.items.append(text(x, note, PRE, NOTE, y=top + h + 16))
         self.nodes[key] = {'left': x, 'right': x + W, 'top': top, 'bottom': top + h, 'cx': x + W / 2, 'cy': cy}
     def decision(self, key, x, cy, lines):
@@ -51,7 +53,7 @@ class Flow:
         ox, oy = x + 7.04, top + 0.825      # 벡터 꼭짓점(곡선 끝 포함) — 왼 2.0 · 오 195.94 · 위 2.0 · 아래 106.48
         self.nodes[key] = {'left': ox + 2.0, 'right': ox + 195.94, 'top': oy + 2.0, 'bottom': oy + 106.48, 'cx': x + 106, 'cy': cy}
     def label(self, x, y, s): self.items.append(text(x, [s], PRE, NOTE, y=y))
-    def line(self, pts):
+    def line(self, pts, muted=False):
         """꺾인 연결선 — 시작점 고리, 모서리 반경 10, 마지막 방향으로 화살촉."""
         (ex, ey), (px, py) = pts[-1], pts[-2]
         L = math.hypot(ex - px, ey - py); ux, uy = (ex - px) / L, (ey - py) / L
@@ -74,14 +76,15 @@ class Flow:
         xs = [p[0] for p in pts]; ys = [p[1] for p in pts]
         x0, y0 = min(xs) - 12, min(ys) - 12; x1, y1 = max(xs) + 12, max(ys) + 12
         w, h = x1 - x0, y1 - y0
+        c, ring = (MUTED_LINE, MUTED_FACE) if muted else (BLUE, LIGHT)
         svg = (f'<svg width="{w:.2f}" height="{h:.2f}" viewBox="{x0:.2f} {y0:.2f} {w:.2f} {h:.2f}" fill="none" xmlns="http://www.w3.org/2000/svg">'
-               f'<path d="{"".join(d)}" stroke="{BLUE}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>'
-               f'<path d="{"".join(a)}Z" fill="{BLUE}"/>'
-               f'<circle cx="{sx:.2f}" cy="{sy:.2f}" r="10" fill="{BLUE}"/><circle cx="{sx:.2f}" cy="{sy:.2f}" r="6" fill="{LIGHT}"/></svg>')
+               f'<path d="{"".join(d)}" stroke="{c}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>'
+               f'<path d="{"".join(a)}Z" fill="{c}"/>'
+               f'<circle cx="{sx:.2f}" cy="{sy:.2f}" r="10" fill="{c}"/><circle cx="{sx:.2f}" cy="{sy:.2f}" r="6" fill="{ring}"/></svg>')
         self.items.append({'type': 'svg', 'name': '연결선', 'x': x0, 'y': y0, 'svg': svg})
-    def right(self, a, b):   # 가로 연결 — 고리는 앞 상자 오른쪽 끝, 화살촉 끝은 다음 상자 왼쪽 끝
+    def right(self, a, b, muted=False):   # 가로 연결 — 고리는 앞 상자 오른쪽 끝, 화살촉 끝은 다음 상자 왼쪽 끝
         A, B = self.nodes[a], self.nodes[b]
-        self.line([(A['right'] - 1, A['cy']), (B['left'] - 0.5, A['cy'])])
+        self.line([(A['right'] - 1, A['cy']), (B['left'] - 0.5, A['cy'])], muted=muted)
     def left(self, a, b):    # 오른쪽 → 왼쪽 연결(두 번째 줄을 거꾸로 흐를 때)
         A, B = self.nodes[a], self.nodes[b]
         self.line([(A['left'] + 1, A['cy']), (B['right'] + 0.5, A['cy'])])
@@ -91,3 +94,12 @@ class Flow:
                            'color': '#F8F9FA', 'bg': '#212529', 'padX': 6, 'padY': 2, 'radius': 4})
         self.items.append({'type': 'svg', 'name': '꼬리', 'x': x + 7, 'y': top - 4 - 7, 'svg': TAIL})
 
+
+
+def write_task(path, draws, file='포트폴리오_MCP', rename=None):
+    """작업 JSON 쓰기 — draws: [{page, frame, x, y, export, items}]"""
+    import json
+    task = {'file': file, 'draw': draws}
+    if rename: task['renamePages'] = rename
+    json.dump(task, open(path, 'w'), ensure_ascii=False)
+    print(path, sum(len(d['items']) for d in draws), 'items ·', ', '.join(d['export'] for d in draws))
