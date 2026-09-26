@@ -575,15 +575,12 @@
     </main>
 
     {{-- 이미지 확대 — app.js [data-zoom-overlay]. 본문 그림을 누르면 화면에 맞춰 열고, 그림을 한 번 더 누르면 원본 크기(그림 1px = 화면 1px)로 끌어서 본다.
+         뒤 페이지는 흐리게 비친다(상단 내비와 같은 반투명 + 블러). 캡션 · 안내 문구는 두지 않는다(2026-09-26 사용자 요청).
          닫기: ✕ · Esc · 그림 밖을 누름. 도식(SVG)은 벡터라 화면에 맞춰서만 연다. 메뉴(z-[1100]) 위에 뜬다. --}}
-    <div data-zoom-overlay role="dialog" aria-modal="true" aria-label="이미지 확대" hidden class="fixed inset-0 z-[1200] bg-canvas">
-        <div data-zoom-stage data-lenis-prevent class="zoom-stage absolute inset-0 px-4 pb-24 pt-16 md:px-16">
-            <img data-zoom-img alt="" draggable="false" class="max-h-[calc(100dvh-10rem)] max-w-full select-none object-contain">
-            <div data-zoom-svg-box hidden class="w-[min(100%,1400px)] rounded-[12px] bg-white [&_svg]:block [&_svg]:h-auto [&_svg]:w-full"></div>
-        </div>
-        <div data-zoom-bottom class="pointer-events-none absolute inset-x-0 bottom-0 px-4 pb-6 text-center md:px-16">
-            <p data-zoom-caption class="text-label-1 break-keep text-ink"></p>
-            <p data-zoom-hint class="mt-1 text-label-2 text-muted"></p>
+    <div data-zoom-overlay role="dialog" aria-modal="true" aria-label="이미지 확대" hidden class="zoom-overlay fixed inset-0 z-[1200] bg-canvas/60 backdrop-blur-[24px]">
+        <div data-zoom-stage data-lenis-prevent class="zoom-stage absolute inset-0 px-4 py-16 md:px-16">
+            <img data-zoom-img alt="" draggable="false" class="max-h-[calc(100dvh-8rem)] max-w-full select-none rounded-[12px] bg-canvas object-contain shadow-[0_12px_48px_rgba(33,37,41,0.12)]">
+            <div data-zoom-svg-box hidden class="w-[min(100%,1400px)] overflow-hidden rounded-[12px] bg-white shadow-[0_12px_48px_rgba(33,37,41,0.12)] [&_svg]:block [&_svg]:h-auto [&_svg]:w-full"></div>
         </div>
         <button type="button" data-zoom-close aria-label="닫기" class="absolute right-4 top-4 grid size-10 place-items-center rounded-full border border-rule bg-white text-ink transition-colors hover:bg-canvas md:right-8 md:top-6">
             <svg aria-hidden="true" viewBox="0 0 20 20" class="size-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 5l10 10M15 5L5 15"/></svg>

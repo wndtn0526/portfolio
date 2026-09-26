@@ -369,7 +369,7 @@ document.querySelectorAll('[data-carousel]').forEach((root) => {
 
 
 /*
- * 이미지 확대([data-zoom]) — 본문 그림을 누르면 화면에 맞춰 연다([data-zoom-overlay]).
+ * 이미지 확대([data-zoom]) — 본문 그림을 누르면 화면에 맞춰 연다([data-zoom-overlay]). 뒤 페이지는 흐리게 비친다.
  * 그림을 한 번 더 누르면 원본 크기(그림 1px = 화면 1px)로 바꾸고, 누른 자리가 가운데 오게 스크롤한다.
  *   원본 크기에서는 마우스로 끌어서 움직이고(터치는 기본 스크롤), 다시 누르면 화면에 맞춘다.
  * 닫기: ✕ · Esc · 그림 밖을 누름. 열린 동안 뒤 페이지 스크롤과 Lenis 를 멈춘다(메뉴 오버레이와 같은 방식).
@@ -380,28 +380,16 @@ if (zoom) {
     const stage = zoom.querySelector('[data-zoom-stage]');
     const img = zoom.querySelector('[data-zoom-img]');
     const svgBox = zoom.querySelector('[data-zoom-svg-box]');
-    const caption = zoom.querySelector('[data-zoom-caption]');
-    const hint = zoom.querySelector('[data-zoom-hint]');
     const closeBtn = zoom.querySelector('[data-zoom-close]');
+    const FADE = reducedMotion ? 0 : 180;
     let trigger = null;
     let canBig = false;
     let big = false;
-
-    // 캐러셀은 지금 보이는 장의 설명, 나머지는 figcaption
-    const captionOf = (el) => {
-        const fig = el.closest('figure');
-        if (!fig) return '';
-        const note = fig.querySelector('[data-carousel-note]:not([hidden])');
-        return (note ?? fig.querySelector('figcaption'))?.textContent.trim().replace(/\s+/g, ' ') ?? '';
-    };
+    let hideTimer = 0;
 
     const nativeWidth = () => img.naturalWidth / (window.devicePixelRatio || 1);
-
-    const setHint = () => {
-        hint.textContent = big ? '끌어서 움직이고, 누르면 화면에 맞춥니다' : (canBig ? '그림을 누르면 원본 크기로 봅니다' : '');
-        caption.hidden = big;
-        img.style.cursor = svgBox.hidden ? (big ? '' : (canBig ? 'zoom-in' : 'default')) : '';
-    };
+    const setCursor = () => { img.style.cursor = big ? '' : (canBig ? 'zoom-in' : 'default'); };
+    const measure = () => { canBig = nativeWidth() > img.clientWidth + 8; setCursor(); };
 
     const setBig = (on, at = { x: 0.5, y: 0.5 }) => {
         big = on && canBig;
@@ -417,12 +405,12 @@ if (zoom) {
             img.style.marginTop = '';
             stage.scrollTo(0, 0);
         }
-        setHint();
+        setCursor();
     };
 
     const open = (el) => {
+        clearTimeout(hideTimer);
         trigger = el;
-        caption.textContent = captionOf(el);
         canBig = false;
         big = false;
         stage.classList.remove('is-big');
@@ -439,29 +427,32 @@ if (zoom) {
             img.style.width = '';
             img.style.marginTop = '';
             img.alt = el.alt || '';
-            const measure = () => { canBig = nativeWidth() > img.clientWidth + 8; setHint(); };
             img.onload = () => requestAnimationFrame(measure);
             img.src = el.currentSrc || el.src;
             if (img.complete && img.naturalWidth) requestAnimationFrame(measure);
         }
         zoom.hidden = false;
+        requestAnimationFrame(() => zoom.classList.add('is-open'));
         document.body.style.overflow = 'hidden';
         lenis?.stop();
-        setHint();
+        setCursor();
         closeBtn.focus({ preventScroll: true });
     };
 
     const close = () => {
-        if (zoom.hidden) return;
-        zoom.hidden = true;
-        big = false;
-        stage.classList.remove('is-big');
-        img.removeAttribute('src');
-        svgBox.replaceChildren();
+        if (zoom.hidden || !zoom.classList.contains('is-open')) return;
+        zoom.classList.remove('is-open');
         document.body.style.overflow = '';
         lenis?.start();
         trigger?.focus({ preventScroll: true });
         trigger = null;
+        hideTimer = setTimeout(() => {
+            zoom.hidden = true;
+            big = false;
+            stage.classList.remove('is-big');
+            img.removeAttribute('src');
+            svgBox.replaceChildren();
+        }, FADE);
     };
 
     // 여는 쪽 — 누르기 · Enter · Space(그림에 tabindex 가 있다)
@@ -514,6 +505,6 @@ if (zoom) {
     addEventListener('resize', () => {
         if (zoom.hidden || !svgBox.hidden) return;
         if (big) setBig(false);
-        requestAnimationFrame(() => { canBig = nativeWidth() > img.clientWidth + 8; setHint(); });
+        requestAnimationFrame(measure);
     }, { passive: true });
 }
