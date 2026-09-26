@@ -145,7 +145,7 @@
                          2056 값을 1440 에 그대로 쓰면 단이 뷰포트를 넘친다(실측 ~880px). 영문 라벨은 Figma 에서 뺐다.
                          ⚠️ 원문 오탈자 `브래느` → `브랜드` 로 고쳐 옮겼다. --}}
                     <aside data-statement-aside class="statement-aside w-full min-w-0 text-white">
-                        <p class="text-[clamp(22px,1.556vw,32px)] leading-[1.318] font-bold tracking-[-0.0455em] break-keep">안녕하세요. 서비스기획자 신중수 입니다.</p>
+                        <p class="text-[clamp(22px,1.556vw,32px)] leading-[1.318] font-bold tracking-[-0.0455em] break-keep">안녕하세요. 서비스기획자 신중수입니다.</p>
                         <p class="mt-3 text-[clamp(16px,1.167vw,24px)] leading-[1.625] font-semibold tracking-[-0.0375em] break-keep">
                             저의 가장 큰 무기이자 차별점은 서로 다른 두 영역에서의 깊은 통찰을 결합했다는 점입니다.
                         </p>
@@ -153,7 +153,7 @@
                         <h3 class="mt-8 text-[clamp(20px,1.167vw,24px)] leading-[1.5] font-bold tracking-[-0.05em] break-keep">구조와 논리의 깊이</h3>
                         <p class="mt-2 text-[clamp(16px,0.973vw,20px)] leading-[1.625] tracking-[-0.0375em] text-white/85">
                             그룹웨어 시장에서의 깊은 도메인 경험을 통해 어떤 기술도 도메인보다 앞설 수 없다는 신념을 가지고,
-                            실제 현업의 복잡한 업무 흐름 (HR/재무) 을 깊이 이해하고 구조화할 수 있게 성장했습니다.
+                            실제 현업의 복잡한 업무 흐름(HR/재무)을 깊이 이해하고 구조화할 수 있게 성장했습니다.
                             명확한 목표와 올바른 방향 설정이 정답에 가까운 결과를 만든다는 믿음으로,
                             엔터프라이즈의 비효율을 해소하는 논리적인 UX 설계에 집중합니다.
                         </p>
@@ -162,7 +162,7 @@
                         <p class="mt-2 text-[clamp(16px,0.973vw,20px)] leading-[1.625] tracking-[-0.0375em] text-white/85">
                             이전 광고대행사 경험에서 얻은 브랜드 스토리텔링 및 비주얼 커뮤니케이션 능력은
                             제품의 매력도를 극대화하는 중요한 도구입니다. 딱딱하게 느껴지기 쉬운 B2B 솔루션에
-                            사용자에게 공감을 주는 UX Writing 과 일관된 브랜드 경험을 입혀,
+                            사용자에게 공감을 주는 UX Writing과 일관된 브랜드 경험을 입혀,
                             사용자가 사랑하고 습관적으로 이용하는 제품으로 전환시킵니다.
                         </p>
 

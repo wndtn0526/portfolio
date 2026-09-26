@@ -21,7 +21,7 @@ def voc():
     f.box('ticket', x[1], CY, ['지라 티켓 등록'], note=['문의별로 레이블 달기', '정해 둔 레이블 목록 안에서'])
     f.box('assign', x[2], CY, ['모듈별 담당자', '자동 배정'], note=['모듈마다 정해 둔', '담당 개발자에게 배정', '배정되면 바로 알림'])
     f.box('work', x[3], CY, ['개발자 작업 시작'], note=['알림을 받은 개발자가', '작업을 시작'])
-    f.box('pr', x[4], CY, ['깃에 올려', 'PR 생성'], note=['티켓 상태가', 'PR 로 자동 변경'])
+    f.box('pr', x[4], CY, ['깃에 올려', 'PR 생성'], note=['티켓 상태가', 'PR로 자동 변경'])
     f.box('deploy', x[5], CY, ['배포'], terminal=True, note=['티켓 상태가', '완료로 자동 변경'])
     for k in ('assign', 'pr', 'deploy'):
         f.pill(k, '지라 오토메이션')
@@ -36,11 +36,8 @@ def voc():
     f.left('label', 'report'); f.left('report', 'metric')
     return f
 
-task = {
-    'file': '포트폴리오_MCP',
-    'draw': [
-        {'page': '06 VOC', 'frame': '06 · VOC 처리와 보고 플로우', 'x': 0, 'y': 0, 'export': 'gpro-voc-flow', 'items': voc().items},
-    ],
-}
-json.dump(task, open(sys.argv[1], 'w'), ensure_ascii=False)
-print(sys.argv[1], len(task['draw'][0]['items']), 'items')
+def draws():
+    return [{'page': '06 VOC', 'frame': '06 · VOC 처리와 보고 플로우', 'x': 0, 'y': 0, 'export': 'gpro-voc-flow', 'items': voc().items}]
+
+if __name__ == '__main__':
+    write_task(sys.argv[1], draws())

@@ -53,7 +53,7 @@ def global_():
     f.box('who', X[0], CY, ['해외 유학 준비생'], terminal=True, note=['교재 구매와 접속 품질 때문에', '수강을 망설임'])
     f.box('pay', X[1], CY, ['해외 결제'])
     f.box('book', X[2], CY, ['무료 교재', '해외배송'], note=['우체국 EMS 별도 계약으로', '배송비 절감'])
-    f.box('aws', X[3], CY, ['AWS 로', '강의 접속'], note=['국내 인강 최초', 'AWS 클라우드 도입'])
+    f.box('aws', X[3], CY, ['AWS로', '강의 접속'], note=['국내 인강 최초', 'AWS 클라우드 도입'])
     f.box('learn', X[4], CY, ['수강'], terminal=True)
     f.right('who', 'pay'); f.right('pay', 'book'); f.right('book', 'aws'); f.right('aws', 'learn')
     f.pill('book', '프로모션'); f.pill('aws', '인프라')

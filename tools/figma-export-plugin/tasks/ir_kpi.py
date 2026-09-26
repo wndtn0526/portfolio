@@ -42,7 +42,7 @@ def panel():
              {'type': 'tooltip', 'name': '기준', 'x': 88, 'y': 0, 'text': '2023년 4월 기준', 'font': F('SemiBold'), 'size': 12, 'lineHeight': 14, 'tracking': -0.12,
               'color': '#F8F9FA', 'bg': '#ADB5BD', 'padX': 8, 'padY': 4, 'radius': 4}]
     donuts = [('온라인 데모 후 서비스 시작', 36.7, '36.7%', '도입 예정까지 포함하면 51.8%'),
-              ('방문 PT 후 유료 전환', 63.3, '63.3%', '방문 PT 를 본 고객 기준'),
+              ('방문 PT 후 유료 전환', 63.3, '63.3%', '방문 PT를 본 고객 기준'),
               ('서비스 추천 의향', 73, '73%', '프로세스를 경험한 고객 기준')]
     for i, (label, pct, val, note) in enumerate(donuts):
         x0 = i * 245
