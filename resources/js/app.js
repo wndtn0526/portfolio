@@ -367,3 +367,153 @@ document.querySelectorAll('[data-carousel]').forEach((root) => {
     render();
 });
 
+
+/*
+ * 이미지 확대([data-zoom]) — 본문 그림을 누르면 화면에 맞춰 연다([data-zoom-overlay]).
+ * 그림을 한 번 더 누르면 원본 크기(그림 1px = 화면 1px)로 바꾸고, 누른 자리가 가운데 오게 스크롤한다.
+ *   원본 크기에서는 마우스로 끌어서 움직이고(터치는 기본 스크롤), 다시 누르면 화면에 맞춘다.
+ * 닫기: ✕ · Esc · 그림 밖을 누름. 열린 동안 뒤 페이지 스크롤과 Lenis 를 멈춘다(메뉴 오버레이와 같은 방식).
+ * 도식(SVG, [data-zoom-svg])은 벡터라 화면에 맞춰서만 연다.
+ */
+const zoom = document.querySelector('[data-zoom-overlay]');
+if (zoom) {
+    const stage = zoom.querySelector('[data-zoom-stage]');
+    const img = zoom.querySelector('[data-zoom-img]');
+    const svgBox = zoom.querySelector('[data-zoom-svg-box]');
+    const caption = zoom.querySelector('[data-zoom-caption]');
+    const hint = zoom.querySelector('[data-zoom-hint]');
+    const closeBtn = zoom.querySelector('[data-zoom-close]');
+    let trigger = null;
+    let canBig = false;
+    let big = false;
+
+    // 캐러셀은 지금 보이는 장의 설명, 나머지는 figcaption
+    const captionOf = (el) => {
+        const fig = el.closest('figure');
+        if (!fig) return '';
+        const note = fig.querySelector('[data-carousel-note]:not([hidden])');
+        return (note ?? fig.querySelector('figcaption'))?.textContent.trim().replace(/\s+/g, ' ') ?? '';
+    };
+
+    const nativeWidth = () => img.naturalWidth / (window.devicePixelRatio || 1);
+
+    const setHint = () => {
+        hint.textContent = big ? '끌어서 움직이고, 누르면 화면에 맞춥니다' : (canBig ? '그림을 누르면 원본 크기로 봅니다' : '');
+        caption.hidden = big;
+        img.style.cursor = svgBox.hidden ? (big ? '' : (canBig ? 'zoom-in' : 'default')) : '';
+    };
+
+    const setBig = (on, at = { x: 0.5, y: 0.5 }) => {
+        big = on && canBig;
+        stage.classList.toggle('is-big', big);
+        if (big) {
+            img.style.width = `${nativeWidth()}px`;
+            // 세로가 화면보다 작으면 가운데로(가로는 CSS margin-inline:auto)
+            img.style.marginTop = `${Math.max(0, (stage.clientHeight - img.offsetHeight) / 2)}px`;
+            stage.scrollLeft = img.offsetLeft + at.x * img.offsetWidth - stage.clientWidth / 2;
+            stage.scrollTop = img.offsetTop + at.y * img.offsetHeight - stage.clientHeight / 2;
+        } else {
+            img.style.width = '';
+            img.style.marginTop = '';
+            stage.scrollTo(0, 0);
+        }
+        setHint();
+    };
+
+    const open = (el) => {
+        trigger = el;
+        caption.textContent = captionOf(el);
+        canBig = false;
+        big = false;
+        stage.classList.remove('is-big');
+        if (el.hasAttribute('data-zoom-svg')) {
+            img.hidden = true;
+            img.removeAttribute('src');
+            svgBox.hidden = false;
+            const svg = el.querySelector('svg')?.cloneNode(true);
+            svgBox.replaceChildren(...(svg ? [svg] : []));
+        } else {
+            svgBox.hidden = true;
+            svgBox.replaceChildren();
+            img.hidden = false;
+            img.style.width = '';
+            img.style.marginTop = '';
+            img.alt = el.alt || '';
+            const measure = () => { canBig = nativeWidth() > img.clientWidth + 8; setHint(); };
+            img.onload = () => requestAnimationFrame(measure);
+            img.src = el.currentSrc || el.src;
+            if (img.complete && img.naturalWidth) requestAnimationFrame(measure);
+        }
+        zoom.hidden = false;
+        document.body.style.overflow = 'hidden';
+        lenis?.stop();
+        setHint();
+        closeBtn.focus({ preventScroll: true });
+    };
+
+    const close = () => {
+        if (zoom.hidden) return;
+        zoom.hidden = true;
+        big = false;
+        stage.classList.remove('is-big');
+        img.removeAttribute('src');
+        svgBox.replaceChildren();
+        document.body.style.overflow = '';
+        lenis?.start();
+        trigger?.focus({ preventScroll: true });
+        trigger = null;
+    };
+
+    // 여는 쪽 — 누르기 · Enter · Space(그림에 tabindex 가 있다)
+    document.addEventListener('click', (e) => {
+        const el = e.target.closest('[data-zoom]');
+        if (!el || zoom.contains(el)) return;
+        e.preventDefault();
+        open(el);
+    });
+    addEventListener('keydown', (e) => {
+        if (!zoom.hidden) {
+            if (e.key === 'Escape') { e.preventDefault(); close(); }
+            return;
+        }
+        if ((e.key === 'Enter' || e.key === ' ') && e.target instanceof Element && e.target.matches('[data-zoom]')) {
+            e.preventDefault();
+            open(e.target);
+        }
+    });
+    closeBtn.addEventListener('click', close);
+
+    // 창 안 — 누르기(4px 안에서 뗌)는 맞춤 ↔ 원본 전환 또는 닫기, 끌기(마우스 · 원본 크기)는 이동
+    let press = null;
+    stage.addEventListener('pointerdown', (e) => {
+        if (e.button !== 0) return;
+        press = { x: e.clientX, y: e.clientY, sl: stage.scrollLeft, st: stage.scrollTop, onPicture: e.target === img || svgBox.contains(e.target) };
+        if (big && e.pointerType === 'mouse') { stage.setPointerCapture(e.pointerId); e.preventDefault(); }
+    });
+    stage.addEventListener('pointermove', (e) => {
+        if (!press || !big || e.pointerType !== 'mouse') return;
+        stage.classList.add('is-dragging');
+        stage.scrollLeft = press.sl - (e.clientX - press.x);
+        stage.scrollTop = press.st - (e.clientY - press.y);
+    });
+    const release = (e) => {
+        const p = press;
+        press = null;
+        stage.classList.remove('is-dragging');
+        if (!p || e.type === 'pointercancel') return;
+        if (Math.hypot(e.clientX - p.x, e.clientY - p.y) > 4) return;       // 끌었다
+        if (!p.onPicture) { close(); return; }                              // 그림 밖
+        if (!canBig) return;
+        if (big) { setBig(false); return; }
+        const r = img.getBoundingClientRect();
+        setBig(true, { x: (e.clientX - r.left) / r.width, y: (e.clientY - r.top) / r.height });
+    };
+    stage.addEventListener('pointerup', release);
+    stage.addEventListener('pointercancel', release);
+
+    addEventListener('resize', () => {
+        if (zoom.hidden || !svgBox.hidden) return;
+        if (big) setBig(false);
+        requestAnimationFrame(() => { canBig = nativeWidth() > img.clientWidth + 8; setHint(); });
+    }, { passive: true });
+}

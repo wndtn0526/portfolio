@@ -195,3 +195,9 @@
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: none; }
 }
+
+/* 이미지 확대 — app.js [data-zoom-overlay]. 화면에 맞춤(기본)은 가운데 정렬, 원본 크기(.is-big)는 스크롤 · 끌기로 본다. */
+.zoom-stage { display: grid; place-items: center; overflow: hidden; }
+.zoom-stage.is-big { display: block; overflow: auto; padding: 0; cursor: grab; }
+.zoom-stage.is-big.is-dragging { cursor: grabbing; }
+.zoom-stage.is-big [data-zoom-img] { display: block; margin-inline: auto; max-width: none; max-height: none; }

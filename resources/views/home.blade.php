@@ -388,7 +388,7 @@
                                     {{-- 머리 그림. 테두리 1px 검정 8% · 모서리 12 — 화면 캡처가 배경(#f9f9f9)에 묻히지 않게. --}}
                                     <figure class="mt-8">
                                         <img src="{{ asset($p['figure']['src']) }}" width="{{ $p['figure']['width'] }}" height="{{ $p['figure']['height'] }}"
-                                             alt="{{ $p['figure']['alt'] }}" loading="lazy" class="w-full rounded-[12px] border border-black/8 bg-white">
+                                             alt="{{ $p['figure']['alt'] }}" loading="lazy" data-zoom tabindex="0" aria-haspopup="dialog" class="w-full cursor-zoom-in rounded-[12px] border border-black/8 bg-white">
                                         @if (!empty($p['figure']['caption']))
                                             <figcaption class="mt-3 text-label-2 break-keep text-muted">{{ $p['figure']['caption'] }}</figcaption>
                                         @endif
@@ -462,7 +462,7 @@
                                                             <div data-carousel-track data-lenis-prevent class="flex snap-x snap-mandatory overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                                                                 @foreach ($item['carousel']['slides'] as $k => $slide)
                                                                     <div class="relative w-full shrink-0 snap-start" data-carousel-slide>
-                                                                        <img src="{{ asset($slide['src']) }}" width="{{ $slide['width'] }}" height="{{ $slide['height'] }}" alt="{{ $slide['alt'] }}" loading="lazy" class="block w-full">
+                                                                        <img src="{{ asset($slide['src']) }}" width="{{ $slide['width'] }}" height="{{ $slide['height'] }}" alt="{{ $slide['alt'] }}" loading="lazy" data-zoom tabindex="0" aria-haspopup="dialog" class="block w-full cursor-zoom-in">
                                                                         @foreach ($slide['marks'] ?? [] as [$l, $t, $w, $hh])
                                                                             <span aria-hidden="true" class="pointer-events-none absolute rounded-md border-2 border-statement shadow-[0_0_0_4px_rgba(80,79,237,0.18)]" style="left:{{ $l }}%;top:{{ $t }}%;width:{{ $w }}%;height:{{ $hh }}%"></span>
                                                                         @endforeach
@@ -493,7 +493,7 @@
                                                 @if (!empty($item['diagram']))
                                                     {{-- 도식. SVG 를 인라인으로 — <img> 로 넣으면 Pretendard 가 안 걸린다. 폰에서는 720 폭을 지켜 가로로 스크롤(본문은 절대 가로로 넘치지 않게). --}}
                                                     <figure class="!mt-6 !mb-8">
-                                                        <div class="overflow-x-auto {{ empty($item['diagram']['plain']) ? 'rounded-[12px] border border-black/8 bg-white' : '' }}" role="img" aria-label="{{ $item['diagram']['alt'] }}">
+                                                        <div class="cursor-zoom-in overflow-x-auto {{ empty($item['diagram']['plain']) ? 'rounded-[12px] border border-black/8 bg-white' : '' }}" role="img" aria-label="{{ $item['diagram']['alt'] }}" data-zoom tabindex="0" aria-haspopup="dialog" data-zoom-svg>
                                                             <div class="{{ empty($item['diagram']['plain']) ? 'min-w-[720px]' : '' }} [&_svg]:block [&_svg]:h-auto [&_svg]:w-full">{!! file_get_contents(public_path($item['diagram']['file'])) !!}</div>
                                                         </div>
                                                         @if (!empty($item['diagram']['caption']))
@@ -508,7 +508,7 @@
                                                         {{-- ⚠️ Tailwind 는 문자열을 훑는다 — 클래스명을 조립하면 CSS 가 안 생긴다. 완성된 이름으로. --}}
                                                         <div class="grid gap-3 {{ ['', '', 'sm:grid-cols-2', 'sm:grid-cols-3', 'sm:grid-cols-4'][min(count($item['images']['items']), 4)] }}">
                                                             @foreach ($item['images']['items'] as $im)
-                                                                <img src="{{ asset($im['src']) }}" width="{{ $im['width'] }}" height="{{ $im['height'] }}" alt="{{ $im['alt'] }}" loading="lazy" class="w-full">
+                                                                <img src="{{ asset($im['src']) }}" width="{{ $im['width'] }}" height="{{ $im['height'] }}" alt="{{ $im['alt'] }}" loading="lazy" data-zoom tabindex="0" aria-haspopup="dialog" class="w-full cursor-zoom-in">
                                                             @endforeach
                                                         </div>
                                                         @if (!empty($item['images']['caption']))
@@ -527,7 +527,7 @@
                                                         <img src="{{ asset($item['image']['src']) }}" width="{{ $item['image']['width'] }}" height="{{ $item['image']['height'] }}"
                                                              alt="{{ $item['image']['alt'] }}" loading="lazy"
                                                              @if (!empty($item['image']['scroll'])) style="min-width: {{ $item['image']['scroll'] }}px" @endif
-                                                             class="w-full {{ empty($item['image']['plain']) ? 'rounded-[12px] border border-black/8 bg-white' : '' }}">
+                                                             data-zoom tabindex="0" aria-haspopup="dialog" class="w-full cursor-zoom-in {{ empty($item['image']['plain']) ? 'rounded-[12px] border border-black/8 bg-white' : '' }}">
                                                         </div>
                                                         @if (!empty($item['image']['caption']))
                                                             <figcaption class="mt-3 text-label-2 break-keep text-muted">{{ $item['image']['caption'] }}</figcaption>
@@ -573,4 +573,20 @@
             @endforeach
         </section>
     </main>
+
+    {{-- 이미지 확대 — app.js [data-zoom-overlay]. 본문 그림을 누르면 화면에 맞춰 열고, 그림을 한 번 더 누르면 원본 크기(그림 1px = 화면 1px)로 끌어서 본다.
+         닫기: ✕ · Esc · 그림 밖을 누름. 도식(SVG)은 벡터라 화면에 맞춰서만 연다. 메뉴(z-[1100]) 위에 뜬다. --}}
+    <div data-zoom-overlay role="dialog" aria-modal="true" aria-label="이미지 확대" hidden class="fixed inset-0 z-[1200] bg-canvas">
+        <div data-zoom-stage data-lenis-prevent class="zoom-stage absolute inset-0 px-4 pb-24 pt-16 md:px-16">
+            <img data-zoom-img alt="" draggable="false" class="max-h-[calc(100dvh-10rem)] max-w-full select-none object-contain">
+            <div data-zoom-svg-box hidden class="w-[min(100%,1400px)] rounded-[12px] bg-white [&_svg]:block [&_svg]:h-auto [&_svg]:w-full"></div>
+        </div>
+        <div data-zoom-bottom class="pointer-events-none absolute inset-x-0 bottom-0 px-4 pb-6 text-center md:px-16">
+            <p data-zoom-caption class="text-label-1 break-keep text-ink"></p>
+            <p data-zoom-hint class="mt-1 text-label-2 text-muted"></p>
+        </div>
+        <button type="button" data-zoom-close aria-label="닫기" class="absolute right-4 top-4 grid size-10 place-items-center rounded-full border border-rule bg-white text-ink transition-colors hover:bg-canvas md:right-8 md:top-6">
+            <svg aria-hidden="true" viewBox="0 0 20 20" class="size-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 5l10 10M15 5L5 15"/></svg>
+        </button>
+    </div>
 </x-layouts.app>
