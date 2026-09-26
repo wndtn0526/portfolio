@@ -71,7 +71,7 @@ def global_():
     return f
 
 def business():
-    """유학원 → 어학원 인수 → 인강 — 사업이 넓어진 순서와, 인강 수강생이 다시 유학 상담으로 이어지는 흐름(개요 문제 정의)."""
+    """유학원 → 어학원 인수 → 인강(처음 그린 판). ⚠️ 사용자가 Figma 에서 고친 뒤로는 draws() 에 넣지 않는다 — 원본은 포트폴리오_MCP 105:1056."""
     f = Flow()
     f.box('agency', X[0], CY, ['edm에듀케이션', '유학원'], terminal=True, note=['유학 상담 · 수속', '수속이 끝나면 거래도 끝남', '입학 시기 · 비자 · 환율에 출렁임'])
     f.box('academy', X[1], CY, ['아이엘츠', '어학원 인수'], note=['시험 준비 단계의 고객을', '먼저 만남', '강의실 · 강사 시간 · 거리 안에서만'])
@@ -131,7 +131,7 @@ def funnel():
 def draws():
     P = '이디엠에듀케이션'
     return [
-        {'page': P, 'frame': '이디엠 · 유학원에서 인강까지', 'x': 0, 'y': 2100, 'export': 'edm-business-flow', 'items': business().items},
+        # 사업 확장 도식은 사용자가 Figma 에서 고쳤다(105:1056, 2026-09-27) — 다시 그리면 같은 이름 프레임이 지워진다. 내보내기만: task.export [['105:1056', 'edm-business-flow']]
         {'page': P, 'frame': '이디엠 · 강의 제작부터 관리까지', 'x': 0, 'y': 0, 'export': 'edm-production-flow', 'items': production().items},
         {'page': P, 'frame': '이디엠 · 모의고사 접수 개편 전후', 'x': 0, 'y': 700, 'export': 'edm-ielts-flow', 'items': ielts().items},
         {'page': P, 'frame': '이디엠 · 모의고사 접수 퍼널', 'x': 2200, 'y': 700, 'export': 'edm-ielts-funnel', 'items': funnel().items},
