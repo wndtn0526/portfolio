@@ -7,7 +7,9 @@
   (정보구조도는 그림 대신 projects.php 의 표로 옮겼다 — 2026-09-26 사용자 요청)
   ielts   개선 전(흐린 줄) 게시글 목록 → 신청 방법을 찾았나(N 이탈) → 신청 글 → 관리자 수동 취합 / 개선 후 일정 선택 → 정보 입력 → 확인 · 접수 완료 → 명단 자동 생성
   global  해외 유학 준비생 → 해외 결제 → 무료 교재 해외배송(EMS) → AWS 로 강의 접속 → 수강
-  business edm 유학원 → 아이엘츠 어학원 인수 → 아이엘츠 인강, 인강 수강생이 다시 유학 상담으로(개요 문제 정의)
+  business edm에듀케이션 유학원 → 아이엘츠 어학원 인수 → 아이엘츠 인강, 인강 수강생이 다시 유학 상담으로(개요 사업 확장 이유)
+  funnel  개편 전 모의고사 접수 퍼널(도식) — 단계와 이탈이 몰린 첫 화면만. 수치는 경력기술서에 없어 넣지 않는다
+  ⚠️ 회사 이름은 edm 이 아니라 edm에듀케이션(사용자, 2026-09-27)
 사용: python3 tools/figma-export-plugin/tasks/edm.py <작업 JSON 경로>
 """
 import sys
@@ -71,7 +73,7 @@ def global_():
 def business():
     """유학원 → 어학원 인수 → 인강 — 사업이 넓어진 순서와, 인강 수강생이 다시 유학 상담으로 이어지는 흐름(개요 문제 정의)."""
     f = Flow()
-    f.box('agency', X[0], CY, ['edm 유학원'], terminal=True, note=['유학 상담 · 수속', '수속이 끝나면 거래도 끝남', '입학 시기 · 비자 · 환율에 출렁임'])
+    f.box('agency', X[0], CY, ['edm에듀케이션', '유학원'], terminal=True, note=['유학 상담 · 수속', '수속이 끝나면 거래도 끝남', '입학 시기 · 비자 · 환율에 출렁임'])
     f.box('academy', X[1], CY, ['아이엘츠', '어학원 인수'], note=['시험 준비 단계의 고객을', '먼저 만남', '강의실 · 강사 시간 · 거리 안에서만'])
     f.box('online', X[2], CY, ['아이엘츠 인강'], terminal=True, note=['강의를 한 번 만들어 계속 판매', '전국 · 해외 어디서나 수강'])
     f.right('agency', 'academy'); f.right('academy', 'online')
@@ -82,12 +84,57 @@ def business():
     f.pill('online', '신규 사업')
     return f
 
+def funnel():
+    """개편 전 모의고사 접수 퍼널 — 1:1 로 보이는 도식(글자 15 · 선 2). 단계와 이탈이 몰린 첫 화면만 표시한다.
+    ⚠️ 단계별 인원 · 이탈률은 경력기술서에 없다 — 숫자를 지어내지 않는다. 폭은 첫 화면에서 크게 좁아지는 모양만 보여 준다."""
+    import math
+    f = Flow()
+    CX, AX = 220, 512                     # 깔때기 가운데 · 오른쪽 설명 칸
+    def rpoly(pts, r=6):                  # 모서리를 반경 r 로 굴린 다각형
+        def toward(p, q, d):
+            L = math.hypot(q[0] - p[0], q[1] - p[1]); return (p[0] + (q[0] - p[0]) * d / L, p[1] + (q[1] - p[1]) * d / L)
+        out = []
+        for i in range(len(pts)):
+            p0, p1, p2 = pts[i - 1], pts[i], pts[(i + 1) % len(pts)]
+            a, b = toward(p1, p0, r), toward(p1, p2, r)
+            out.append(('M' if i == 0 else 'L') + f'{a[0]:.2f} {a[1]:.2f}Q{p1[0]:.2f} {p1[1]:.2f} {b[0]:.2f} {b[1]:.2f}')
+        return ''.join(out) + 'Z'
+    layers = [  # 위 · 높이 · 윗변 · 아랫변 · 이름 · 진하게 · 오른쪽 설명
+        (40, 96, 440, 220, '첫 화면 · 게시글 목록', True, None),
+        (146, 64, 220, 188, '게시글 열람', False, '다른 사람의 글을 열어 적는 방식을 확인'),
+        (220, 64, 188, 156, '신청 글 작성', False, '정해진 양식 없이 자유롭게 작성'),
+        (294, 64, 156, 124, '신청 완료', False, '관리자가 글을 옮겨 적어 명단에 반영'),
+    ]
+    f.items.append(text(CX - 110, ['접수 기간 유입'], PRE, NOTE, cy=16, w=220, align='CENTER'))
+    for y, h, tw, bw, name, solid, note in layers:
+        pts = [(CX - tw / 2, y), (CX + tw / 2, y), (CX + bw / 2, y + h), (CX - bw / 2, y + h)]
+        x0, y0, w, hh = CX - tw / 2 - 2, y - 2, tw + 4, h + 4
+        svg = (f'<svg width="{w}" height="{hh}" viewBox="{x0} {y0} {w} {hh}" fill="none" xmlns="http://www.w3.org/2000/svg">'
+               f'<path d="{rpoly(pts)}" fill="{BLUE if solid else LIGHT}" stroke="{BLUE}" stroke-width="2"/></svg>')
+        f.items.append({'type': 'svg', 'name': name, 'x': x0, 'y': y0, 'svg': svg})
+        f.items.append(text(CX - 110, [name], SD if solid else PRE, WHITE if solid else TEXT_BLUE, cy=y + h / 2, w=220, align='CENTER'))
+        if note:                          # 가는 점선으로 층과 설명을 잇는다
+            cy = y + h / 2; edge = CX + (tw + bw) / 4
+            f.items.append({'type': 'line', 'name': '점선', 'x': edge + 8, 'y': cy, 'w': AX - 12 - edge - 8, 'color': NOTE, 'weight': 1.5, 'dash': [4, 4]})
+            f.items.append(text(AX, [note], PRE, NOTE, cy=cy))
+    # 첫 화면에서 빠져나가는 화살표 — 이탈이 몰린 곳
+    cy = 40 + 48; edge = CX + (440 + 220) / 4
+    f.line([(edge + 1, cy), (AX - 12, cy)], k=0.5)
+    f.items.append(text(AX, ['첫 화면에서 이탈'], SD, '#212529', cy=cy))
+    f.items.append(text(AX, ['신청 방법이 보이지 않아', '게시글 목록에서 바로 나감'], PRE, NOTE, y=cy + 11.5 + 6))
+    top = cy - 11.5
+    f.items.append({'type': 'tooltip', 'name': '이탈 집중', 'x': AX, 'y': top - 4 - 7 - 26, 'text': '이탈 집중', 'font': PRE, 'size': 12, 'lineHeight': 22, 'tracking': -0.12,
+                    'color': '#F8F9FA', 'bg': '#212529', 'padX': 6, 'padY': 2, 'radius': 4})
+    f.items.append({'type': 'svg', 'name': '꼬리', 'x': AX + 7, 'y': top - 4 - 7, 'svg': TAIL})
+    return f
+
 def draws():
     P = '이디엠에듀케이션'
     return [
         {'page': P, 'frame': '이디엠 · 유학원에서 인강까지', 'x': 0, 'y': 2100, 'export': 'edm-business-flow', 'items': business().items},
         {'page': P, 'frame': '이디엠 · 강의 제작부터 관리까지', 'x': 0, 'y': 0, 'export': 'edm-production-flow', 'items': production().items},
         {'page': P, 'frame': '이디엠 · 모의고사 접수 개편 전후', 'x': 0, 'y': 700, 'export': 'edm-ielts-flow', 'items': ielts().items},
+        {'page': P, 'frame': '이디엠 · 모의고사 접수 퍼널', 'x': 2200, 'y': 700, 'export': 'edm-ielts-funnel', 'items': funnel().items},
         {'page': P, 'frame': '이디엠 · 해외 수강생이 수강까지', 'x': 0, 'y': 1400, 'export': 'edm-global-flow', 'items': global_().items},
     ]
 

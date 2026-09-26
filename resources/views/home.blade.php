@@ -271,7 +271,7 @@
                         <p class="{{ $sub }}">신사업본부 어학사업팀 / 서비스 기획 및 운영</p>
                         <ul class="{{ $bullets }} list-disc">
                             <li>연 매출 10억 규모 인강 사이트 운영 담당</li>
-                            <li>edm IELTS 인강 플랫폼 기획</li>
+                            <li>edm에듀케이션 IELTS 인강 플랫폼 기획</li>
                             <li>IELTS 토스 및 한국어 인강 론칭</li>
                         </ul>
                     </div>

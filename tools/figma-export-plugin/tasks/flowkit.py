@@ -54,34 +54,34 @@ class Flow:
         ox, oy = x + 7.04, top + 0.825      # 벡터 꼭짓점(곡선 끝 포함) — 왼 2.0 · 오 195.94 · 위 2.0 · 아래 106.48
         self.nodes[key] = {'left': ox + 2.0, 'right': ox + 195.94, 'top': oy + 2.0, 'bottom': oy + 106.48, 'cx': x + 106, 'cy': cy}
     def label(self, x, y, s): self.items.append(text(x, [s], PRE, NOTE, y=y))
-    def line(self, pts, muted=False):
-        """꺾인 연결선 — 시작점 고리, 모서리 반경 10, 마지막 방향으로 화살촉."""
+    def line(self, pts, muted=False, k=1):
+        """꺾인 연결선 — 시작점 고리, 모서리 반경 10, 마지막 방향으로 화살촉. k 는 굵기 · 고리 · 화살촉 배율(1:1 로 보이는 그림은 0.5)."""
         (ex, ey), (px, py) = pts[-1], pts[-2]
         L = math.hypot(ex - px, ey - py); ux, uy = (ex - px) / L, (ey - py) / L
-        body = pts[:-1] + [(ex - ux * TIP_GAP, ey - uy * TIP_GAP)]
+        body = pts[:-1] + [(ex - ux * TIP_GAP * k, ey - uy * TIP_GAP * k)]
         d = [f'M{body[0][0]:.2f} {body[0][1]:.2f}']
         for i in range(1, len(body) - 1):
             (ax, ay), (bx, by), (cx, cy) = body[i - 1], body[i], body[i + 1]
             ia = math.hypot(bx - ax, by - ay); ib = math.hypot(cx - bx, cy - by)
             di, do = ((bx - ax) / ia, (by - ay) / ia), ((cx - bx) / ib, (cy - by) / ib)
-            r = min(10, ia / 2, ib / 2); k = 0.5523 * r          # 사분원 베지어 — 덱 S자 선과 같은 반경 10
+            r = min(10 * k, ia / 2, ib / 2); kk = 0.5523 * r     # 사분원 베지어 — 덱 S자 선과 같은 반경 10
             s, e = (bx - di[0] * r, by - di[1] * r), (bx + do[0] * r, by + do[1] * r)
-            d.append(f'L{s[0]:.2f} {s[1]:.2f}C{s[0] + di[0] * k:.2f} {s[1] + di[1] * k:.2f} {e[0] - do[0] * k:.2f} {e[1] - do[1] * k:.2f} {e[0]:.2f} {e[1]:.2f}')
+            d.append(f'L{s[0]:.2f} {s[1]:.2f}C{s[0] + di[0] * kk:.2f} {s[1] + di[1] * kk:.2f} {e[0] - do[0] * kk:.2f} {e[1] - do[1] * kk:.2f} {e[0]:.2f} {e[1]:.2f}')
         d.append(f'L{body[-1][0]:.2f} {body[-1][1]:.2f}')
         def rot(p):  # 오른쪽 기준 화살촉을 마지막 방향으로 돌려 끝점에 놓는다
-            return (ex + p[0] * ux - p[1] * uy, ey + p[0] * uy + p[1] * ux)
+            return (ex + (p[0] * ux - p[1] * uy) * k, ey + (p[0] * uy + p[1] * ux) * k)
         a = []
         for cmd, *ps in ARROW:
             a.append(cmd + ' '.join(f'{q[0]:.3f} {q[1]:.3f}' for q in map(rot, ps)))
         sx, sy = pts[0]
         xs = [p[0] for p in pts]; ys = [p[1] for p in pts]
-        x0, y0 = min(xs) - 12, min(ys) - 12; x1, y1 = max(xs) + 12, max(ys) + 12
+        x0, y0 = min(xs) - 12 * k, min(ys) - 12 * k; x1, y1 = max(xs) + 12 * k, max(ys) + 12 * k
         w, h = x1 - x0, y1 - y0
         c, ring = (MUTED_LINE, MUTED_FACE) if muted else (BLUE, LIGHT)
         svg = (f'<svg width="{w:.2f}" height="{h:.2f}" viewBox="{x0:.2f} {y0:.2f} {w:.2f} {h:.2f}" fill="none" xmlns="http://www.w3.org/2000/svg">'
-               f'<path d="{"".join(d)}" stroke="{c}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>'
+               f'<path d="{"".join(d)}" stroke="{c}" stroke-width="{4 * k}" stroke-linecap="round" stroke-linejoin="round"/>'
                f'<path d="{"".join(a)}Z" fill="{c}"/>'
-               f'<circle cx="{sx:.2f}" cy="{sy:.2f}" r="10" fill="{c}"/><circle cx="{sx:.2f}" cy="{sy:.2f}" r="6" fill="{ring}"/></svg>')
+               f'<circle cx="{sx:.2f}" cy="{sy:.2f}" r="{10 * k}" fill="{c}"/><circle cx="{sx:.2f}" cy="{sy:.2f}" r="{6 * k}" fill="{ring}"/></svg>')
         self.items.append({'type': 'svg', 'name': '연결선', 'x': x0, 'y': y0, 'svg': svg})
     def right(self, a, b, muted=False):   # 가로 연결 — 고리는 앞 상자 오른쪽 끝, 화살촉 끝은 다음 상자 왼쪽 끝
         A, B = self.nodes[a], self.nodes[b]
