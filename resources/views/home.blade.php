@@ -420,7 +420,8 @@
                                                 @endif
                                                 @if (!empty($item['table']))
                                                     {{-- 표(Before / After 같은 비교). 좁은 폰에서는 표만 가로 스크롤.
-                                                         group: 첫 열이 같은 줄끼리 한 칸으로 합친다(rowspan) — 정보구조도처럼 갈래 아래 메뉴를 늘어놓을 때. 굵은 열은 둘째 열로 옮긴다. --}}
+                                                         group: 첫 열이 같은 줄끼리 한 칸으로 합친다(rowspan) — 정보구조도처럼 갈래 아래 메뉴를 늘어놓을 때. 굵은 열은 둘째 열로 옮긴다.
+                                                         셀이 배열이면 항목을 ' · ' 로 잇고 항목 안에서는 줄을 바꾸지 않는다(세부 메뉴 목록). --}}
                                                     @php
                                                         $rows = $item['table']['rows'];
                                                         $group = !empty($item['table']['group']);
@@ -444,7 +445,7 @@
                                                                             @if ($group && $ci === 0)
                                                                                 @isset($span[$ri])<th scope="rowgroup" rowspan="{{ $span[$ri] }}" class="border-e border-black/8 bg-canvas/60 px-4 py-3 text-start align-top font-semibold whitespace-nowrap text-ink {{ $ri + $span[$ri] < count($rows) ? 'border-b' : '' }}">{!! $cell !!}</th>@endisset
                                                                             @else
-                                                                                <td class="px-4 py-3 align-top break-keep {{ $ci === ($group ? 1 : 0) ? 'font-semibold text-ink' : '' }} {{ $group && $ci === 1 ? 'whitespace-nowrap' : '' }}">{!! $cell !!}</td>
+                                                                                <td class="px-4 py-3 align-top break-keep {{ $ci === ($group ? 1 : 0) ? 'font-semibold text-ink' : '' }} {{ $group && $ci === 1 ? 'whitespace-nowrap' : '' }}">@if (is_array($cell)){!! collect($cell)->map(fn ($x) => '<span class="whitespace-nowrap">'.e($x).'</span>')->join(' · ') !!}@else{!! $cell !!}@endif</td>
                                                                             @endif
                                                                         @endforeach
                                                                     </tr>

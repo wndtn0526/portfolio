@@ -233,7 +233,7 @@ function buildArticle(screen, company, project, width) {
             if (it.table) {           // 표 — 행마다 한 줄 텍스트로(열은 ' · ' 로)
                 const tb = frame('표', 'VERTICAL', { gap: 6, stretch: true });
                 tb.appendChild(text(it.table.headers.join(' · '), F.semibold, T.label2, C.muted, { stretch: true }));
-                for (const row of it.table.rows) tb.appendChild(rich([{ t: String(row[0]).replace(/<[^>]+>/g, ''), style: F.semibold, color: C.ink }, { t: ' · ' + row.slice(1).map((c) => String(c).replace(/<[^>]+>/g, '')).join(' · '), style: F.regular, color: C.body }], T.label1r, { stretch: true }));
+                for (const row of it.table.rows) tb.appendChild(rich([{ t: String(row[0]).replace(/<[^>]+>/g, ''), style: F.semibold, color: C.ink }, { t: ' · ' + row.slice(1).map((c) => (Array.isArray(c) ? c.join(' · ') : String(c)).replace(/<[^>]+>/g, '')).join(' · '), style: F.regular, color: C.body }], T.label1r, { stretch: true }));
                 if (it.table.caption) tb.appendChild(text(it.table.caption, F.regular, T.label2, C.muted, { stretch: true }));
                 items.appendChild(tb);
                 continue;
