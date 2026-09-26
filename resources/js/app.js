@@ -327,6 +327,13 @@ if (workSection && companyPanels.length) {
         showProject(fromHash[1]);
         requestAnimationFrame(() => scrollTo(workSection));
     }
+
+    // 같은 탭에서 주소의 #project-<slug> 만 바뀌어도(붙여 넣은 링크 · 본문 앵커) 그 프로젝트를 연다.
+    // 클릭으로 바꿀 때는 replaceState 라 이 이벤트가 나지 않는다 — 두 번 여는 일은 없다.
+    addEventListener('hashchange', () => {
+        const m = location.hash.match(/^#project-(.+)$/);
+        if (m && document.querySelector(`[data-project-panel="${m[1]}"]`)) showProject(m[1], { scroll: true });
+    });
 }
 
 /*

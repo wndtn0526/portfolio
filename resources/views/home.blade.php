@@ -268,7 +268,7 @@
                     <span class="{{ $label }}">2017 – 2019</span>
                     <div>
                         <p class="{{ $title }}">이디엠에듀케이션</p>
-                        <p class="{{ $sub }}">IELTS 인강 신사업부 서비스기획팀 / 시스템 기획 및 사업 기획 · 서비스 운영</p>
+                        <p class="{{ $sub }}">신사업본부 어학사업팀 / 서비스 기획 및 운영</p>
                         <ul class="{{ $bullets }} list-disc">
                             <li>연 매출 10억 규모 인강 사이트 운영 담당</li>
                             <li>edm IELTS 인강 플랫폼 기획</li>
