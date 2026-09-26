@@ -4,7 +4,7 @@
 이디엠에듀케이션 세 프로젝트 플로우차트 → 플러그인 작업(JSON). 부품 · 치수는 flowkit.py(덱 08 실측).
 내용은 projects.php 의 이디엠 글(사용자 경력기술서, 2026-09-26)에 적힌 것만 옮긴다.
   production 커리큘럼 개발 → 교안 제작 → 강의 녹화 → 편집 · 인강 제작 → AWS 서버 업로드 → LMS 강의 관리(사용자 설명, 2026-09-26)
-  ia      인강 플랫폼 정보구조도 — 수강생 사이트(회원가입 · 강의 수강 · 결제 · 모의고사 신청 · 강의 질문 게시판 · 학습 관리) / 관리자 · LMS(강의 업로드 · AWS 서버 · 강의 관리 · 결제 관리 · 교재 배송 관리)
+  (정보구조도는 그림 대신 projects.php 의 표로 옮겼다 — 2026-09-26 사용자 요청)
   ielts   개선 전(흐린 줄) 익명 게시판 신청 → 관리자 수동 취합 / 개선 후 단계별 신청 → 자동 취합
   global  해외 유학 준비생 → 해외 결제 → 무료 교재 해외배송(EMS) → AWS 로 강의 접속 → 수강
   business edm 유학원 → 아이엘츠 어학원 인수 → 아이엘츠 인강, 인강 수강생이 다시 유학 상담으로(개요 문제 정의)
@@ -29,34 +29,6 @@ def production():
         f.right(a_, b_)
     f.pill('up', '해외 수강까지')
     return f
-
-def ia():
-    """인강 플랫폼 정보구조도 — 수강생 사이트와 관리자 · LMS 두 갈래(사용자가 말한 기능만)."""
-    items = []
-    def box(x, y, w, h, lines, kind):
-        fill, stroke, sw, font, color, size = {
-            'root': (BLUE, BLUE, 4, SD, WHITE, 15),
-            'l1': (LIGHT, BLUE, 2, PRE, TEXT_BLUE, 15),   # 1:1 로 보이는 그림 — 선 굵기를 플로우차트가 화면에 보이는 굵기(4 × 0.49 ≈ 2)에 맞춘다
-            'l2': (WHITE, BLUE, 2, {'family': 'Pretendard', 'style': 'SemiBold'}, TEXT_BLUE, 14),
-        }[kind]
-        items.append({'type': 'rect', 'name': ' '.join(lines), 'x': x, 'y': y, 'w': w, 'h': h, 'fill': fill, 'stroke': stroke, 'strokeWeight': sw, 'radius': 6})
-        t = text(x + 10, lines, font, color, cy=y + h / 2, w=w - 20, align='CENTER'); t['size'] = size
-        items.append(t)
-    def bar(x, y, w, h):
-        items.append({'type': 'rect', 'name': '선', 'x': x, 'y': y, 'w': w, 'h': h, 'fill': BLUE})
-    box(180, 0, 240, 64, ['edm 인강 플랫폼'], 'root')
-    bar(299, 64, 2, 40); bar(119, 103, 362, 2); bar(119, 104, 2, 36); bar(479, 104, 2, 36)
-    cols = [(0, '수강생 사이트', ['회원가입', '강의 수강', '결제', '모의고사 신청', '강의 질문 게시판', '학습 관리']),
-            (360, '관리자 · LMS', ['강의 업로드 · AWS 서버', '강의 관리', '결제 관리', '교재 배송 관리'])]
-    for x0, title, subs in cols:
-        box(x0, 140, 240, 60, [title], 'l1')
-        last = 236 + (len(subs) - 1) * 60 + 22
-        bar(x0 + 19, 200, 2, last - 200 + 1)
-        for i, s_ in enumerate(subs):
-            y = 236 + i * 60
-            bar(x0 + 20, y + 21, 20, 2)
-            box(x0 + 40, y, 210, 44, [s_], 'l2')
-    return items
 
 def ielts():
     f = Flow()
@@ -106,7 +78,6 @@ def draws():
     return [
         {'page': P, 'frame': '이디엠 · 유학원에서 인강까지', 'x': 0, 'y': 2100, 'export': 'edm-business-flow', 'items': business().items},
         {'page': P, 'frame': '이디엠 · 강의 제작부터 관리까지', 'x': 0, 'y': 0, 'export': 'edm-production-flow', 'items': production().items},
-        {'page': P, 'frame': '이디엠 · 인강 플랫폼 정보구조도', 'x': 2200, 'y': 0, 'export': 'edm-ia', 'items': ia()},
         {'page': P, 'frame': '이디엠 · 모의고사 접수 개편 전후', 'x': 0, 'y': 700, 'export': 'edm-ielts-flow', 'items': ielts().items},
         {'page': P, 'frame': '이디엠 · 해외 수강생이 수강까지', 'x': 0, 'y': 1400, 'export': 'edm-global-flow', 'items': global_().items},
     ]

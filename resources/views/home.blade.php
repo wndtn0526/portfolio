@@ -419,7 +419,17 @@
                                                     @continue
                                                 @endif
                                                 @if (!empty($item['table']))
-                                                    {{-- 표(Before / After 같은 비교). 좁은 폰에서는 표만 가로 스크롤. --}}
+                                                    {{-- 표(Before / After 같은 비교). 좁은 폰에서는 표만 가로 스크롤.
+                                                         group: 첫 열이 같은 줄끼리 한 칸으로 합친다(rowspan) — 정보구조도처럼 갈래 아래 메뉴를 늘어놓을 때. 굵은 열은 둘째 열로 옮긴다. --}}
+                                                    @php
+                                                        $rows = $item['table']['rows'];
+                                                        $group = !empty($item['table']['group']);
+                                                        $span = [];
+                                                        for ($r = 0; $group && $r < count($rows); $r = $e) {
+                                                            for ($e = $r + 1; $e < count($rows) && $rows[$e][0] === $rows[$r][0]; $e++);
+                                                            $span[$r] = $e - $r;
+                                                        }
+                                                    @endphp
                                                     <div class="overflow-x-auto rounded-[12px] border border-black/8 bg-white">
                                                         <table class="w-full min-w-[640px] text-label-1-reading text-body">
                                                             <thead>
@@ -428,9 +438,15 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                @foreach ($item['table']['rows'] as $row)
+                                                                @foreach ($rows as $ri => $row)
                                                                     <tr class="border-b border-black/8 last:border-b-0">
-                                                                        @foreach ($row as $ci => $cell)<td class="px-4 py-3 align-top break-keep {{ $ci === 0 ? 'font-semibold text-ink' : '' }}">{!! $cell !!}</td>@endforeach
+                                                                        @foreach ($row as $ci => $cell)
+                                                                            @if ($group && $ci === 0)
+                                                                                @isset($span[$ri])<th scope="rowgroup" rowspan="{{ $span[$ri] }}" class="border-e border-black/8 bg-canvas/60 px-4 py-3 text-start align-top font-semibold whitespace-nowrap text-ink {{ $ri + $span[$ri] < count($rows) ? 'border-b' : '' }}">{!! $cell !!}</th>@endisset
+                                                                            @else
+                                                                                <td class="px-4 py-3 align-top break-keep {{ $ci === ($group ? 1 : 0) ? 'font-semibold text-ink' : '' }} {{ $group && $ci === 1 ? 'whitespace-nowrap' : '' }}">{!! $cell !!}</td>
+                                                                            @endif
+                                                                        @endforeach
                                                                     </tr>
                                                                 @endforeach
                                                             </tbody>
