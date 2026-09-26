@@ -6,6 +6,7 @@
   online  강의 제작 → 콘텐츠 업로드 → 수강 신청 · 결제 → 수강 → 수강생 통합 관리 / 결제 → 교재 배송 연동 / 오프라인 학원 수강생 → 통합 관리
   ielts   개선 전(흐린 줄) 익명 게시판 신청 → 관리자 수동 취합 / 개선 후 단계별 신청 → 자동 취합
   global  해외 유학 준비생 → 해외 결제 → 무료 교재 해외배송(EMS) → AWS 로 강의 접속 → 수강
+  business edm 유학원 → 아이엘츠 어학원 인수 → 아이엘츠 인강, 인강 수강생이 다시 유학 상담으로(개요 문제 정의)
 사용: python3 tools/figma-export-plugin/tasks/edm.py <작업 JSON 경로>
 """
 import sys
@@ -59,9 +60,24 @@ def global_():
     f.pill('book', '프로모션'); f.pill('aws', '인프라')
     return f
 
+def business():
+    """유학원 → 어학원 인수 → 인강 — 사업이 넓어진 순서와, 인강 수강생이 다시 유학 상담으로 이어지는 흐름(개요 문제 정의)."""
+    f = Flow()
+    f.box('agency', X[0], CY, ['edm 유학원'], terminal=True, note=['유학 상담 · 수속', '수속이 끝나면 거래도 끝남', '입학 시기 · 비자 · 환율에 출렁임'])
+    f.box('academy', X[1], CY, ['아이엘츠', '어학원 인수'], note=['시험 준비 단계의 고객을', '먼저 만남', '강의실 · 강사 시간 · 거리 안에서만'])
+    f.box('online', X[2], CY, ['아이엘츠 인강'], terminal=True, note=['강의를 한 번 만들어 계속 판매', '전국 · 해외 어디서나 수강'])
+    f.right('agency', 'academy'); f.right('academy', 'online')
+    A, O = f.nodes['agency'], f.nodes['online']
+    yb = CY + 190; xl = A['left'] - 40; xr = O['right'] + 40
+    f.line([(O['right'] - 1, O['cy']), (xr, O['cy']), (xr, yb), (xl, yb), (xl, A['cy']), (A['left'] - 0.5, A['cy'])])
+    f.label(f.nodes['academy']['left'] - 6, yb - 32, '시험을 마친 수강생이 유학 상담으로')
+    f.pill('online', '신규 사업')
+    return f
+
 def draws():
     P = '이디엠에듀케이션'
     return [
+        {'page': P, 'frame': '이디엠 · 유학원에서 인강까지', 'x': 0, 'y': 2100, 'export': 'edm-business-flow', 'items': business().items},
         {'page': P, 'frame': '이디엠 · 온라인 인강 서비스 구조', 'x': 0, 'y': 0, 'export': 'edm-online-flow', 'items': online().items},
         {'page': P, 'frame': '이디엠 · 모의고사 접수 개편 전후', 'x': 0, 'y': 700, 'export': 'edm-ielts-flow', 'items': ielts().items},
         {'page': P, 'frame': '이디엠 · 해외 수강생이 수강까지', 'x': 0, 'y': 1400, 'export': 'edm-global-flow', 'items': global_().items},

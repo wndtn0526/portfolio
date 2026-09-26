@@ -21,6 +21,7 @@ switch() {  # 탭 전환 — 창 제목으로 확인하고, 안 바뀌면 한 �
 for n in $NAMES; do rm -f "$OUT/$n.png"; done
 if [ -n "$SERVED" ] && [ "$SERVED" != "$TASK" ]; then cp "$TASK" "$SERVED"; TASK="$SERVED"; fi
 switch "$FILE"
+click_plugin() {
 osascript <<'AS'
 tell application "System Events"
   tell process "Figma"
@@ -41,11 +42,16 @@ tell application "System Events"
   end tell
 end tell
 AS
+}
+
+click_plugin
 left="$NAMES"
 for i in $(seq 1 40); do
   sleep 3; left=""
   for n in $NAMES; do [ -f "$OUT/$n.png" ] || left="$left $n"; done
   [ -z "$left" ] && break
+  # 탭이 다 뜨기 전에 누르면 플러그인이 안 돈다 — 24초 동안 아무것도 안 오면 한 번 더 누른다
+  if [ "$i" -eq 8 ] && [ "$left" = "$(for n in $NAMES; do printf ' %s' "$n"; done)" ]; then click_plugin; fi
 done
 echo '{}' > "$TASK"
 switch GPRO_PORTFOLIO || true
