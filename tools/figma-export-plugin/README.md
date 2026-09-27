@@ -35,7 +35,7 @@ Figma 데스크톱에서 도는 개발용 플러그인이다. 코드는 고정�
 | `tasks/voc.py` | 포트폴리오_MCP · 06 VOC 페이지 | `gpro-voc-flow` |
 | `tasks/ir_kpi.py` | 포트폴리오_MCP · 04 IR 페이지 | `gpro-ir-kpi` (덱 12 도넛 · 큰 숫자) |
 | `tasks/edm.py` | 포트폴리오_MCP · 이디엠에듀케이션 페이지 | `edm-online-flow` · `edm-ielts-flow` · `edm-global-flow` |
-| `tasks/cdw.py` | 포트폴리오_MCP · 청담원 페이지 | `cdw-careplan-flow` · `cdw-pipeline-flow` |
+| `tasks/cdw.py` | 포트폴리오_MCP · 청담원 페이지 | `cdw-service-flow` · `cdw-pipeline-flow` |
 
 작업 파일은 저마다 `draws()` 를 내놓는다. 여러 개를 한 번에 돌리려면 모아서 `flowkit.write_task()` 로 한 작업 파일을 만든다.
 `run.sh` 에 다른 경로의 작업을 넘길 때는 `FIGMA_TASK_FILE=<server.py 가 읽는 작업 파일>` 을 함께 준다 — 서버는 켤 때 받은 파일 하나만 읽는다.

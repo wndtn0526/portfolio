@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 청담원 두 세부 프로젝트 플로우차트 → 플러그인 작업(JSON). 부품 · 치수는 flowkit.py(덱 08 실측).
-  careplan  초기상담 기록지 → 매핑 규칙 적용 → 케어플랜 초안 → 방문 욕구사정 반영 → 담당자 검토 → 저장 · 확정
-            (규칙 엔진 · 담당자 판단 말풍선. 근거: 저장소 CarePlanDraftService · CarePlanMatch 머리 주석, content-plan 2-6 ②)
+  (careplan 케어플랜 초안 흐름은 그 프로젝트를 뺀 뒤 지웠다 — 2026-09-28 사용자 지시)
   pipeline  기획(컨플루언스) → 이슈(지라) → 디자인(피그마 MCP) → 구현(Claude Code) → 검증(Playwright) → 문서화
             └ 둘째 줄(오른쪽 → 왼쪽): 주간보고 초안 → 보고 메일 → 비개발 이해관계자 (예약 에이전트 말풍선)
   service   무료 상담 신청 → 상담관리 → 계약 · 수급자 등록 → 구인 공고 · 채용 ↓ 직원 등록 · 공단 신고 → 방문 일정 → 방문 · 기록 → 보호자 마이페이지(01 개요)
@@ -15,19 +14,6 @@ from flowkit import *
 
 CY = 60
 X = [0, 322, 644, 966, 1288, 1610]
-
-def careplan():
-    f = Flow()
-    f.box('intake', X[0], CY, ['초기상담 기록지'], terminal=True)
-    f.box('rule', X[1], CY, ['매핑 규칙', '적용'], note=['척도 단계를 문구로', '법정 금지 항목은 꺼 둠'])
-    f.box('draft', X[2], CY, ['케어플랜 초안'], note=['중점과 주차별 돌봄 계획'])
-    f.box('need', X[3], CY, ['방문 욕구사정', '반영'], note=['덧붙이거나 중요도만 올림', '지우지 않음'])
-    f.box('review', X[4], CY, ['담당자 검토'], note=['항목을 켜고 끄고', '문장을 다듬음'])
-    f.box('save', X[5], CY, ['저장 · 확정'], terminal=True, note=['저장해야 기록이 됨', '규칙 버전을 함께 남김'])
-    for a, b in (('intake', 'rule'), ('rule', 'draft'), ('draft', 'need'), ('need', 'review'), ('review', 'save')):
-        f.right(a, b)
-    f.pill('rule', '규칙 엔진'); f.pill('need', '규칙 엔진'); f.pill('review', '담당자 판단')
-    return f
 
 def pipeline():
     f = Flow()
@@ -75,7 +61,6 @@ def draws():
     P = '청담원'
     return [
         {'page': P, 'frame': '청담원 · 케어닷 업무 흐름', 'x': 0, 'y': 1400, 'export': 'cdw-service-flow', 'items': service().items},
-        {'page': P, 'frame': '청담원 · 케어플랜 초안 흐름', 'x': 0, 'y': 0, 'export': 'cdw-careplan-flow', 'items': careplan().items},
         {'page': P, 'frame': '청담원 · AI 업무 파이프라인', 'x': 0, 'y': 700, 'export': 'cdw-pipeline-flow', 'items': pipeline().items},
     ]
 
