@@ -114,10 +114,10 @@ def _pill(f, x, y_top, s, bg='#212529'):
                     'color': '#F8F9FA', 'bg': bg, 'padX': 6, 'padY': 2, 'radius': 4})
     f.items.append({'type': 'svg', 'name': '꼬리', 'x': x + 7, 'y': y_top - 4 - 7, 'svg': TAIL.replace('#212529', bg)})
 
-# 퍼널 예시 수치 — 경력기술서에 단계별 수치가 없어 사용자가 「비율 예시」 를 골랐다(2026-09-27). 유입 100명 기준.
-#   실측은 「개편 전 분기 대비 신청자 150% 증가」 하나 — 신청 완료를 10 → 25 명으로 맞췄다. 도식 · 캡션에 예시라고 적는다.
-BEFORE = [('첫 화면 · 게시글 목록', 100), ('게시글 열람', 30), ('신청 글 작성', 14), ('신청 완료', 10)]
-AFTER = [('첫 화면 · 모의고사 일정', 100), ('일정 선택', 55), ('응시자 정보 입력', 32), ('신청 완료', 25)]
+# 퍼널 예시 수치 — 경력기술서에 단계별 수치가 없어 사용자가 정하게 했다(「알아서 넣어줘」 → 「분기 기준으로」, 2026-09-27).
+#   실측은 「개편 전 분기 대비 신청자 150% 증가」 하나 — 신청 완료를 320 → 800 명으로 맞췄다. 도식에 예시라고 적는다.
+BEFORE = [('첫 화면 · 게시글 목록', 3200), ('게시글 열람', 960), ('신청 글 작성', 450), ('신청 완료', 320)]
+AFTER = [('첫 화면 · 모의고사 일정', 3300), ('일정 선택', 1820), ('응시자 정보 입력', 1060), ('신청 완료', 800)]
 
 def funnel():
     """개편 전 모의고사 접수 퍼널 — 1:1 로 보이는 도식(글자 15 · 선 2). 층마다 인원, 오른쪽에 빠져나간 인원과 이유."""
@@ -128,40 +128,40 @@ def funnel():
            ['정해진 양식 없이 자유롭게 작성'], ['관리자가 글을 옮겨 적어 명단에 반영']]
     f.items.append(text(CX - 110, ['접수 기간 유입'], PRE, NOTE, cy=16, w=220, align='CENTER'))
     for i, ((y, h, tw, bw), (name, c)) in enumerate(zip(geo, BEFORE)):
-        _layer(f, CX, y, h, tw, bw, [name, f'{c}명'], i == 0)
+        _layer(f, CX, y, h, tw, bw, [name, f'{c:,}명'], i == 0)
         cy = y + h / 2; edge = CX + (tw + bw) / 4
         if i == 0:                        # 첫 화면 — 이탈이 몰린 곳
             f.line([(edge + 1, cy), (AX - 12, cy)], k=0.5)
-            f.items.append(text(AX, [f'첫 화면에서 {c - BEFORE[1][1]}명 이탈'], SD, '#212529', cy=cy))
+            f.items.append(text(AX, [f'첫 화면에서 {c - BEFORE[1][1]:,}명 이탈'], SD, '#212529', cy=cy))
             f.items.append(text(AX, why[0], PRE, NOTE, y=cy + 11.5 + 6))
             _pill(f, AX, cy - 11.5, '이탈 집중')
         elif i < 3:                       # 다음 단계로 못 간 인원 + 이유
             f.items.append({'type': 'line', 'name': '점선', 'x': edge + 8, 'y': cy - 11.5, 'w': AX - 12 - edge - 8, 'color': NOTE, 'weight': 1.5, 'dash': [4, 4]})
-            f.items.append(text(AX, [f'{c - BEFORE[i + 1][1]}명 이탈'], SD, MUTED_INK, cy=cy - 11.5))
+            f.items.append(text(AX, [f'{c - BEFORE[i + 1][1]:,}명 이탈'], SD, MUTED_INK, cy=cy - 11.5))
             f.items.append(text(AX, why[i], PRE, NOTE, cy=cy + 11.5))
         else:                             # 신청 완료
             f.items.append({'type': 'line', 'name': '점선', 'x': edge + 8, 'y': cy, 'w': AX - 12 - edge - 8, 'color': NOTE, 'weight': 1.5, 'dash': [4, 4]})
             f.items.append(text(AX, why[i], PRE, NOTE, cy=cy))
-    f.items.append(text(0, ['예시 수치 · 유입 100명 기준'], PRE, NOTE, y=294 + 64 + 24))
+    f.items.append(text(0, ['개편 전 분기 기준 · 예시 수치'], PRE, NOTE, y=294 + 64 + 24))
     return f
 
 def funnel_compare():
-    """개편 전후 모의고사 접수 퍼널을 나란히 — 예시 수치(유입 100명 기준). 층 폭은 인원에 맞춰 좁아진다."""
+    """개편 전후 분기 모의고사 접수 퍼널을 나란히 — 예시 수치(분기 기준). 층 폭은 유입 대비 비율에 맞춰 좁아진다."""
     f = Flow()
-    wid = lambda c: 120 + 180 * c / 100
     ys = [(40, 72), (120, 60), (188, 60), (256, 60)]
-    for cx, muted, tag, st in ((150, True, '개편 전', BEFORE), (600, False, '개편 후', AFTER)):
+    for cx, muted, tag, st in ((150, True, '개편 전 분기', BEFORE), (600, False, '개편 후 분기', AFTER)):
+        wid = lambda c, top=st[0][1]: 120 + 180 * c / top
         for i, ((name, c), (y, h)) in enumerate(zip(st, ys)):
             tw = wid(c); bw = wid(st[i + 1][1]) if i + 1 < len(st) else tw - 24
-            _layer(f, cx, y, h, tw, bw, [name, f'{c}명'], i == 0, muted)
+            _layer(f, cx, y, h, tw, bw, [name, f'{c:,}명'], i == 0, muted)
             if i + 1 < len(st):
                 cy = y + h / 2; edge = cx + (tw + bw) / 4; lx = cx + 174
                 f.line([(edge + 1, cy), (lx - 8, cy)], muted=muted, k=0.5)
                 ink = '#212529' if (muted and i == 0) else (MUTED_INK if muted else TEXT_BLUE)
-                f.items.append(text(lx, [f'{c - st[i + 1][1]}명 이탈'], SD, ink, cy=cy))
+                f.items.append(text(lx, [f'{c - st[i + 1][1]:,}명 이탈'], SD, ink, cy=cy))
         _pill(f, cx - 150, 40, tag, '#212529' if muted else BLUE)
-    f.items.append(text(220, [f'신청 완료 {BEFORE[-1][1]}명 → {AFTER[-1][1]}명 · 150% 증가'], SD, '#212529', cy=356, w=440, align='CENTER'))
-    f.items.append(text(170, ['예시 수치 · 유입 100명 기준 · 150% 증가만 실측(개편 전 분기 대비)'], PRE, NOTE, cy=386, w=540, align='CENTER'))
+    f.items.append(text(220, [f'신청 완료 {BEFORE[-1][1]:,}명 → {AFTER[-1][1]:,}명 · 150% 증가'], SD, '#212529', cy=356, w=440, align='CENTER'))
+    f.items.append(text(170, ['분기 기준 · 신청자 150% 증가만 실측, 나머지는 예시 수치'], PRE, NOTE, cy=386, w=540, align='CENTER'))
     return f
 
 def draws():
