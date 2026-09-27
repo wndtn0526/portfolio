@@ -10,7 +10,7 @@
 
     {{-- 링크 미리보기(카카오톡 · 슬랙 · 지원서 링크) — 이미지와 주소는 절대 URL 이어야 대부분의 서비스가 읽는다.
          배포 주소(GitHub Pages)가 바뀌면 $site 를 함께 바꾼다. og.jpg 는 히어로 배경으로 만든 1200×630. --}}
-    @php $site = 'https://wndtn0526.github.io/portfolio/'; $desc = '서비스 기획자 신중수의 포트폴리오입니다. 그룹웨어프로 SaaS 기획과 런칭, 이디엠에듀케이션 온라인 인강, 청담원 재가 돌봄 플랫폼 케어닷 프로젝트를 담았습니다.'; @endphp
+    @php $site = 'https://wndtn0526.github.io/portfolio/'; $desc = '서비스 기획자 신중수의 포트폴리오입니다. 그룹웨어프로 SaaS 기획과 런칭, 이디엠에듀케이션 온라인 인강, 청담원 주식회사의 재가 돌봄 플랫폼 케어닷 프로젝트를 담았습니다.'; @endphp
     <meta name="description" content="{{ $desc }}">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="ko_KR">

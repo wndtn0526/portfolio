@@ -1,7 +1,7 @@
 <?php
 
 /*
- * 프로젝트 소개 — home.blade.php의 #work 섹션이 읽는다. 회사 탭(그룹웨어프로 · 이디엠에듀케이션 · 청담원) 아래에 프로젝트가 있다.
+ * 프로젝트 소개 — home.blade.php의 #work 섹션이 읽는다. 회사 탭(그룹웨어프로 · 이디엠에듀케이션 · 청담원 주식회사) 아래에 프로젝트가 있다.
  * 경력기술서의 4단 구성(배경 · 문제 정의 · 해결 액션 · 성과)을 그대로 옮겼다.
  *
  * 구조: 회사[ slug · name · meta(기간 · 역할 한 줄) · projects[ slug · year(목록 행 둘째 줄) · title · tags · lead · sections[ title · items[ label · text · sub[] ] ] ] ]
@@ -517,7 +517,7 @@ return [
     ],
     [
         'slug' => 'cdw',
-        'name' => '청담원',
+        'name' => '청담원 주식회사',
         'meta' => '2026년 5월 ~ 2026년 9월 · 서비스 기획',
         'projects' => [
             // 청담원 — notes/content-plan.md 2장(축: AI 파이프라인을 구성해서 기획부터 구현까지)과 이력 확정 불릿으로 씀(2026-09-26).
