@@ -108,6 +108,11 @@ def _layer(f, cx, y, h, tw, bw, lines, solid, muted=False):
     f.items.append({'type': 'svg', 'name': lines[0], 'x': x0, 'y': y0, 'svg': svg})
     f.items.append(text(cx - 110, lines, SD if solid else PRE, ink, cy=y + h / 2, w=220, align='CENTER'))
 
+def _heading(f, x, s, color):
+    """도식 머리 — 기간(2018년 2분기 · 3분기, 사용자). 본문 글자보다 크게."""
+    t = text(x, [s], SD, color, cy=14); t['size'] = 18; t['lineHeight'] = 26
+    f.items.append(t)
+
 def _pill(f, x, y_top, s, bg='#212529'):
     """글 위 말풍선 — y_top 은 말풍선이 가리키는 글의 윗변."""
     f.items.append({'type': 'tooltip', 'name': s, 'x': x, 'y': y_top - 4 - 7 - 26, 'text': s, 'font': PRE, 'size': 12, 'lineHeight': 22, 'tracking': -0.12,
@@ -126,7 +131,7 @@ def funnel():
     geo = [(40, 96, 440, 220), (146, 64, 220, 188), (220, 64, 188, 156), (294, 64, 156, 124)]
     why = [['신청 방법이 보이지 않아', '게시글 목록에서 바로 나감'], ['다른 사람의 글을 열어 적는 방식을 확인'],
            ['정해진 양식 없이 자유롭게 작성'], ['관리자가 글을 옮겨 적어 명단에 반영']]
-    f.items.append(text(CX - 110, ['접수 기간 유입'], PRE, NOTE, cy=16, w=220, align='CENTER'))
+    _heading(f, 0, '2018년 2분기 (개편 전)', '#212529')
     for i, ((y, h, tw, bw), (name, c)) in enumerate(zip(geo, BEFORE)):
         _layer(f, CX, y, h, tw, bw, [name, f'{c:,}명'], i == 0)
         cy = y + h / 2; edge = CX + (tw + bw) / 4
@@ -142,14 +147,14 @@ def funnel():
         else:                             # 신청 완료
             f.items.append({'type': 'line', 'name': '점선', 'x': edge + 8, 'y': cy, 'w': AX - 12 - edge - 8, 'color': NOTE, 'weight': 1.5, 'dash': [4, 4]})
             f.items.append(text(AX, why[i], PRE, NOTE, cy=cy))
-    f.items.append(text(0, ['개편 전 분기 기준 · 예시 수치'], PRE, NOTE, y=294 + 64 + 24))
+    f.items.append(text(0, ['단계별 수치는 예시'], PRE, NOTE, y=294 + 64 + 24))
     return f
 
 def funnel_compare():
     """개편 전후 분기 모의고사 접수 퍼널을 나란히 — 예시 수치(분기 기준). 층 폭은 유입 대비 비율에 맞춰 좁아진다."""
     f = Flow()
     ys = [(40, 72), (120, 60), (188, 60), (256, 60)]
-    for cx, muted, tag, st in ((150, True, '개편 전 분기', BEFORE), (600, False, '개편 후 분기', AFTER)):
+    for cx, muted, tag, st in ((150, True, '2018년 2분기 (개편 전)', BEFORE), (600, False, '2018년 3분기 (개편 후)', AFTER)):
         wid = lambda c, top=st[0][1]: 120 + 180 * c / top
         for i, ((name, c), (y, h)) in enumerate(zip(st, ys)):
             tw = wid(c); bw = wid(st[i + 1][1]) if i + 1 < len(st) else tw - 24
@@ -159,9 +164,9 @@ def funnel_compare():
                 f.line([(edge + 1, cy), (lx - 8, cy)], muted=muted, k=0.5)
                 ink = '#212529' if (muted and i == 0) else (MUTED_INK if muted else TEXT_BLUE)
                 f.items.append(text(lx, [f'{c - st[i + 1][1]:,}명 이탈'], SD, ink, cy=cy))
-        _pill(f, cx - 150, 40, tag, '#212529' if muted else BLUE)
+        _heading(f, cx - 150, tag, '#212529' if muted else TEXT_BLUE)
     f.items.append(text(220, [f'신청 완료 {BEFORE[-1][1]:,}명 → {AFTER[-1][1]:,}명 · 150% 증가'], SD, '#212529', cy=356, w=440, align='CENTER'))
-    f.items.append(text(170, ['분기 기준 · 신청자 150% 증가만 실측, 나머지는 예시 수치'], PRE, NOTE, cy=386, w=540, align='CENTER'))
+    f.items.append(text(170, ['신청자 150% 증가만 실측, 단계별 수치는 예시'], PRE, NOTE, cy=386, w=540, align='CENTER'))
     return f
 
 def draws():
