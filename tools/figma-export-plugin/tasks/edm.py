@@ -6,7 +6,7 @@
   production 커리큘럼 개발 → 교안 제작 → 강의 녹화 → 편집 · 인강 제작 → AWS 서버 업로드 → LMS 강의 관리(사용자 설명, 2026-09-26)
   (정보구조도는 그림 대신 projects.php 의 표로 옮겼다 — 2026-09-26 사용자 요청)
   ielts   개선 전(흐린 줄) 게시글 목록 → 신청 방법을 찾았나(N 이탈) → 신청 글 → 관리자 수동 취합 / 개선 후 일정 선택 → 정보 입력 → 확인 · 접수 완료 → 명단 자동 생성
-  global  해외 유학 준비생 → 해외 결제 → 무료 교재 해외배송(EMS) → AWS 로 강의 접속 → 수강
+  global  프로모션 전(흐린 줄) 교재를 구할 수 있나(N 이탈) / 후 해외 결제 → 무료 교재 해외배송(EMS) → 송장번호 입력 → 수강 시작
   business edm에듀케이션 유학원 → 아이엘츠 어학원 인수 → 아이엘츠 인강, 인강 수강생이 다시 유학 상담으로(개요 사업 확장 이유)
   funnel  개편 전 모의고사 접수 퍼널(도식) — 단계와 이탈이 몰린 첫 화면만. 수치는 경력기술서에 없어 넣지 않는다
   ⚠️ 회사 이름은 edm 이 아니라 edm에듀케이션(사용자, 2026-09-27)
@@ -60,14 +60,29 @@ def ielts():
     return f
 
 def global_():
+    """해외배송 프로모션 전후(경력기술서 + projects.php 03 글). 프로모션 전은 흐린 줄 — 교재를 구하지 못하면 이탈.
+    강의 접속(AWS)은 플랫폼을 만들 때 이미 풀려 있었다(사용자, 2026-09-26). 송장번호 컬럼은 01 의 결제 목록 설계(사용자, 2026-09-27)."""
     f = Flow()
-    f.box('who', X[0], CY, ['해외 유학 준비생'], terminal=True, note=['교재 구매와 접속 품질 때문에', '수강을 망설임'])
-    f.box('pay', X[1], CY, ['해외 결제'])
-    f.box('book', X[2], CY, ['무료 교재', '해외배송'], note=['우체국 EMS 별도 계약으로', '배송비 절감'])
-    f.box('aws', X[3], CY, ['AWS로', '강의 접속'], note=['국내 인강 최초', 'AWS 클라우드 도입'])
-    f.box('learn', X[4], CY, ['수강'], terminal=True)
-    f.right('who', 'pay'); f.right('pay', 'book'); f.right('book', 'aws'); f.right('aws', 'learn')
-    f.pill('book', '프로모션'); f.pill('aws', '인프라')
+    f.box('b1', X[0], CY, ['해외 유학 준비생'], terminal=True, muted=True)
+    f.box('b2', X[1], CY, ['강의 · 교재 확인'], muted=True, note=['강의는 AWS로', '해외에서도 수강 가능'])
+    f.decision('q', X[2], CY, ['교재를', '구할 수 있는가?'], muted=True)
+    d = f.nodes['q']
+    f.box('b3', round(d['right'] + 131), CY, ['결제 · 수강'], muted=True, note=['교재를 따로 구한', '일부만'])
+    f.box('out', d['cx'] - W / 2, d['bottom'] + 160 + 41.5, ['이탈'], terminal=True, muted=True, note=['현지에서 교재를 살 수 없고', '국제 배송비 부담'])
+    f.right('b1', 'b2', muted=True)
+    f.line([(f.nodes['b2']['right'] - 1, CY), (d['left'], CY)], muted=True)
+    f.line([(d['right'], CY), (f.nodes['b3']['left'] - 0.5, CY)], muted=True)
+    f.line([(d['cx'], d['bottom']), (d['cx'], f.nodes['out']['top'] - 0.5)], muted=True)
+    f.label(d['right'] + 11, CY + 4, 'Y'); f.label(d['cx'] + 10, d['bottom'] + 9, 'N')
+    CY2 = CY + 500
+    f.box('a1', X[0], CY2, ['해외 유학 준비생'], terminal=True, note=['AWS로 해외에서도', '끊김 없이 수강'])
+    f.box('a2', X[1], CY2, ['해외 결제로', '강의 구매'], note=['해외 결제 고객이', '프로모션 대상'])
+    f.box('a3', X[2], CY2, ['무료 교재', '해외배송'], note=['우체국 EMS 별도 계약으로', '배송비 절감'])
+    f.box('a4', X[3], CY2, ['EMS 송장번호', '입력'], note=['결제 목록의 송장번호 컬럼으로', '배송 여부 확인'])
+    f.box('a5', X[4], CY2, ['교재 받고', '수강 시작'], terminal=True)
+    for a, b in (('a1', 'a2'), ('a2', 'a3'), ('a3', 'a4'), ('a4', 'a5')):
+        f.right(a, b)
+    f.pill('b1', '프로모션 전'); f.pill('a1', '프로모션 후')
     return f
 
 def business():
