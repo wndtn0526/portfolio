@@ -84,48 +84,84 @@ def business():
     f.pill('online', '신규 사업')
     return f
 
-def funnel():
-    """개편 전 모의고사 접수 퍼널 — 1:1 로 보이는 도식(글자 15 · 선 2). 단계와 이탈이 몰린 첫 화면만 표시한다.
-    ⚠️ 단계별 인원 · 이탈률은 경력기술서에 없다 — 숫자를 지어내지 않는다. 폭은 첫 화면에서 크게 좁아지는 모양만 보여 준다."""
+def _rpoly(pts, r=6):
+    """모서리를 반경 r 로 굴린 다각형 path."""
     import math
+    def toward(p, q, d):
+        L = math.hypot(q[0] - p[0], q[1] - p[1]); return (p[0] + (q[0] - p[0]) * d / L, p[1] + (q[1] - p[1]) * d / L)
+    out = []
+    for i in range(len(pts)):
+        p0, p1, p2 = pts[i - 1], pts[i], pts[(i + 1) % len(pts)]
+        a, b = toward(p1, p0, r), toward(p1, p2, r)
+        out.append(('M' if i == 0 else 'L') + f'{a[0]:.2f} {a[1]:.2f}Q{p1[0]:.2f} {p1[1]:.2f} {b[0]:.2f} {b[1]:.2f}')
+    return ''.join(out) + 'Z'
+
+def _layer(f, cx, y, h, tw, bw, lines, solid, muted=False):
+    """깔때기 한 층 — 윗변 tw · 아랫변 bw 사다리꼴, 가운데 글. 선 2(1:1 로 보이는 그림)."""
+    line = MUTED_LINE if muted else BLUE
+    face = line if solid else (MUTED_FACE if muted else LIGHT)
+    ink = WHITE if solid else (MUTED_INK if muted else TEXT_BLUE)
+    pts = [(cx - tw / 2, y), (cx + tw / 2, y), (cx + bw / 2, y + h), (cx - bw / 2, y + h)]
+    x0, y0, w, hh = cx - tw / 2 - 2, y - 2, tw + 4, h + 4
+    svg = (f'<svg width="{w}" height="{hh}" viewBox="{x0} {y0} {w} {hh}" fill="none" xmlns="http://www.w3.org/2000/svg">'
+           f'<path d="{_rpoly(pts)}" fill="{face}" stroke="{line}" stroke-width="2"/></svg>')
+    f.items.append({'type': 'svg', 'name': lines[0], 'x': x0, 'y': y0, 'svg': svg})
+    f.items.append(text(cx - 110, lines, SD if solid else PRE, ink, cy=y + h / 2, w=220, align='CENTER'))
+
+def _pill(f, x, y_top, s, bg='#212529'):
+    """글 위 말풍선 — y_top 은 말풍선이 가리키는 글의 윗변."""
+    f.items.append({'type': 'tooltip', 'name': s, 'x': x, 'y': y_top - 4 - 7 - 26, 'text': s, 'font': PRE, 'size': 12, 'lineHeight': 22, 'tracking': -0.12,
+                    'color': '#F8F9FA', 'bg': bg, 'padX': 6, 'padY': 2, 'radius': 4})
+    f.items.append({'type': 'svg', 'name': '꼬리', 'x': x + 7, 'y': y_top - 4 - 7, 'svg': TAIL.replace('#212529', bg)})
+
+# 퍼널 예시 수치 — 경력기술서에 단계별 수치가 없어 사용자가 「비율 예시」 를 골랐다(2026-09-27). 유입 100명 기준.
+#   실측은 「개편 전 분기 대비 신청자 150% 증가」 하나 — 신청 완료를 10 → 25 명으로 맞췄다. 도식 · 캡션에 예시라고 적는다.
+BEFORE = [('첫 화면 · 게시글 목록', 100), ('게시글 열람', 30), ('신청 글 작성', 14), ('신청 완료', 10)]
+AFTER = [('첫 화면 · 모의고사 일정', 100), ('일정 선택', 55), ('응시자 정보 입력', 32), ('신청 완료', 25)]
+
+def funnel():
+    """개편 전 모의고사 접수 퍼널 — 1:1 로 보이는 도식(글자 15 · 선 2). 층마다 인원, 오른쪽에 빠져나간 인원과 이유."""
     f = Flow()
     CX, AX = 220, 512                     # 깔때기 가운데 · 오른쪽 설명 칸
-    def rpoly(pts, r=6):                  # 모서리를 반경 r 로 굴린 다각형
-        def toward(p, q, d):
-            L = math.hypot(q[0] - p[0], q[1] - p[1]); return (p[0] + (q[0] - p[0]) * d / L, p[1] + (q[1] - p[1]) * d / L)
-        out = []
-        for i in range(len(pts)):
-            p0, p1, p2 = pts[i - 1], pts[i], pts[(i + 1) % len(pts)]
-            a, b = toward(p1, p0, r), toward(p1, p2, r)
-            out.append(('M' if i == 0 else 'L') + f'{a[0]:.2f} {a[1]:.2f}Q{p1[0]:.2f} {p1[1]:.2f} {b[0]:.2f} {b[1]:.2f}')
-        return ''.join(out) + 'Z'
-    layers = [  # 위 · 높이 · 윗변 · 아랫변 · 이름 · 진하게 · 오른쪽 설명
-        (40, 96, 440, 220, '첫 화면 · 게시글 목록', True, None),
-        (146, 64, 220, 188, '게시글 열람', False, '다른 사람의 글을 열어 적는 방식을 확인'),
-        (220, 64, 188, 156, '신청 글 작성', False, '정해진 양식 없이 자유롭게 작성'),
-        (294, 64, 156, 124, '신청 완료', False, '관리자가 글을 옮겨 적어 명단에 반영'),
-    ]
+    geo = [(40, 96, 440, 220), (146, 64, 220, 188), (220, 64, 188, 156), (294, 64, 156, 124)]
+    why = [['신청 방법이 보이지 않아', '게시글 목록에서 바로 나감'], ['다른 사람의 글을 열어 적는 방식을 확인'],
+           ['정해진 양식 없이 자유롭게 작성'], ['관리자가 글을 옮겨 적어 명단에 반영']]
     f.items.append(text(CX - 110, ['접수 기간 유입'], PRE, NOTE, cy=16, w=220, align='CENTER'))
-    for y, h, tw, bw, name, solid, note in layers:
-        pts = [(CX - tw / 2, y), (CX + tw / 2, y), (CX + bw / 2, y + h), (CX - bw / 2, y + h)]
-        x0, y0, w, hh = CX - tw / 2 - 2, y - 2, tw + 4, h + 4
-        svg = (f'<svg width="{w}" height="{hh}" viewBox="{x0} {y0} {w} {hh}" fill="none" xmlns="http://www.w3.org/2000/svg">'
-               f'<path d="{rpoly(pts)}" fill="{BLUE if solid else LIGHT}" stroke="{BLUE}" stroke-width="2"/></svg>')
-        f.items.append({'type': 'svg', 'name': name, 'x': x0, 'y': y0, 'svg': svg})
-        f.items.append(text(CX - 110, [name], SD if solid else PRE, WHITE if solid else TEXT_BLUE, cy=y + h / 2, w=220, align='CENTER'))
-        if note:                          # 가는 점선으로 층과 설명을 잇는다
-            cy = y + h / 2; edge = CX + (tw + bw) / 4
+    for i, ((y, h, tw, bw), (name, c)) in enumerate(zip(geo, BEFORE)):
+        _layer(f, CX, y, h, tw, bw, [name, f'{c}명'], i == 0)
+        cy = y + h / 2; edge = CX + (tw + bw) / 4
+        if i == 0:                        # 첫 화면 — 이탈이 몰린 곳
+            f.line([(edge + 1, cy), (AX - 12, cy)], k=0.5)
+            f.items.append(text(AX, [f'첫 화면에서 {c - BEFORE[1][1]}명 이탈'], SD, '#212529', cy=cy))
+            f.items.append(text(AX, why[0], PRE, NOTE, y=cy + 11.5 + 6))
+            _pill(f, AX, cy - 11.5, '이탈 집중')
+        elif i < 3:                       # 다음 단계로 못 간 인원 + 이유
+            f.items.append({'type': 'line', 'name': '점선', 'x': edge + 8, 'y': cy - 11.5, 'w': AX - 12 - edge - 8, 'color': NOTE, 'weight': 1.5, 'dash': [4, 4]})
+            f.items.append(text(AX, [f'{c - BEFORE[i + 1][1]}명 이탈'], SD, MUTED_INK, cy=cy - 11.5))
+            f.items.append(text(AX, why[i], PRE, NOTE, cy=cy + 11.5))
+        else:                             # 신청 완료
             f.items.append({'type': 'line', 'name': '점선', 'x': edge + 8, 'y': cy, 'w': AX - 12 - edge - 8, 'color': NOTE, 'weight': 1.5, 'dash': [4, 4]})
-            f.items.append(text(AX, [note], PRE, NOTE, cy=cy))
-    # 첫 화면에서 빠져나가는 화살표 — 이탈이 몰린 곳
-    cy = 40 + 48; edge = CX + (440 + 220) / 4
-    f.line([(edge + 1, cy), (AX - 12, cy)], k=0.5)
-    f.items.append(text(AX, ['첫 화면에서 이탈'], SD, '#212529', cy=cy))
-    f.items.append(text(AX, ['신청 방법이 보이지 않아', '게시글 목록에서 바로 나감'], PRE, NOTE, y=cy + 11.5 + 6))
-    top = cy - 11.5
-    f.items.append({'type': 'tooltip', 'name': '이탈 집중', 'x': AX, 'y': top - 4 - 7 - 26, 'text': '이탈 집중', 'font': PRE, 'size': 12, 'lineHeight': 22, 'tracking': -0.12,
-                    'color': '#F8F9FA', 'bg': '#212529', 'padX': 6, 'padY': 2, 'radius': 4})
-    f.items.append({'type': 'svg', 'name': '꼬리', 'x': AX + 7, 'y': top - 4 - 7, 'svg': TAIL})
+            f.items.append(text(AX, why[i], PRE, NOTE, cy=cy))
+    f.items.append(text(0, ['예시 수치 · 유입 100명 기준'], PRE, NOTE, y=294 + 64 + 24))
+    return f
+
+def funnel_compare():
+    """개편 전후 모의고사 접수 퍼널을 나란히 — 예시 수치(유입 100명 기준). 층 폭은 인원에 맞춰 좁아진다."""
+    f = Flow()
+    wid = lambda c: 120 + 180 * c / 100
+    ys = [(40, 72), (120, 60), (188, 60), (256, 60)]
+    for cx, muted, tag, st in ((150, True, '개편 전', BEFORE), (600, False, '개편 후', AFTER)):
+        for i, ((name, c), (y, h)) in enumerate(zip(st, ys)):
+            tw = wid(c); bw = wid(st[i + 1][1]) if i + 1 < len(st) else tw - 24
+            _layer(f, cx, y, h, tw, bw, [name, f'{c}명'], i == 0, muted)
+            if i + 1 < len(st):
+                cy = y + h / 2; edge = cx + (tw + bw) / 4; lx = cx + 174
+                f.line([(edge + 1, cy), (lx - 8, cy)], muted=muted, k=0.5)
+                ink = '#212529' if (muted and i == 0) else (MUTED_INK if muted else TEXT_BLUE)
+                f.items.append(text(lx, [f'{c - st[i + 1][1]}명 이탈'], SD, ink, cy=cy))
+        _pill(f, cx - 150, 40, tag, '#212529' if muted else BLUE)
+    f.items.append(text(220, [f'신청 완료 {BEFORE[-1][1]}명 → {AFTER[-1][1]}명 · 150% 증가'], SD, '#212529', cy=356, w=440, align='CENTER'))
+    f.items.append(text(170, ['예시 수치 · 유입 100명 기준 · 150% 증가만 실측(개편 전 분기 대비)'], PRE, NOTE, cy=386, w=540, align='CENTER'))
     return f
 
 def draws():
@@ -135,6 +171,7 @@ def draws():
         {'page': P, 'frame': '이디엠 · 강의 제작부터 관리까지', 'x': 0, 'y': 0, 'export': 'edm-production-flow', 'items': production().items},
         {'page': P, 'frame': '이디엠 · 모의고사 접수 개편 전후', 'x': 0, 'y': 700, 'export': 'edm-ielts-flow', 'items': ielts().items},
         {'page': P, 'frame': '이디엠 · 모의고사 접수 퍼널', 'x': 2200, 'y': 700, 'export': 'edm-ielts-funnel', 'items': funnel().items},
+        {'page': P, 'frame': '이디엠 · 모의고사 접수 퍼널 개편 전후', 'x': 3200, 'y': 700, 'export': 'edm-ielts-funnel-compare', 'items': funnel_compare().items},
         {'page': P, 'frame': '이디엠 · 해외 수강생이 수강까지', 'x': 0, 'y': 1400, 'export': 'edm-global-flow', 'items': global_().items},
     ]
 
