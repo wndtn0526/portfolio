@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 460" width="1200" height="460" font-family="Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, sans-serif" aria-hidden="true">
+<rect width="1200" height="460" fill="#ffffff"/>
+<text x="40" y="66" font-size="13" font-weight="600" fill="#868e96" text-anchor="start">따로 쓸 때</text>
+<rect x="40" y="84" width="400" height="64" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="58" y="122" font-size="16" font-weight="600" fill="#212529">구성원 정보(입사, 발령, 퇴사)가 바뀌면</text>
+<path d="M240 148 V192" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="235,183 240,192 245,183" fill="#868e96"/>
+<text x="252" y="176" font-size="12" font-weight="500" fill="#868e96" text-anchor="start">서비스마다 따로 고쳐야 함</text>
+<rect x="40" y="196" width="194" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="58" y="236" font-size="16" font-weight="600" fill="#212529">인사 서비스</text>
+<rect x="246" y="196" width="194" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="264" y="236" font-size="16" font-weight="600" fill="#212529">근태 서비스</text>
+<rect x="40" y="276" width="194" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="58" y="316" font-size="16" font-weight="600" fill="#212529">결재 서비스</text>
+<rect x="246" y="276" width="194" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="264" y="316" font-size="16" font-weight="600" fill="#212529">재무 서비스</text>
+<rect x="143" y="356" width="194" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="161" y="396" font-size="16" font-weight="600" fill="#212529">커뮤니티 서비스</text>
+<rect x="520" y="40" width="640" height="380" rx="16" fill="#ffffff" stroke="#504fed" stroke-width="1.5"/>
+<text x="544" y="74" font-size="16" font-weight="700" fill="#504fed" text-anchor="start">그룹웨어프로</text>
+<rect x="544" y="92" width="592" height="64" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="562" y="130" font-size="16" font-weight="600" fill="#212529">구성원 정보(입사, 발령, 퇴사)가 바뀌면</text>
+<path d="M840 156 V188" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="835,179 840,188 845,179" fill="#868e96"/>
+<rect x="544" y="188" width="592" height="68" rx="12" fill="#504fed" stroke="#504fed" stroke-opacity="0" stroke-width="1"/>
+<text x="562" y="219" font-size="16" font-weight="600" fill="#ffffff">인사 데이터</text>
+<text x="562" y="240" font-size="13" fill="#ffffff" fill-opacity="0.85">여기서 한 번만 고치면</text>
+<path d="M840 256 V296" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="835,287 840,296 845,287" fill="#868e96"/>
+<text x="852" y="282" font-size="12" font-weight="500" fill="#868e96" text-anchor="start">알아서 따라 바뀜</text>
+<rect x="544" y="296" width="186" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="562" y="327" font-size="16" font-weight="600" fill="#212529">근태 정보</text>
+<text x="562" y="348" font-size="13" fill="#495057" fill-opacity="1">같이 바뀜</text>
+<rect x="747" y="296" width="186" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="765" y="327" font-size="16" font-weight="600" fill="#212529">조직도 정보</text>
+<text x="765" y="348" font-size="13" fill="#495057" fill-opacity="1">같이 바뀜</text>
+<rect x="950" y="296" width="186" height="68" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="968" y="327" font-size="16" font-weight="600" fill="#212529">결재선 및 정산 정보</text>
+<text x="968" y="348" font-size="13" fill="#495057" fill-opacity="1">같이 바뀜</text>
+</svg>

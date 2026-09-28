@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400" font-family="Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, sans-serif" aria-hidden="true">
+<rect width="1200" height="400" fill="#ffffff"/>
+<text x="40" y="66" font-size="13" font-weight="600" fill="#868e96" text-anchor="start">현재 상태만 저장하면</text>
+<rect x="40" y="84" width="400" height="60" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="58" y="111" font-size="16" font-weight="600" fill="#212529">구성원 A</text>
+<text x="58" y="132" font-size="13" fill="#495057" fill-opacity="1">소속: 영업1팀 · 팀원</text>
+<path d="M240 144 L240 184" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="235,175 240,184 245,175" fill="#868e96"/>
+<text x="252" y="170" font-size="12" font-weight="500" fill="#868e96" text-anchor="start">발령</text>
+<rect x="40" y="188" width="400" height="60" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="58" y="215" font-size="16" font-weight="600" fill="#212529">구성원 A</text>
+<text x="58" y="236" font-size="13" fill="#495057" fill-opacity="1">소속: 경영지원팀 · 팀장 (영업1팀이었던 기록은 사라짐)</text>
+<rect x="40" y="276" width="194" height="60" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="58" y="303" font-size="15" font-weight="600" fill="#212529">예전 조직도를</text>
+<text x="58" y="324" font-size="13" fill="#495057" fill-opacity="1">꺼낼 수 없음</text>
+<rect x="246" y="276" width="194" height="60" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="264" y="303" font-size="15" font-weight="600" fill="#212529">잘못 넣은 발령을</text>
+<text x="264" y="324" font-size="13" fill="#495057" fill-opacity="1">되돌릴 수 없음</text>
+<rect x="520" y="40" width="640" height="320" rx="16" fill="#ffffff" stroke="#504fed" stroke-width="1.5"/>
+<text x="544" y="74" font-size="16" font-weight="700" fill="#504fed" text-anchor="start">시점 기준으로 저장하면</text>
+<rect x="544" y="92" width="300" height="48" rx="10" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
+<text x="562" y="122" font-size="13" fill="#868e96">2022-01-03</text>
+<text x="660" y="122" font-size="15" font-weight="600" fill="#212529">영업1팀 · 팀원</text>
+<rect x="544" y="152" width="300" height="48" rx="10" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
+<text x="562" y="182" font-size="13" fill="#868e96">2023-03-01</text>
+<text x="660" y="182" font-size="15" font-weight="600" fill="#212529">영업2팀 · 팀장</text>
+<rect x="544" y="212" width="300" height="48" rx="10" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08"/>
+<text x="562" y="242" font-size="13" fill="#868e96">2024-07-01</text>
+<text x="660" y="242" font-size="15" font-weight="600" fill="#212529">경영지원팀 · 팀장</text>
+<text x="544" y="296" font-size="12" font-weight="500" fill="#868e96" text-anchor="start">발령마다 행이 하나 더 쌓이고, 예전 행은 그대로 남습니다</text>
+<path d="M844 182 L900 182" fill="none" stroke="#868e96" stroke-width="1.5"/>
+<polygon points="891,177 900,182 891,187" fill="#868e96"/>
+<rect x="912" y="92" width="224" height="84" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="930" y="131" font-size="15" font-weight="600" fill="#212529">사용일자를 넣으면</text>
+<text x="930" y="152" font-size="13" fill="#495057" fill-opacity="1">그날의 소속 · 직책 · 결재선</text>
+<rect x="912" y="200" width="224" height="84" rx="12" fill="#f9f9f9" stroke="#000000" stroke-opacity="0.08" stroke-width="1"/>
+<text x="930" y="239" font-size="15" font-weight="600" fill="#212529">발령 정정은</text>
+<text x="930" y="260" font-size="13" fill="#495057" fill-opacity="1">그 행만 고치고 이력은 남음</text>
+</svg>
