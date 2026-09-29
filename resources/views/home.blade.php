@@ -201,11 +201,9 @@
                 <div class="md:pt-6">
                     <h2 class="text-display-2 break-keep text-ink"><span class="font-bold">/</span>이력</h2>
                     <p class="mt-5 text-[clamp(20px,1.167vw,24px)] leading-[1.5] font-semibold tracking-[-0.05em] break-keep text-ink">신중수 <span class="font-normal">· 서비스 기획자</span></p>
-                    {{-- 줄바꿈은 Figma 대로. 좁은 폭에서는 br 을 죽이고 자연 줄바꿈. --}}
+                    {{-- 소개 문구는 사용자 문안(2026-09-30). --}}
                     <p class="mt-3 text-[clamp(16px,0.973vw,20px)] leading-[1.533] tracking-[-0.04em] break-keep text-body">
-                        B2B SaaS 그룹웨어 시장에 대한 깊이 있는 도메인 지식 (HR/재무/그룹웨어)을 보유하고 있습니다.<br class="hidden lg:inline">
-                        사용자 중심의 데이터 분석 및 시스템 아키텍처 기획을 기반으로 복잡한 엔터프라이즈 프로세스를<br class="hidden lg:inline">
-                        사용자 친화적 UX로 혁신하는 데 특화되어 있습니다.
+                        기획서에서 멈추지 않고 직접 만들어 확인하는 서비스 기획자입니다. 인사 · 재무 · 전자결재 SaaS와 재가 돌봄 플랫폼을 기획부터 출시, 운영까지 맡았습니다. 최근에는 Claude 등 생성형 AI로 기획, 디자인, 프론트엔드를 잇는 파이프라인을 만들어, 백엔드 개발자 1명과 4개월 만에 플랫폼을 구현했습니다.
                     </p>
                     <a href="mailto:wndtn0526@gmail.com" class="group mt-6 inline-flex items-center gap-3 text-heading-2 font-semibold text-ink">
                         <span class="underline decoration-1 underline-offset-[6px]">이메일 보내기</span>
@@ -589,6 +587,9 @@
                 </div>
             @endforeach
         </section>
+
+        {{-- 사이트 자체도 AI 로 만들었다는 한 줄(2026-09-30). --}}
+        <p class="px-6 pb-16 text-label-2 break-keep text-muted lg:px-12">이 포트폴리오 사이트도 Claude로 만들었습니다. 도식은 피그마 플러그인으로 자동 생성하고, 수정하면 정적 페이지로 내보내 배포합니다.</p>
     </main>
 
     {{-- 이미지 확대 — app.js [data-zoom-overlay]. 본문 그림을 누르면 화면에 맞춰 열고, 그림을 한 번 더 누르면 원본 크기(그림 1px = 화면 1px)로 끌어서 본다.
