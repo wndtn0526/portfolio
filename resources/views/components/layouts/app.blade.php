@@ -6,7 +6,6 @@
 
     <title>{{ $title ?? config('app.name') }}</title>
     {{-- 파비콘 — 로고타입 PORTFOLIO 의 P, 선언 섹션 색(#504fed). public/images 에 둬야 정적 export 가 함께 옮긴다. --}}
-    <link rel="icon" type="image/svg+xml" href="{{ asset('images/favicon.svg') }}">
 
     {{-- 링크 미리보기(카카오톡 · 슬랙 · 지원서 링크) — 이미지와 주소는 절대 URL 이어야 대부분의 서비스가 읽는다.
          배포 주소(GitHub Pages)가 바뀌면 $site 를 함께 바꾼다. og.jpg 는 히어로 배경으로 만든 1200×630. --}}

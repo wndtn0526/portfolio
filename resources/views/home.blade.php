@@ -12,7 +12,7 @@
     ⚠️ 시안 원문의 오탈자 두 곳을 고쳐서 옮겼다 — `Brand Experrience` → Experience,
        `브래느 스토리텔링` → 브랜드. Figma 원본도 같이 고쳐야 갈라지지 않는다.
 --}}
-<x-layouts.app title="신중수 · Product Manager / Product Designer">
+<x-layouts.app title="신중수･포트폴리오">
 
     {{-- 내비 — 레퍼런스 실측: fixed · 높이 65/73 · 흰색 60% + blur(20px) · 아래 보더 1px rgba(0,0,0,.06) · 내려가면 숨는다.
          ⚠️ [transform:translateZ(0)] 는 장식이 아니다. backdrop-blur 가 걸린 요소라
